@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../context/AuthContext'
+import { isValidDni, normalizeDni } from '../../lib/dni'
 import type { Equipo, EntrenadorEquipo, Profile } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
 
 export default function AdminCoachesPage() {
-  const { profile: me } = useAuth()
+  const { profile: me, createCoach } = useAuth()
   const [people, setPeople] = useState<Profile[]>([])
   const [teams, setTeams] = useState<Equipo[]>([])
   const [assigns, setAssigns] = useState<EntrenadorEquipo[]>([])
@@ -16,6 +17,13 @@ export default function AdminCoachesPage() {
   const [target, setTarget] = useState<Profile | null>(null)
   const [selectedTeams, setSelectedTeams] = useState<Set<string>>(new Set())
   const [saving, setSaving] = useState(false)
+
+  // Alta de nuevo entrenador.
+  const [newOpen, setNewOpen] = useState(false)
+  const [newDni, setNewDni] = useState('')
+  const [newNombre, setNewNombre] = useState('')
+  const [creating, setCreating] = useState(false)
+  const [createError, setCreateError] = useState<string | null>(null)
 
   async function load() {
     const [{ data: p }, { data: t }, { data: a }] = await Promise.all([
@@ -43,6 +51,35 @@ export default function AdminCoachesPage() {
     const { error } = await supabase.from('profiles').update({ activo }).eq('id', p.id)
     if (error) return alert(error.message)
     load()
+  }
+
+  function openNew() {
+    setNewDni('')
+    setNewNombre('')
+    setCreateError(null)
+    setNewOpen(true)
+  }
+
+  async function createNewCoach() {
+    setCreateError(null)
+    if (!isValidDni(newDni)) {
+      setCreateError('El DNI debe tener 9 caracteres (8 cifras + letra, o NIE).')
+      return
+    }
+    if (!newNombre.trim()) {
+      setCreateError('Indica el nombre del entrenador.')
+      return
+    }
+    setCreating(true)
+    const { error } = await createCoach(newDni, newNombre.trim())
+    setCreating(false)
+    if (error) {
+      setCreateError(error)
+      return
+    }
+    setNewOpen(false)
+    setLoading(true)
+    await load()
   }
 
   function openAssign(p: Profile) {
@@ -89,9 +126,14 @@ export default function AdminCoachesPage() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-bold">Entrenadores y usuarios</h1>
+      <div className="mb-2 flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Entrenadores y usuarios</h1>
+        <button className="btn-primary" onClick={openNew}>
+          + Nuevo entrenador
+        </button>
+      </div>
       <p className="mb-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-800">
-        Para dar de alta un entrenador, pídele que se registre desde la pantalla de acceso. Aparecerá aquí y podrás
+        Da de alta a cada entrenador con su DNI y nombre. Entrará en la app escribiendo solo su DNI. Después podrás
         asignarle equipos y, si procede, hacerlo administrador.
       </p>
 
@@ -105,7 +147,9 @@ export default function AdminCoachesPage() {
                 {!p.activo && <span className="ml-1 text-xs text-red-500">inactivo</span>}
               </div>
               <div className="truncate text-xs text-slate-500">
-                {p.email} · {p.rol === 'admin' ? 'Administrador' : `Entrenador · ${teamCount(p.id)} equipos`}
+                {p.rol === 'admin'
+                  ? `${p.email} · Administrador`
+                  : `DNI ${p.dni ?? '—'} · Entrenador · ${teamCount(p.id)} equipos`}
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -169,6 +213,42 @@ export default function AdminCoachesPage() {
               </span>
             </label>
           ))}
+        </div>
+      </Modal>
+
+      <Modal
+        open={newOpen}
+        title="Nuevo entrenador"
+        onClose={() => setNewOpen(false)}
+        footer={
+          <>
+            <button className="btn-secondary" onClick={() => setNewOpen(false)}>
+              Cancelar
+            </button>
+            <button className="btn-primary" onClick={createNewCoach} disabled={creating}>
+              {creating ? 'Creando…' : 'Dar de alta'}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-3">
+          <div>
+            <label className="label">DNI</label>
+            <input
+              className="input uppercase"
+              placeholder="12345678Z"
+              value={newDni}
+              onChange={(e) => setNewDni(e.target.value)}
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              {newDni ? `Entrará con el DNI: ${normalizeDni(newDni)}` : 'Con este DNI accederá a la app (sin contraseña).'}
+            </p>
+          </div>
+          <div>
+            <label className="label">Nombre completo</label>
+            <input className="input" value={newNombre} onChange={(e) => setNewNombre(e.target.value)} />
+          </div>
+          {createError && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{createError}</p>}
         </div>
       </Modal>
     </div>

@@ -3,13 +3,12 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function LoginPage() {
-  const { session, loading, signIn, signUp } = useAuth()
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const { session, loading, signInWithDni, signInWithEmail } = useAuth()
+  const [mode, setMode] = useState<'dni' | 'admin'>('dni')
+  const [dni, setDni] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [nombre, setNombre] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
   if (!loading && session) return <Navigate to="/" replace />
@@ -17,17 +16,12 @@ export default function LoginPage() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
-    setInfo(null)
     setBusy(true)
-    if (mode === 'login') {
-      const { error } = await signIn(email.trim(), password)
-      if (error) setError(error)
-    } else {
-      const { error } = await signUp(email.trim(), password, nombre.trim())
-      if (error) setError(error)
-      else setInfo('Cuenta creada. Si ya puedes entrar, inicia sesión. Un administrador te asignará equipos.')
-      if (!error) setMode('login')
-    }
+    const { error } =
+      mode === 'dni'
+        ? await signInWithDni(dni.trim())
+        : await signInWithEmail(email.trim(), password)
+    if (error) setError(error)
     setBusy(false)
   }
 
@@ -40,57 +34,67 @@ export default function LoginPage() {
           </div>
           <h1 className="text-xl font-bold">Gestión Interna Muro CF</h1>
           <p className="mt-1 text-sm text-slate-500">
-            {mode === 'login' ? 'Accede con tu cuenta' : 'Crea tu cuenta de entrenador'}
+            {mode === 'dni' ? 'Accede con tu DNI' : 'Acceso administrador'}
           </p>
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">
-          {mode === 'signup' && (
+          {mode === 'dni' ? (
             <div>
-              <label className="label">Nombre completo</label>
-              <input className="input" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+              <label className="label">DNI</label>
+              <input
+                className="input uppercase"
+                placeholder="12345678Z"
+                autoCapitalize="characters"
+                autoComplete="username"
+                value={dni}
+                onChange={(e) => setDni(e.target.value)}
+                required
+              />
+              <p className="mt-1 text-xs text-slate-500">Introduce tu DNI tal y como te dio de alta el club.</p>
             </div>
+          ) : (
+            <>
+              <div>
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  className="input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="label">Contraseña</label>
+                <input
+                  type="password"
+                  autoComplete="current-password"
+                  className="input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </>
           )}
-          <div>
-            <label className="label">Email</label>
-            <input
-              type="email"
-              autoComplete="email"
-              className="input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="label">Contraseña</label>
-            <input
-              type="password"
-              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-              className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
 
           {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
-          {info && <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">{info}</p>}
 
           <button type="submit" className="btn-primary w-full" disabled={busy}>
-            {busy ? 'Procesando…' : mode === 'login' ? 'Entrar' : 'Crear cuenta'}
+            {busy ? 'Entrando…' : 'Entrar'}
           </button>
         </form>
 
         <button
           onClick={() => {
-            setMode(mode === 'login' ? 'signup' : 'login')
+            setMode(mode === 'dni' ? 'admin' : 'dni')
             setError(null)
-            setInfo(null)
           }}
           className="mt-4 w-full text-center text-sm text-muro hover:underline"
         >
-          {mode === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
+          {mode === 'dni' ? 'Acceso administrador' : '← Volver al acceso por DNI'}
         </button>
       </div>
     </div>

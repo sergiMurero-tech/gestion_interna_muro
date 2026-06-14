@@ -7,7 +7,8 @@ import {
   type ReactNode,
 } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { supabase } from '../lib/supabase'
+import { supabase, createIsolatedClient } from '../lib/supabase'
+import { dniToEmail, dniToPassword, normalizeDni } from '../lib/dni'
 import type { Profile } from '../types/db'
 
 interface AuthValue {
@@ -15,8 +16,9 @@ interface AuthValue {
   profile: Profile | null
   loading: boolean
   isAdmin: boolean
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>
-  signUp: (email: string, password: string, nombre: string) => Promise<{ error: string | null }>
+  signInWithDni: (dni: string) => Promise<{ error: string | null }>
+  signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>
+  createCoach: (dni: string, nombre: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
 }
@@ -60,16 +62,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       profile,
       loading,
       isAdmin: profile?.rol === 'admin' && profile.activo,
-      signIn: async (email, password) => {
+      signInWithDni: async (dni) => {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: dniToEmail(dni),
+          password: dniToPassword(dni),
+        })
+        return { error: error ? translateDniError(error.message) : null }
+      },
+      signInWithEmail: async (email, password) => {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         return { error: error ? translateAuthError(error.message) : null }
       },
-      signUp: async (email, password, nombre) => {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { nombre } },
+      // El admin crea la cuenta del entrenador con un cliente aislado para no
+      // perder su propia sesión. El trigger de la BD crea el perfil asociado.
+      createCoach: async (dni, nombre) => {
+        const norm = normalizeDni(dni)
+        const tmp = createIsolatedClient()
+        const { error } = await tmp.auth.signUp({
+          email: dniToEmail(norm),
+          password: dniToPassword(norm),
+          options: { data: { nombre, dni: norm } },
         })
+        await tmp.auth.signOut()
         return { error: error ? translateAuthError(error.message) : null }
       },
       signOut: async () => {
@@ -89,8 +103,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 function translateAuthError(msg: string): string {
   if (/invalid login credentials/i.test(msg)) return 'Email o contraseña incorrectos.'
   if (/email not confirmed/i.test(msg)) return 'Debes confirmar tu email antes de entrar.'
-  if (/user already registered/i.test(msg)) return 'Ya existe una cuenta con ese email.'
-  if (/password should be at least/i.test(msg)) return 'La contraseña debe tener al menos 6 caracteres.'
+  if (/user already registered/i.test(msg)) return 'Ya existe un entrenador con ese DNI.'
+  if (/password should be at least/i.test(msg)) return 'El DNI no es válido (mínimo 6 caracteres).'
+  return msg
+}
+
+function translateDniError(msg: string): string {
+  if (/invalid login credentials/i.test(msg))
+    return 'DNI no reconocido. Revisa que esté bien escrito o pide el alta al administrador.'
+  if (/email not confirmed/i.test(msg))
+    return 'La cuenta requiere confirmación de email. Avisa al administrador (debe desactivarla en Supabase).'
   return msg
 }
 

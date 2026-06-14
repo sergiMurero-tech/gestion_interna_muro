@@ -18,4 +18,19 @@ export const supabase = createClient(url, anonKey, {
   },
 })
 
+/**
+ * Cliente aislado (sin persistencia y con storageKey propio) para que el admin
+ * pueda crear cuentas de entrenador con signUp sin perder su propia sesión.
+ */
+export function createIsolatedClient() {
+  return createClient(url, anonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+      storageKey: 'muro-provision',
+    },
+  })
+}
+
 export const LICENCIAS_BUCKET = 'licencias'

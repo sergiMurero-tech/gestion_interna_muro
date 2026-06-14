@@ -16,10 +16,19 @@ Stack: React + TypeScript + Vite + Tailwind · Supabase (Auth, PostgreSQL, Stora
    - `0002_functions_rls.sql` — funciones de permisos y políticas RLS.
    - `0003_storage.sql` — bucket privado `licencias` y sus permisos.
    - `0004_seed_teams.sql` — *(opcional)* equipos de ejemplo del club.
-2. **Regístrate** desde la app (o crea el usuario en *Authentication → Users*).
-3. Ejecuta `0005_make_admin.sql` (ajusta el email) para convertir tu cuenta en administrador.
+   - `0006_coach_dni.sql` — acceso de entrenadores por DNI.
+2. **Desactiva la confirmación por email:** *Authentication → Providers → Email →* **Confirm email = OFF**. (Los entrenadores usan emails internos sintéticos que no reciben correo.)
+3. **Crea tu usuario administrador** en *Authentication → Users → Add user* con tu email y contraseña reales (los que usarás en “Acceso administrador”).
+4. Ejecuta `0005_make_admin.sql` (ajusta el email) para convertir esa cuenta en administrador.
 
 > La seguridad de los datos la garantiza el **Row Level Security** definido en `0002`: cada usuario solo ve lo que le corresponde según su rol y los equipos asignados. La `anon key` es pública por diseño; no concede acceso por sí sola.
+
+### Acceso de usuarios
+
+- **Administrador (tú):** entra con email + contraseña (enlace *“Acceso administrador”* en la pantalla de login).
+- **Entrenadores:** los das de alta tú desde *Entrenadores → + Nuevo entrenador* (DNI + nombre). Ellos entran escribiendo **solo su DNI**, sin contraseña.
+  - Internamente, cada entrenador es un usuario de Supabase con email `<dni>@muro.local` y el DNI como contraseña; el alta la hace la app con la `anon key` (sin claves secretas).
+  - **Aviso de seguridad:** al ser la contraseña el propio DNI, quien lo conozca puede acceder como ese entrenador. Es el comportamiento buscado para uso interno; tenlo en cuenta.
 
 ## 2. Variables de entorno
 

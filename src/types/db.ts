@@ -4,6 +4,7 @@ export interface Profile {
   id: string
   nombre: string
   email: string
+  dni: string | null
   rol: Rol
   activo: boolean
   created_at: string
