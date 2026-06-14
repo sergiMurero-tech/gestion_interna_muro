@@ -132,21 +132,21 @@ export default function AdminCoachesPage() {
           + Nuevo entrenador
         </button>
       </div>
-      <p className="mb-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-800">
+      <p className="mb-4 alert-info">
         Da de alta a cada entrenador con su DNI y nombre. Entrará en la app escribiendo solo su DNI. Después podrás
         asignarle equipos y, si procede, hacerlo administrador.
       </p>
 
-      <div className="card divide-y divide-slate-100">
+      <div className="card divide-y divide-zinc-800">
         {people.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
               <div className="truncate font-medium">
                 {p.nombre || '(sin nombre)'}{' '}
-                {p.id === me?.id && <span className="text-xs text-slate-400">(tú)</span>}
+                {p.id === me?.id && <span className="text-xs text-zinc-500">(tú)</span>}
                 {!p.activo && <span className="ml-1 text-xs text-red-500">inactivo</span>}
               </div>
-              <div className="truncate text-xs text-slate-500">
+              <div className="truncate text-xs text-zinc-400">
                 {p.rol === 'admin'
                   ? `${p.email} · Administrador`
                   : p.rol === 'coordinador'
@@ -198,9 +198,9 @@ export default function AdminCoachesPage() {
         }
       >
         <div className="space-y-1">
-          {teams.length === 0 && <p className="text-sm text-slate-500">No hay equipos.</p>}
+          {teams.length === 0 && <p className="text-sm text-zinc-400">No hay equipos.</p>}
           {teams.map((t) => (
-            <label key={t.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-slate-50">
+            <label key={t.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-zinc-800">
               <input
                 type="checkbox"
                 checked={selectedTeams.has(t.id)}
@@ -212,7 +212,7 @@ export default function AdminCoachesPage() {
                 }}
               />
               <span className="text-sm">
-                {t.nombre} <span className="text-xs text-slate-400">· {t.categoria}</span>
+                {t.nombre} <span className="text-xs text-zinc-500">· {t.categoria}</span>
               </span>
             </label>
           ))}
@@ -243,7 +243,7 @@ export default function AdminCoachesPage() {
               value={newDni}
               onChange={(e) => setNewDni(e.target.value)}
             />
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-zinc-400">
               {newDni ? `Entrará con el DNI: ${normalizeDni(newDni)}` : 'Con este DNI accederá a la app (sin contraseña).'}
             </p>
           </div>
@@ -251,7 +251,7 @@ export default function AdminCoachesPage() {
             <label className="label">Nombre completo</label>
             <input className="input" value={newNombre} onChange={(e) => setNewNombre(e.target.value)} />
           </div>
-          {createError && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{createError}</p>}
+          {createError && <p className="alert-error">{createError}</p>}
         </div>
       </Modal>
     </div>

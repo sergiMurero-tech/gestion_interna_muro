@@ -23,12 +23,12 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex min-h-full items-center justify-center p-4">
           <div className="card max-w-md p-6">
-            <h1 className="text-lg font-bold text-red-700">Se ha producido un error</h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <h1 className="text-lg font-bold text-red-400">Se ha producido un error</h1>
+            <p className="mt-2 text-sm text-zinc-300">
               La aplicación ha fallado al cargar. Prueba a recargar la página. Si persiste, envía esta información al
               administrador:
             </p>
-            <pre className="mt-3 max-h-48 overflow-auto rounded-lg bg-slate-100 p-3 text-xs text-slate-700">
+            <pre className="mt-3 max-h-48 overflow-auto rounded-lg bg-zinc-800 p-3 text-xs text-zinc-200">
               {this.state.error.message}
             </pre>
             <button className="btn-primary mt-4 w-full" onClick={() => location.reload()}>

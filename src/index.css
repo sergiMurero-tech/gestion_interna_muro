@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 html,
 body,
 #root {
@@ -9,7 +13,7 @@ body,
 }
 
 body {
-  @apply bg-slate-100 text-slate-900 antialiased;
+  @apply bg-zinc-950 text-zinc-100 antialiased;
   margin: 0;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
@@ -18,22 +22,32 @@ body {
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
   }
+  /* Acción principal: oro sobre negro, como los CTA de la web del club. */
   .btn-primary {
-    @apply btn bg-muro text-white hover:bg-muro-dark;
+    @apply btn bg-gold text-zinc-950 hover:bg-gold-dark;
   }
   .btn-secondary {
-    @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+    @apply btn border border-zinc-700 bg-zinc-800 text-zinc-100 hover:bg-zinc-700;
   }
   .btn-danger {
     @apply btn bg-red-600 text-white hover:bg-red-700;
   }
   .card {
-    @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    @apply rounded-xl border border-zinc-800 bg-zinc-900 shadow-sm;
   }
   .input {
-    @apply w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-muro focus:ring-2 focus:ring-muro/20;
+    @apply w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-gold focus:ring-2 focus:ring-gold/30;
   }
   .label {
-    @apply mb-1 block text-sm font-medium text-slate-700;
+    @apply mb-1 block text-sm font-medium text-zinc-300;
+  }
+  .alert-error {
+    @apply rounded-lg bg-red-500/15 px-3 py-2 text-sm text-red-300;
+  }
+  .alert-ok {
+    @apply rounded-lg bg-green-500/15 px-3 py-2 text-sm text-green-300;
+  }
+  .alert-info {
+    @apply rounded-lg bg-sky-500/15 px-3 py-2 text-sm text-sky-300;
   }
 }

@@ -4,10 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Identidad Muro CF (escudo: senyera roja/oro sobre blanco, corona dorada).
         muro: {
-          DEFAULT: '#C8102E',
-          dark: '#9E0C24',
-          light: '#E8506A',
+          DEFAULT: '#D81E26',
+          dark: '#A4161A',
+          light: '#E84C52',
+        },
+        gold: {
+          DEFAULT: '#F2A900',
+          dark: '#C8881B',
+          light: '#FFC93C',
         },
       },
     },

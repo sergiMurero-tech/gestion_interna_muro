@@ -97,15 +97,15 @@ export default function AdminTeamsPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-slate-100">
-        {teams.length === 0 && <p className="p-4 text-sm text-slate-500">No hay equipos.</p>}
+      <div className="card divide-y divide-zinc-800">
+        {teams.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay equipos.</p>}
         {teams.map((t) => (
           <div key={t.id} className="flex items-center justify-between gap-3 p-4">
             <div>
               <div className="font-medium">
-                {t.nombre} {!t.activo && <span className="text-xs text-slate-400">(inactivo)</span>}
+                {t.nombre} {!t.activo && <span className="text-xs text-zinc-500">(inactivo)</span>}
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-zinc-400">
                 {t.categoria} · {t.temporada} · Entrenador: {coachName(t.entrenador_id)}
               </div>
             </div>
@@ -173,7 +173,7 @@ export default function AdminTeamsPage() {
             <input type="checkbox" checked={form.activo} onChange={(e) => setForm({ ...form, activo: e.target.checked })} />
             Equipo activo
           </label>
-          {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
+          {error && <p className="alert-error">{error}</p>}
         </div>
       </Modal>
     </div>

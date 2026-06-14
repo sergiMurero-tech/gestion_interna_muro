@@ -26,14 +26,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-muro to-muro-dark p-4">
-      <div className="card w-full max-w-sm p-6">
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 grid h-14 w-14 place-items-center rounded-xl bg-muro text-2xl font-black text-white">
-            M
-          </div>
-          <h1 className="text-xl font-bold">Gestión Interna Muro CF</h1>
-          <p className="mt-1 text-sm text-slate-500">
+    <div className="flex min-h-full items-center justify-center bg-gradient-to-b from-black to-zinc-900 p-4">
+      <div className="card w-full max-w-sm overflow-hidden p-6">
+        <div className="-mx-6 -mt-6 mb-6 border-b-4 border-gold bg-black px-6 pb-5 pt-6 text-center">
+          <img src="/club-crest.png" alt="Escudo Muro CF" className="mx-auto mb-3 h-20 w-20 object-contain" />
+          <h1 className="text-xl font-bold text-white">Gestión Interna Muro CF</h1>
+          <p className="mt-1 text-sm text-zinc-400">
             {mode === 'dni' ? 'Accede con tu DNI' : 'Acceso administrador'}
           </p>
         </div>
@@ -51,7 +49,7 @@ export default function LoginPage() {
                 onChange={(e) => setDni(e.target.value)}
                 required
               />
-              <p className="mt-1 text-xs text-slate-500">Introduce tu DNI tal y como te dio de alta el club.</p>
+              <p className="mt-1 text-xs text-zinc-400">Introduce tu DNI tal y como te dio de alta el club.</p>
             </div>
           ) : (
             <>
@@ -80,7 +78,7 @@ export default function LoginPage() {
             </>
           )}
 
-          {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
+          {error && <p className="alert-error">{error}</p>}
 
           <button type="submit" className="btn-primary w-full" disabled={busy}>
             {busy ? 'Entrando…' : 'Entrar'}
@@ -92,7 +90,7 @@ export default function LoginPage() {
             setMode(mode === 'dni' ? 'admin' : 'dni')
             setError(null)
           }}
-          className="mt-4 w-full text-center text-sm text-muro hover:underline"
+          className="mt-4 w-full text-center text-sm text-gold hover:underline"
         >
           {mode === 'dni' ? 'Acceso administrador' : '← Volver al acceso por DNI'}
         </button>

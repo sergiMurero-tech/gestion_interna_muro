@@ -141,14 +141,14 @@ export default function AdminLicensesPage() {
             </option>
           ))}
         </select>
-        <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 text-sm">
+        <label className="flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-3 text-sm">
           <input type="checkbox" checked={onlyMissing} onChange={(e) => setOnlyMissing(e.target.checked)} />
           Solo sin licencia
         </label>
       </div>
 
-      <div className="card divide-y divide-slate-100">
-        {visible.length === 0 && <p className="p-4 text-sm text-slate-500">No hay jugadores con estos filtros.</p>}
+      <div className="card divide-y divide-zinc-800">
+        {visible.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay jugadores con estos filtros.</p>}
         {visible.map((p) => {
           const lic = licenses.get(p.id)
           const busy = busyId === p.id
@@ -156,7 +156,7 @@ export default function AdminLicensesPage() {
             <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
               <div className="min-w-0">
                 <div className="truncate font-medium">{p.nombre_completo}</div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-zinc-400">
                   {teamById(p.equipo_id)?.nombre ?? '—'}
                   {lic && ` · ${lic.nombre_archivo}`}
                 </div>

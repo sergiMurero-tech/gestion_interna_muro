@@ -28,23 +28,27 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-40 bg-muro text-white shadow">
+      <header className="sticky top-0 z-40 border-b-4 border-gold bg-black text-white shadow-lg">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <button onClick={() => navigate('/')} className="flex items-center gap-2 font-bold">
-            <span className="grid h-8 w-8 place-items-center rounded-md bg-white/15 font-black">M</span>
-            <span className="text-lg">Muro CF</span>
+          <button onClick={() => navigate('/')} className="flex items-center gap-2.5 font-bold">
+            <img
+              src="/club-crest.png"
+              alt="Escudo Muro CF"
+              className="h-9 w-9 object-contain"
+            />
+            <span className="text-lg font-extrabold uppercase tracking-wide">Muro CF</span>
           </button>
           <div className="flex items-center gap-3">
-            <span className="hidden text-sm opacity-90 sm:block">
-              {profile?.nombre || profile?.email} · {ROL_LABEL[profile?.rol ?? 'entrenador']}
+            <span className="hidden text-sm text-zinc-300 sm:block">
+              {profile?.nombre || profile?.email} · <span className="text-gold">{ROL_LABEL[profile?.rol ?? 'entrenador']}</span>
             </span>
-            <button onClick={() => signOut()} className="rounded-md bg-white/15 px-3 py-1.5 text-sm font-medium hover:bg-white/25">
+            <button onClick={() => signOut()} className="rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20">
               Salir
             </button>
           </div>
         </div>
         {links.length > 1 && (
-          <nav className="border-t border-white/15 bg-muro-dark/40">
+          <nav className="border-t border-white/10 bg-zinc-950">
             <div className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-2 py-1.5">
               {links.map((l) => (
                 <NavLink
@@ -53,7 +57,7 @@ export default function Layout() {
                   end={l.end}
                   className={({ isActive }) =>
                     `whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                      isActive ? 'bg-white text-muro' : 'text-white/90 hover:bg-white/15'
+                      isActive ? 'bg-gold text-black' : 'text-zinc-300 hover:bg-white/10'
                     }`
                   }
                 >

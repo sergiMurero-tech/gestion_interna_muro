@@ -96,7 +96,7 @@ export default function PlayerDetailPage() {
   }
 
   if (loading) return <Spinner label="Cargando jugador…" />
-  if (!player) return <div className="card p-6 text-center text-slate-500">Jugador no encontrado.</div>
+  if (!player) return <div className="card p-6 text-center text-zinc-400">Jugador no encontrado.</div>
 
   const hasLicense = !!license
 
@@ -104,7 +104,7 @@ export default function PlayerDetailPage() {
     <div className="mx-auto max-w-xl">
       <Link
         to={team ? `/equipos/${team.id}` : '/'}
-        className="mb-2 inline-block text-sm text-muro hover:underline"
+        className="mb-2 inline-block text-sm text-gold hover:underline"
       >
         ← {team?.nombre ?? 'Equipos'}
       </Link>
@@ -113,15 +113,15 @@ export default function PlayerDetailPage() {
         <h1 className="text-2xl font-bold">{player.nombre_completo}</h1>
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div>
-            <dt className="text-slate-500">Equipo</dt>
+            <dt className="text-zinc-400">Equipo</dt>
             <dd className="font-medium">{team?.nombre ?? '—'}</dd>
           </div>
           <div>
-            <dt className="text-slate-500">Temporada</dt>
+            <dt className="text-zinc-400">Temporada</dt>
             <dd className="font-medium">{player.temporada || team?.temporada || '—'}</dd>
           </div>
           <div className="col-span-2">
-            <dt className="mb-1 text-slate-500">Estado de licencia</dt>
+            <dt className="mb-1 text-zinc-400">Estado de licencia</dt>
             <dd>
               <LicenseBadge has={hasLicense} />
             </dd>
@@ -129,7 +129,7 @@ export default function PlayerDetailPage() {
         </dl>
 
         {!hasLicense && (
-          <div className="mt-5 rounded-lg bg-red-50 p-4 text-sm text-red-700">
+          <div className="mt-5 rounded-lg bg-red-500/15 p-4 text-sm text-red-300">
             Este jugador no tiene licencia federativa subida. Contacte con el administrador.
           </div>
         )}
@@ -143,7 +143,7 @@ export default function PlayerDetailPage() {
             Obtener documentación por lesión
           </button>
         ) : (
-          <div className="mt-6 space-y-4 border-t border-slate-200 pt-5">
+          <div className="mt-6 space-y-4 border-t border-zinc-800 pt-5">
             {!docs && (
               <>
                 <div>
@@ -154,7 +154,7 @@ export default function PlayerDetailPage() {
                     value={fecha}
                     onChange={(e) => setFecha(e.target.value)}
                   />
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-zinc-400">
                     Solo se rellena la fecha del parte. La fecha de lesión y el resto los completa el médico.
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export default function PlayerDetailPage() {
 
             {docs && (
               <div className="space-y-3">
-                <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+                <p className="alert-ok">
                   Listo. Descarga o comparte los documentos:
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -201,12 +201,12 @@ export default function PlayerDetailPage() {
                     Correo
                   </a>
                 </div>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-zinc-500">
                   En WhatsApp/Correo se descargan los PDF para que los adjuntes. En móvil, usa “Compartir” para
                   enviarlos directamente.
                 </p>
                 <button
-                  className="w-full text-center text-sm text-slate-500 hover:underline"
+                  className="w-full text-center text-sm text-zinc-400 hover:underline"
                   onClick={() => {
                     setDocs(null)
                     setShowFlow(false)
@@ -218,8 +218,8 @@ export default function PlayerDetailPage() {
               </div>
             )}
 
-            {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
-            {msg && !docs && <p className="text-sm text-green-700">{msg}</p>}
+            {error && <p className="alert-error">{error}</p>}
+            {msg && !docs && <p className="text-sm text-green-300">{msg}</p>}
           </div>
         )}
       </div>
