@@ -47,10 +47,10 @@ export default function HistoryPage() {
       <h1 className="mb-4 text-2xl font-bold">Historial de documentos</h1>
       <div className="card overflow-x-auto">
         {rows.length === 0 ? (
-          <p className="p-4 text-sm text-zinc-400">No hay documentos generados.</p>
+          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay documentos generados.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-zinc-800/60 text-left text-xs uppercase text-zinc-400">
+            <thead className="bg-zinc-100 dark:bg-zinc-800/60 text-left text-xs uppercase text-zinc-500 dark:text-zinc-400">
               <tr>
                 <th className="px-4 py-2">Fecha</th>
                 <th className="px-4 py-2">Tipo</th>
@@ -61,7 +61,7 @@ export default function HistoryPage() {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.id} className="border-t border-zinc-800">
+                <tr key={r.id} className="border-t border-zinc-200 dark:border-zinc-800">
                   <td className="whitespace-nowrap px-4 py-2">
                     {new Date(r.fecha_generacion).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
                   </td>

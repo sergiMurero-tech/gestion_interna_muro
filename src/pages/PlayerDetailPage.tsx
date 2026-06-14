@@ -96,7 +96,7 @@ export default function PlayerDetailPage() {
   }
 
   if (loading) return <Spinner label="Cargando jugador…" />
-  if (!player) return <div className="card p-6 text-center text-zinc-400">Jugador no encontrado.</div>
+  if (!player) return <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Jugador no encontrado.</div>
 
   const hasLicense = !!license
 
@@ -113,15 +113,15 @@ export default function PlayerDetailPage() {
         <h1 className="text-2xl font-bold">{player.nombre_completo}</h1>
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div>
-            <dt className="text-zinc-400">Equipo</dt>
+            <dt className="text-zinc-500 dark:text-zinc-400">Equipo</dt>
             <dd className="font-medium">{team?.nombre ?? '—'}</dd>
           </div>
           <div>
-            <dt className="text-zinc-400">Temporada</dt>
+            <dt className="text-zinc-500 dark:text-zinc-400">Temporada</dt>
             <dd className="font-medium">{player.temporada || team?.temporada || '—'}</dd>
           </div>
           <div className="col-span-2">
-            <dt className="mb-1 text-zinc-400">Estado de licencia</dt>
+            <dt className="mb-1 text-zinc-500 dark:text-zinc-400">Estado de licencia</dt>
             <dd>
               <LicenseBadge has={hasLicense} />
             </dd>
@@ -143,7 +143,7 @@ export default function PlayerDetailPage() {
             Obtener documentación por lesión
           </button>
         ) : (
-          <div className="mt-6 space-y-4 border-t border-zinc-800 pt-5">
+          <div className="mt-6 space-y-4 border-t border-zinc-200 dark:border-zinc-800 pt-5">
             {!docs && (
               <>
                 <div>
@@ -154,7 +154,7 @@ export default function PlayerDetailPage() {
                     value={fecha}
                     onChange={(e) => setFecha(e.target.value)}
                   />
-                  <p className="mt-1 text-xs text-zinc-400">
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                     Solo se rellena la fecha del parte. La fecha de lesión y el resto los completa el médico.
                   </p>
                 </div>
@@ -206,7 +206,7 @@ export default function PlayerDetailPage() {
                   enviarlos directamente.
                 </p>
                 <button
-                  className="w-full text-center text-sm text-zinc-400 hover:underline"
+                  className="w-full text-center text-sm text-zinc-500 dark:text-zinc-400 hover:underline"
                   onClick={() => {
                     setDocs(null)
                     setShowFlow(false)

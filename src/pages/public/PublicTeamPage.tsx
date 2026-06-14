@@ -39,7 +39,7 @@ export default function PublicTeamPage() {
   if (!equipo) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="card p-6 text-center text-zinc-300">
+        <div className="card p-6 text-center text-zinc-600 dark:text-zinc-300">
           <p className="mb-4">Equipo no encontrado.</p>
           <Link to="/area-deportiva" className="btn-secondary inline-block">
             Volver al área deportiva
@@ -59,24 +59,24 @@ export default function PublicTeamPage() {
         {equipo.foto_url ? (
           <img src={equipo.foto_url} alt={equipo.nombre} className="h-56 w-full object-cover sm:h-72" />
         ) : (
-          <div className="flex h-56 w-full items-center justify-center bg-zinc-800 sm:h-72">
+          <div className="flex h-56 w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800 sm:h-72">
             <img src="/club-crest.png" alt="" className="h-24 w-24 opacity-30" />
           </div>
         )}
         <div className="p-6">
-          <h1 className="text-3xl font-extrabold text-white">{equipo.nombre}</h1>
+          <h1 className="text-3xl font-extrabold text-zinc-900 dark:text-white">{equipo.nombre}</h1>
           <p className="mt-1 text-gold">
             {equipo.categoria}
             {equipo.temporada ? ` · ${equipo.temporada}` : ''}
           </p>
           {equipo.descripcion && (
-            <p className="mt-3 whitespace-pre-line text-zinc-300">{equipo.descripcion}</p>
+            <p className="mt-3 whitespace-pre-line text-zinc-600 dark:text-zinc-300">{equipo.descripcion}</p>
           )}
         </div>
       </div>
 
       <section className="mb-10">
-        <h2 className="mb-6 text-2xl font-bold text-white">Jugadores</h2>
+        <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Jugadores</h2>
         {jugadores.length === 0 ? (
           <p className="text-zinc-500">—</p>
         ) : (
@@ -87,7 +87,7 @@ export default function PublicTeamPage() {
                   {j.foto_url ? (
                     <img src={j.foto_url} alt={j.nombre_completo} className="h-40 w-full object-cover" />
                   ) : (
-                    <div className="flex h-40 w-full items-center justify-center bg-zinc-800">
+                    <div className="flex h-40 w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
                       <img src="/club-crest.png" alt="" className="h-16 w-16 opacity-30" />
                     </div>
                   )}
@@ -98,7 +98,7 @@ export default function PublicTeamPage() {
                   )}
                 </div>
                 <div className="p-3">
-                  <p className="font-semibold text-white">{j.nombre_completo}</p>
+                  <p className="font-semibold text-zinc-900 dark:text-white">{j.nombre_completo}</p>
                 </div>
               </div>
             ))}
@@ -107,7 +107,7 @@ export default function PublicTeamPage() {
       </section>
 
       <section>
-        <h2 className="mb-6 text-2xl font-bold text-white">Cuerpo técnico</h2>
+        <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Cuerpo técnico</h2>
         {tecnicos.length === 0 ? (
           <p className="text-zinc-500">—</p>
         ) : (
@@ -117,12 +117,12 @@ export default function PublicTeamPage() {
                 {t.foto_url ? (
                   <img src={t.foto_url} alt={t.nombre} className="h-40 w-full object-cover" />
                 ) : (
-                  <div className="flex h-40 w-full items-center justify-center bg-zinc-800">
+                  <div className="flex h-40 w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
                     <img src="/club-crest.png" alt="" className="h-16 w-16 opacity-30" />
                   </div>
                 )}
                 <div className="p-3">
-                  <p className="font-semibold text-white">{t.nombre}</p>
+                  <p className="font-semibold text-zinc-900 dark:text-white">{t.nombre}</p>
                   <p className="text-sm text-gold">{t.cargo}</p>
                 </div>
               </div>

@@ -182,8 +182,8 @@ export default function WebNoticiasPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay noticias.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay noticias.</p>}
         {items.map((n) => (
           <div key={n.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
@@ -195,10 +195,10 @@ export default function WebNoticiasPage() {
                 {n.publicada ? (
                   <span className="rounded-full bg-green-600/20 px-2 py-0.5 text-xs text-green-400">Publicada</span>
                 ) : (
-                  <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">Borrador</span>
+                  <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">Borrador</span>
                 )}
               </div>
-              <div className="truncate text-xs text-zinc-400">
+              <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
                 {new Date(n.fecha_publicacion).toLocaleString('es-ES')}
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function WebNoticiasPage() {
               value={form.contenido}
               onChange={(e) => setForm({ ...form, contenido: e.target.value })}
             />
-            <p className="mt-1 text-xs text-zinc-400">Puedes usar HTML básico.</p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Puedes usar HTML básico.</p>
           </div>
           <ImageUploader
             value={form.imagen_url}
@@ -288,13 +288,13 @@ export default function WebNoticiasPage() {
             <span className="label">Adjuntos</span>
             <div className="space-y-1">
               {form.adjuntos.map((a, i) => (
-                <div key={a.url + i} className="flex items-center justify-between gap-2 rounded-md bg-zinc-800/50 px-3 py-1.5">
+                <div key={a.url + i} className="flex items-center justify-between gap-2 rounded-md bg-zinc-100 dark:bg-zinc-800/50 px-3 py-1.5">
                   <a href={a.url} target="_blank" rel="noreferrer" className="truncate text-sm text-gold hover:underline">
                     {a.nombre}
                   </a>
                   <button
                     type="button"
-                    className="text-zinc-400 hover:text-red-400"
+                    className="text-zinc-500 dark:text-zinc-400 hover:text-red-400"
                     onClick={() => setForm((f) => ({ ...f, adjuntos: f.adjuntos.filter((_, j) => j !== i) }))}
                   >
                     ×
@@ -304,7 +304,7 @@ export default function WebNoticiasPage() {
             </div>
             <input
               type="file"
-              className="mt-2 text-sm text-zinc-400"
+              className="mt-2 text-sm text-zinc-500 dark:text-zinc-400"
               disabled={uploadingAdj}
               onChange={(e) => {
                 const f = e.target.files?.[0]
@@ -312,7 +312,7 @@ export default function WebNoticiasPage() {
                 e.target.value = ''
               }}
             />
-            {uploadingAdj && <p className="mt-1 text-xs text-zinc-400">Subiendo…</p>}
+            {uploadingAdj && <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Subiendo…</p>}
           </div>
           <div>
             <label className="label">Fecha de publicación</label>

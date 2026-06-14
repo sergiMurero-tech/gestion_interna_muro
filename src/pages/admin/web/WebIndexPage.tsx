@@ -13,12 +13,12 @@ export default function WebIndexPage() {
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold">Gestión Web</h1>
-      <p className="mb-4 text-sm text-zinc-400">Administra el contenido de la web pública del club.</p>
+      <p className="mb-4 text-sm text-zinc-500 dark:text-zinc-400">Administra el contenido de la web pública del club.</p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {SECCIONES.map((s) => (
           <Link key={s.to} to={s.to} className="card p-4 transition hover:border-gold">
             <div className="text-lg font-semibold text-gold">{s.label}</div>
-            <div className="mt-1 text-sm text-zinc-400">{s.desc}</div>
+            <div className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{s.desc}</div>
           </Link>
         ))}
       </div>

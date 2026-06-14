@@ -13,14 +13,14 @@ export default function Modal({ open, title, onClose, children, footer }: Props)
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 sm:items-center sm:p-4">
       <div className="card w-full max-w-lg overflow-hidden rounded-b-none sm:rounded-2xl">
-        <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 px-5 py-4">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="text-2xl leading-none text-zinc-500 hover:text-zinc-300">
+          <button onClick={onClose} className="text-2xl leading-none text-zinc-500 hover:text-zinc-600 dark:text-zinc-300">
             &times;
           </button>
         </div>
         <div className="max-h-[70vh] overflow-y-auto px-5 py-4">{children}</div>
-        {footer && <div className="flex justify-end gap-2 border-t border-zinc-800 px-5 py-4">{footer}</div>}
+        {footer && <div className="flex justify-end gap-2 border-t border-zinc-200 dark:border-zinc-800 px-5 py-4">{footer}</div>}
       </div>
     </div>
   )

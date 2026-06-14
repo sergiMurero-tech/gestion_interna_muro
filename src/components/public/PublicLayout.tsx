@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { buildMenuTree, getConfig, getMenuItems, isExternal, menuHref, type MenuNode } from '../../lib/cms'
 import type { SiteConfig } from '../../types/db'
+import ThemeToggle from '../ThemeToggle'
 
 export default function PublicLayout() {
   const [nodes, setNodes] = useState<MenuNode[]>([])
@@ -19,7 +20,7 @@ export default function PublicLayout() {
   }, [location.pathname])
 
   return (
-    <div className="flex min-h-full flex-col bg-zinc-950 text-zinc-100">
+    <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-40 border-b-4 border-gold bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
@@ -35,6 +36,7 @@ export default function PublicLayout() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link to="/acceso" className="btn-primary hidden sm:inline-flex">
               Acceso
             </Link>

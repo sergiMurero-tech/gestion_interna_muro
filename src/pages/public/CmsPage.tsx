@@ -32,14 +32,14 @@ export default function CmsPage({ slug }: { slug?: string }) {
   if (!pagina) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="card p-6 text-center text-zinc-300">Página no encontrada.</div>
+        <div className="card p-6 text-center text-zinc-600 dark:text-zinc-300">Página no encontrada.</div>
       </div>
     )
   }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-white">{pagina.titulo}</h1>
+      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">{pagina.titulo}</h1>
 
       {pagina.imagen_url && (
         <img
@@ -53,7 +53,7 @@ export default function CmsPage({ slug }: { slug?: string }) {
 
       {pagina.galeria?.length > 0 && (
         <div className="mt-8">
-          <h2 className="mb-4 text-xl font-bold text-white">Galería</h2>
+          <h2 className="mb-4 text-xl font-bold text-zinc-900 dark:text-white">Galería</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {pagina.galeria.map((src, i) => (
               <img key={i} src={src} alt="" className="h-40 w-full rounded-lg object-cover" />

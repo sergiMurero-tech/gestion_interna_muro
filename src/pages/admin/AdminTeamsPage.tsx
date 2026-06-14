@@ -112,15 +112,15 @@ export default function AdminTeamsPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {teams.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay equipos.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {teams.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay equipos.</p>}
         {teams.map((t) => (
           <div key={t.id} className="flex items-center justify-between gap-3 p-4">
             <div>
               <div className="font-medium">
                 {t.nombre} {!t.activo && <span className="text-xs text-zinc-500">(inactivo)</span>}
               </div>
-              <div className="text-xs text-zinc-400">
+              <div className="text-xs text-zinc-500 dark:text-zinc-400">
                 {t.categoria} · {t.temporada} · Entrenador: {coachName(t.entrenador_id)}
               </div>
             </div>

@@ -25,15 +25,15 @@ export default function EstadioPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-white">{e.nombre || 'Estadio'}</h1>
+      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">{e.nombre || 'Estadio'}</h1>
 
       {e.direccion && (
-        <p className="mb-4 text-zinc-300">
+        <p className="mb-4 text-zinc-600 dark:text-zinc-300">
           <span className="font-semibold text-gold">Dirección:</span> {e.direccion}
         </p>
       )}
 
-      {e.info && <p className="mb-8 whitespace-pre-line text-zinc-300">{e.info}</p>}
+      {e.info && <p className="mb-8 whitespace-pre-line text-zinc-600 dark:text-zinc-300">{e.info}</p>}
 
       {e.fotos && e.fotos.length > 0 && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -44,7 +44,7 @@ export default function EstadioPage() {
       )}
 
       {!e.direccion && !e.info && (!e.fotos || e.fotos.length === 0) && (
-        <div className="card p-6 text-center text-zinc-400">
+        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">
           No hay información del estadio disponible.
         </div>
       )}

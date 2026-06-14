@@ -42,12 +42,12 @@ export default function TeamPlayersPage() {
         ← Equipos
       </Link>
       <h1 className="mb-1 text-2xl font-bold">{team?.nombre ?? 'Equipo'}</h1>
-      <p className="mb-4 text-sm text-zinc-400">
+      <p className="mb-4 text-sm text-zinc-500 dark:text-zinc-400">
         {team?.categoria} · {team?.temporada}
       </p>
 
       {players.length === 0 ? (
-        <div className="card p-6 text-center text-zinc-400">Este equipo no tiene jugadores.</div>
+        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Este equipo no tiene jugadores.</div>
       ) : (
         <div className="space-y-2">
           {players.map((p) => (

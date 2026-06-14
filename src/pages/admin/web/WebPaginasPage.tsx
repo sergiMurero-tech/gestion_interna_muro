@@ -132,8 +132,8 @@ export default function WebPaginasPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay páginas.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay páginas.</p>}
         {items.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
@@ -142,10 +142,10 @@ export default function WebPaginasPage() {
                 {p.publicada ? (
                   <span className="rounded-full bg-green-600/20 px-2 py-0.5 text-xs text-green-400">Publicada</span>
                 ) : (
-                  <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">Borrador</span>
+                  <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">Borrador</span>
                 )}
               </div>
-              <div className="truncate text-xs text-zinc-400">
+              <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
                 /{p.slug} · orden {p.orden}
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function WebPaginasPage() {
               value={form.contenido}
               onChange={(e) => setForm({ ...form, contenido: e.target.value })}
             />
-            <p className="mt-1 text-xs text-zinc-400">Puedes usar HTML básico.</p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Puedes usar HTML básico.</p>
           </div>
           <ImageUploader
             value={form.imagen_url}

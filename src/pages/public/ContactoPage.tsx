@@ -34,18 +34,18 @@ export default function ContactoPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-white">Contacto</h1>
+      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">Contacto</h1>
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="card space-y-4 p-6">
           {c.direccion && (
-            <p className="text-zinc-300">
+            <p className="text-zinc-600 dark:text-zinc-300">
               <span className="block text-sm font-semibold text-gold">Dirección</span>
               {c.direccion}
             </p>
           )}
           {c.telefono && (
-            <p className="text-zinc-300">
+            <p className="text-zinc-600 dark:text-zinc-300">
               <span className="block text-sm font-semibold text-gold">Teléfono</span>
               <a href={`tel:${c.telefono}`} className="hover:underline">
                 {c.telefono}
@@ -53,7 +53,7 @@ export default function ContactoPage() {
             </p>
           )}
           {c.email && (
-            <p className="text-zinc-300">
+            <p className="text-zinc-600 dark:text-zinc-300">
               <span className="block text-sm font-semibold text-gold">Email</span>
               <a href={`mailto:${c.email}`} className="hover:underline">
                 {c.email}
@@ -83,7 +83,7 @@ export default function ContactoPage() {
           )}
 
           {!c.direccion && !c.telefono && !c.email && !REDES.some((r) => redes[r.key]) && (
-            <p className="text-zinc-400">No hay información de contacto disponible.</p>
+            <p className="text-zinc-500 dark:text-zinc-400">No hay información de contacto disponible.</p>
           )}
         </div>
 

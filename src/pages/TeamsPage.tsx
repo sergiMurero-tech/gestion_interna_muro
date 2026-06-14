@@ -28,7 +28,7 @@ export default function TeamsPage() {
     <div>
       <h1 className="mb-4 text-2xl font-bold">Equipos</h1>
       {teams.length === 0 ? (
-        <div className="card p-6 text-center text-zinc-400">
+        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">
           {isAdmin
             ? 'No hay equipos. Crea uno desde el panel de administración.'
             : 'Aún no tienes equipos asignados. Contacta con el administrador.'}
@@ -42,7 +42,7 @@ export default function TeamsPage() {
               className="card flex flex-col gap-1 p-4 transition hover:border-muro hover:shadow-md"
             >
               <span className="text-lg font-semibold">{t.nombre}</span>
-              <span className="text-xs text-zinc-400">{t.categoria}</span>
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">{t.categoria}</span>
               <span className="text-xs text-zinc-500">{t.temporada}</span>
             </Link>
           ))}

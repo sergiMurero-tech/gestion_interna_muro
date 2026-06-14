@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import type { Rol } from '../types/db'
+import ThemeToggle from './ThemeToggle'
 
 const ROL_LABEL: Record<Rol, string> = {
   admin: 'Admin',
@@ -46,6 +47,7 @@ export default function Layout() {
             <a href="/" className="hidden rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20 sm:block">
               Ver web
             </a>
+            <ThemeToggle />
             <button onClick={() => signOut()} className="rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20">
               Salir
             </button>

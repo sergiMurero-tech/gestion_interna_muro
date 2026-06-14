@@ -102,15 +102,15 @@ export default function WebPatrocinadoresPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay patrocinadores.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</p>}
         {items.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="flex min-w-0 items-center gap-3">
               {p.logo_url ? (
-                <img src={p.logo_url} alt="" className="h-12 w-12 rounded-lg border border-zinc-700 object-contain" />
+                <img src={p.logo_url} alt="" className="h-12 w-12 rounded-lg border border-zinc-300 dark:border-zinc-700 object-contain" />
               ) : (
-                <div className="grid h-12 w-12 place-items-center rounded-lg border border-dashed border-zinc-700 text-xs text-zinc-500">
+                <div className="grid h-12 w-12 place-items-center rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 text-xs text-zinc-500">
                   sin
                 </div>
               )}
@@ -118,10 +118,10 @@ export default function WebPatrocinadoresPage() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="truncate font-medium">{p.nombre}</span>
                   {!p.visible && (
-                    <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">Oculto</span>
+                    <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">Oculto</span>
                   )}
                 </div>
-                <div className="truncate text-xs text-zinc-400">
+                <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
                   orden {p.orden}
                   {p.enlace ? ` · ${p.enlace}` : ''}
                 </div>

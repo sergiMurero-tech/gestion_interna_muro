@@ -93,7 +93,7 @@ export default function DashboardPage() {
             <div className={`text-3xl font-black ${c.danger && (c.value ?? 0) > 0 ? 'text-red-400' : 'text-gold'}`}>
               {c.value ?? 0}
             </div>
-            <div className="mt-1 text-sm text-zinc-300">{c.label}</div>
+            <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{c.label}</div>
           </Link>
         ))}
       </div>
@@ -101,10 +101,10 @@ export default function DashboardPage() {
       <h2 className="mb-3 mt-8 text-lg font-semibold">Últimos documentos generados</h2>
       <div className="card overflow-hidden">
         {recent.length === 0 ? (
-          <p className="p-4 text-sm text-zinc-400">Todavía no se ha generado documentación.</p>
+          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">Todavía no se ha generado documentación.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-zinc-800/60 text-left text-xs uppercase text-zinc-400">
+            <thead className="bg-zinc-100 dark:bg-zinc-800/60 text-left text-xs uppercase text-zinc-500 dark:text-zinc-400">
               <tr>
                 <th className="px-4 py-2">Fecha</th>
                 <th className="px-4 py-2">Jugador</th>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
             </thead>
             <tbody>
               {recent.map((d) => (
-                <tr key={d.id} className="border-t border-zinc-800">
+                <tr key={d.id} className="border-t border-zinc-200 dark:border-zinc-800">
                   <td className="whitespace-nowrap px-4 py-2">
                     {new Date(d.fecha_generacion).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
                   </td>

@@ -42,7 +42,7 @@ export default function PublicHome() {
       {hero && (
         <Link
           to={`/noticias/${hero.slug}`}
-          className="group relative mb-10 block h-72 overflow-hidden rounded-xl border border-zinc-800 sm:h-96"
+          className="group relative mb-10 block h-72 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 sm:h-96"
         >
           {hero.imagen_url ? (
             <img
@@ -51,21 +51,21 @@ export default function PublicHome() {
               className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-zinc-800">
+            <div className="absolute inset-0 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
               <img src="/club-crest.png" alt="" className="h-24 w-24 opacity-30" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <span className="mb-2 block text-xs text-zinc-300">{formatFecha(hero.fecha_publicacion)}</span>
-            <h2 className="text-3xl font-extrabold text-white">{hero.titulo}</h2>
-            {hero.resumen && <p className="mt-2 max-w-2xl text-zinc-200 line-clamp-2">{hero.resumen}</p>}
+            <span className="mb-2 block text-xs text-zinc-600 dark:text-zinc-300">{formatFecha(hero.fecha_publicacion)}</span>
+            <h2 className="text-3xl font-extrabold text-zinc-900 dark:text-white">{hero.titulo}</h2>
+            {hero.resumen && <p className="mt-2 max-w-2xl text-zinc-700 dark:text-zinc-200 line-clamp-2">{hero.resumen}</p>}
           </div>
         </Link>
       )}
 
       <section className="mb-12">
-        <h1 className="mb-6 text-3xl font-extrabold text-white">
+        <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">
           Accesos <span className="text-gold">rápidos</span>
         </h1>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -82,11 +82,11 @@ export default function PublicHome() {
       </section>
 
       <section>
-        <h2 className="mb-6 text-3xl font-extrabold text-white">
+        <h2 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">
           Últimas <span className="text-gold">noticias</span>
         </h2>
         {resto.length === 0 ? (
-          <div className="card p-6 text-center text-zinc-400">No hay más noticias por ahora.</div>
+          <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">No hay más noticias por ahora.</div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {resto.map((n) => (
@@ -98,14 +98,14 @@ export default function PublicHome() {
                 {n.imagen_url ? (
                   <img src={n.imagen_url} alt={n.titulo} className="h-40 w-full object-cover" />
                 ) : (
-                  <div className="flex h-40 w-full items-center justify-center bg-zinc-800">
+                  <div className="flex h-40 w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
                     <img src="/club-crest.png" alt="" className="h-16 w-16 opacity-30" />
                   </div>
                 )}
                 <div className="p-4">
-                  <span className="text-xs text-zinc-400">{formatFecha(n.fecha_publicacion)}</span>
-                  <h3 className="mt-1 font-bold text-white">{n.titulo}</h3>
-                  {n.resumen && <p className="mt-1 text-sm text-zinc-400 line-clamp-2">{n.resumen}</p>}
+                  <span className="text-xs text-zinc-500 dark:text-zinc-400">{formatFecha(n.fecha_publicacion)}</span>
+                  <h3 className="mt-1 font-bold text-zinc-900 dark:text-white">{n.titulo}</h3>
+                  {n.resumen && <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">{n.resumen}</p>}
                 </div>
               </Link>
             ))}

@@ -138,15 +138,15 @@ export default function AdminPlayersPage() {
         </div>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {visible.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay jugadores.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {visible.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay jugadores.</p>}
         {visible.map((p) => (
           <div key={p.id} className="flex items-center justify-between gap-3 p-4">
             <div>
               <div className="font-medium">
                 {p.nombre_completo} {!p.activo && <span className="text-xs text-zinc-500">(inactivo)</span>}
               </div>
-              <div className="text-xs text-zinc-400">
+              <div className="text-xs text-zinc-500 dark:text-zinc-400">
                 {teamName(p.equipo_id)} · {p.temporada || '—'}
               </div>
             </div>

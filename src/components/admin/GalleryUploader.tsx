@@ -32,11 +32,11 @@ export default function GalleryUploader({ value, onChange, folder = 'galeria', l
       <div className="flex flex-wrap gap-2">
         {value.map((url, i) => (
           <div key={url + i} className="relative">
-            <img src={url} alt="" className="h-20 w-20 rounded-lg border border-zinc-700 object-cover" />
+            <img src={url} alt="" className="h-20 w-20 rounded-lg border border-zinc-300 dark:border-zinc-700 object-cover" />
             <button
               type="button"
               onClick={() => onChange(value.filter((_, j) => j !== i))}
-              className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-red-600 text-xs text-white"
+              className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-red-600 text-xs text-zinc-900 dark:text-white"
             >
               ×
             </button>
@@ -55,7 +55,7 @@ export default function GalleryUploader({ value, onChange, folder = 'galeria', l
         />
         <button
           type="button"
-          className="grid h-20 w-20 place-items-center rounded-lg border border-dashed border-zinc-700 text-xs text-zinc-400 hover:bg-white/5"
+          className="grid h-20 w-20 place-items-center rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 text-xs text-zinc-500 dark:text-zinc-400 hover:bg-white/5"
           disabled={busy}
           onClick={() => ref.current?.click()}
         >

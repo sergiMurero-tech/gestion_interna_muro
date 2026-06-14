@@ -65,14 +65,14 @@ export default function TeamStaffModal({ team, onClose }: Props) {
     <Modal open title={`Cuerpo técnico · ${team.nombre}`} onClose={onClose}>
       <div className="space-y-4">
         <div className="space-y-2">
-          {staff.length === 0 && <p className="text-sm text-zinc-400">Aún no hay miembros.</p>}
+          {staff.length === 0 && <p className="text-sm text-zinc-500 dark:text-zinc-400">Aún no hay miembros.</p>}
           {staff.map((m) => (
-            <div key={m.id} className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 p-2">
+            <div key={m.id} className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 dark:border-zinc-800 p-2">
               <div className="flex items-center gap-3">
                 {m.foto_url ? (
                   <img src={m.foto_url} alt="" className="h-10 w-10 rounded-full object-cover" />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-zinc-800" />
+                  <div className="h-10 w-10 rounded-full bg-zinc-100 dark:bg-zinc-800" />
                 )}
                 <div>
                   <div className="text-sm font-medium">{m.nombre}</div>
@@ -97,7 +97,7 @@ export default function TeamStaffModal({ team, onClose }: Props) {
           ))}
         </div>
 
-        <div className="space-y-3 border-t border-zinc-800 pt-4">
+        <div className="space-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-4">
           <div className="text-sm font-semibold">{editingId ? 'Editar miembro' : 'Añadir miembro'}</div>
           <div>
             <label className="label">Nombre</label>

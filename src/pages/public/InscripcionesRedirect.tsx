@@ -27,14 +27,14 @@ export default function InscripcionesRedirect() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       {url ? (
-        <div className="card p-8 text-center text-zinc-300">
+        <div className="card p-8 text-center text-zinc-600 dark:text-zinc-300">
           <p className="mb-4">Redirigiendo a inscripciones…</p>
           <a href={url} className="btn-primary inline-block">
             Continuar a inscripciones
           </a>
         </div>
       ) : (
-        <div className="card p-8 text-center text-zinc-400">
+        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">
           Las inscripciones aún no están disponibles.
         </div>
       )}

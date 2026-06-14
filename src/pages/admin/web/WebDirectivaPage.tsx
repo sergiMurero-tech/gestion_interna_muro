@@ -102,21 +102,21 @@ export default function WebDirectivaPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay miembros de la directiva.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay miembros de la directiva.</p>}
         {items.map((d) => (
           <div key={d.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="flex min-w-0 items-center gap-3">
               {d.foto_url ? (
-                <img src={d.foto_url} alt="" className="h-12 w-12 rounded-full border border-zinc-700 object-cover" />
+                <img src={d.foto_url} alt="" className="h-12 w-12 rounded-full border border-zinc-300 dark:border-zinc-700 object-cover" />
               ) : (
-                <div className="grid h-12 w-12 place-items-center rounded-full border border-dashed border-zinc-700 text-xs text-zinc-500">
+                <div className="grid h-12 w-12 place-items-center rounded-full border border-dashed border-zinc-300 dark:border-zinc-700 text-xs text-zinc-500">
                   sin
                 </div>
               )}
               <div className="min-w-0">
                 <div className="truncate font-medium">{d.nombre}</div>
-                <div className="truncate text-xs text-zinc-400">
+                <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
                   {d.cargo || '—'} · orden {d.orden}
                 </div>
               </div>

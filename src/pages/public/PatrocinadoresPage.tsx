@@ -23,9 +23,9 @@ export default function PatrocinadoresPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-white">Patrocinadores</h1>
+      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">Patrocinadores</h1>
       {patrocinadores.length === 0 ? (
-        <div className="card p-6 text-center text-zinc-400">No hay patrocinadores.</div>
+        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {patrocinadores.map((p) => {

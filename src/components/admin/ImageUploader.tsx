@@ -32,9 +32,9 @@ export default function ImageUploader({ value, onChange, folder = 'general', lab
       <span className="label">{label}</span>
       <div className="flex items-center gap-3">
         {value ? (
-          <img src={value} alt="" className="h-16 w-16 rounded-lg border border-zinc-700 object-cover" />
+          <img src={value} alt="" className="h-16 w-16 rounded-lg border border-zinc-300 dark:border-zinc-700 object-cover" />
         ) : (
-          <div className="grid h-16 w-16 place-items-center rounded-lg border border-dashed border-zinc-700 text-xs text-zinc-500">
+          <div className="grid h-16 w-16 place-items-center rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 text-xs text-zinc-500">
             sin
           </div>
         )}

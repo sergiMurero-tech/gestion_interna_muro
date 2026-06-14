@@ -137,7 +137,7 @@ export default function AdminCoachesPage() {
         asignarle equipos y, si procede, hacerlo administrador.
       </p>
 
-      <div className="card divide-y divide-zinc-800">
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
         {people.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
@@ -146,7 +146,7 @@ export default function AdminCoachesPage() {
                 {p.id === me?.id && <span className="text-xs text-zinc-500">(tú)</span>}
                 {!p.activo && <span className="ml-1 text-xs text-red-500">inactivo</span>}
               </div>
-              <div className="truncate text-xs text-zinc-400">
+              <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
                 {p.rol === 'admin'
                   ? `${p.email} · Administrador`
                   : p.rol === 'coordinador'
@@ -198,9 +198,9 @@ export default function AdminCoachesPage() {
         }
       >
         <div className="space-y-1">
-          {teams.length === 0 && <p className="text-sm text-zinc-400">No hay equipos.</p>}
+          {teams.length === 0 && <p className="text-sm text-zinc-500 dark:text-zinc-400">No hay equipos.</p>}
           {teams.map((t) => (
-            <label key={t.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-zinc-800">
+            <label key={t.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800">
               <input
                 type="checkbox"
                 checked={selectedTeams.has(t.id)}
@@ -243,7 +243,7 @@ export default function AdminCoachesPage() {
               value={newDni}
               onChange={(e) => setNewDni(e.target.value)}
             />
-            <p className="mt-1 text-xs text-zinc-400">
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
               {newDni ? `Entrará con el DNI: ${normalizeDni(newDni)}` : 'Con este DNI accederá a la app (sin contraseña).'}
             </p>
           </div>

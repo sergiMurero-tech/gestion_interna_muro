@@ -122,10 +122,10 @@ export default function WebMenuPage() {
               {m.label}
             </span>
             {!m.visible && (
-              <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">Oculto</span>
+              <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">Oculto</span>
             )}
           </div>
-          <div className="truncate text-xs text-zinc-400">
+          <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
             {m.tipo} · {m.destino || '—'} · orden {m.orden}
           </div>
         </div>
@@ -150,10 +150,10 @@ export default function WebMenuPage() {
         </button>
       </div>
 
-      <div className="card divide-y divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-400">No hay elementos de menú.</p>}
+      <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay elementos de menú.</p>}
         {parents.map((p) => (
-          <div key={p.id} className="divide-y divide-zinc-800">
+          <div key={p.id} className="divide-y divide-zinc-200 dark:divide-zinc-800">
             {renderRow(p, false)}
             {childrenOf(p.id).map((c) => renderRow(c, true))}
           </div>
@@ -203,7 +203,7 @@ export default function WebMenuPage() {
               value={form.destino}
               onChange={(e) => setForm({ ...form, destino: e.target.value })}
             />
-            <p className="mt-1 text-xs text-zinc-400">{tipoHelp[form.tipo]}</p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{tipoHelp[form.tipo]}</p>
           </div>
           <div>
             <label className="label">Padre</label>
