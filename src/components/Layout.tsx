@@ -13,15 +13,16 @@ export default function Layout() {
   const navigate = useNavigate()
 
   const links = [
-    { to: '/', label: 'Equipos', end: true },
+    { to: '/gestion', label: 'Equipos', end: true },
     ...(isAdmin
       ? [
-          { to: '/admin', label: 'Panel', end: false },
-          { to: '/admin/equipos', label: 'Equipos', end: false },
-          { to: '/admin/jugadores', label: 'Jugadores', end: false },
-          { to: '/admin/licencias', label: 'Licencias', end: false },
-          { to: '/admin/entrenadores', label: 'Entrenadores', end: false },
-          { to: '/admin/historial', label: 'Historial', end: false },
+          { to: '/gestion/admin', label: 'Panel', end: true },
+          { to: '/gestion/admin/equipos', label: 'Equipos', end: false },
+          { to: '/gestion/admin/jugadores', label: 'Jugadores', end: false },
+          { to: '/gestion/admin/licencias', label: 'Licencias', end: false },
+          { to: '/gestion/admin/entrenadores', label: 'Entrenadores', end: false },
+          { to: '/gestion/admin/historial', label: 'Historial', end: false },
+          { to: '/gestion/web', label: 'Gestión Web', end: false },
         ]
       : []),
   ]
@@ -30,18 +31,21 @@ export default function Layout() {
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-40 border-b-4 border-gold bg-black text-white shadow-lg">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <button onClick={() => navigate('/')} className="flex items-center gap-2.5 font-bold">
+          <button onClick={() => navigate('/gestion')} className="flex items-center gap-2.5 font-bold">
             <img
               src="/club-crest.png"
               alt="Escudo Muro CF"
               className="h-9 w-9 object-contain"
             />
-            <span className="text-lg font-extrabold uppercase tracking-wide">Muro CF</span>
+            <span className="text-lg font-extrabold uppercase tracking-wide">Muro CF · Gestión</span>
           </button>
           <div className="flex items-center gap-3">
             <span className="hidden text-sm text-zinc-300 sm:block">
               {profile?.nombre || profile?.email} · <span className="text-gold">{ROL_LABEL[profile?.rol ?? 'entrenador']}</span>
             </span>
+            <a href="/" className="hidden rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20 sm:block">
+              Ver web
+            </a>
             <button onClick={() => signOut()} className="rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20">
               Salir
             </button>

@@ -8,7 +8,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
   const location = useLocation()
 
   if (loading) return <Spinner label="Cargando…" />
-  if (!session) return <Navigate to="/login" replace state={{ from: location }} />
+  if (!session) return <Navigate to="/acceso" replace state={{ from: location }} />
   return <>{children}</>
 }
 
@@ -16,7 +16,7 @@ export function AdminRoute({ children }: { children: ReactNode }) {
   const { session, profile, loading } = useAuth()
 
   if (loading) return <Spinner label="Cargando…" />
-  if (!session) return <Navigate to="/login" replace />
-  if (profile?.rol !== 'admin' || !profile.activo) return <Navigate to="/" replace />
+  if (!session) return <Navigate to="/acceso" replace />
+  if (profile?.rol !== 'admin' || !profile.activo) return <Navigate to="/gestion" replace />
   return <>{children}</>
 }

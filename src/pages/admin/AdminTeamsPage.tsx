@@ -3,8 +3,18 @@ import { supabase } from '../../lib/supabase'
 import type { Equipo, Profile } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
+import ImageUploader from '../../components/admin/ImageUploader'
+import TeamStaffModal from './TeamStaffModal'
 
-const EMPTY = { nombre: '', categoria: '', temporada: '', entrenador_id: '', activo: true }
+const EMPTY = {
+  nombre: '',
+  categoria: '',
+  temporada: '',
+  entrenador_id: '',
+  activo: true,
+  foto_url: null as string | null,
+  descripcion: '',
+}
 
 export default function AdminTeamsPage() {
   const [teams, setTeams] = useState<Equipo[]>([])
@@ -15,6 +25,7 @@ export default function AdminTeamsPage() {
   const [form, setForm] = useState(EMPTY)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [staffTeam, setStaffTeam] = useState<Equipo | null>(null)
 
   async function load() {
     const [{ data: t }, { data: c }] = await Promise.all([
@@ -45,6 +56,8 @@ export default function AdminTeamsPage() {
       temporada: t.temporada,
       entrenador_id: t.entrenador_id ?? '',
       activo: t.activo,
+      foto_url: t.foto_url ?? null,
+      descripcion: t.descripcion ?? '',
     })
     setError(null)
     setOpen(true)
@@ -59,6 +72,8 @@ export default function AdminTeamsPage() {
       temporada: form.temporada.trim(),
       entrenador_id: form.entrenador_id || null,
       activo: form.activo,
+      foto_url: form.foto_url,
+      descripcion: form.descripcion.trim(),
     }
     const { error } = editing
       ? await supabase.from('equipos').update(payload).eq('id', editing.id)
@@ -109,7 +124,10 @@ export default function AdminTeamsPage() {
                 {t.categoria} · {t.temporada} · Entrenador: {coachName(t.entrenador_id)}
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-end gap-2">
+              <button className="btn-secondary" onClick={() => setStaffTeam(t)}>
+                Cuerpo técnico
+              </button>
               <button className="btn-secondary" onClick={() => openEdit(t)}>
                 Editar
               </button>
@@ -169,6 +187,21 @@ export default function AdminTeamsPage() {
               ))}
             </select>
           </div>
+          <ImageUploader
+            label="Foto del equipo (opcional)"
+            value={form.foto_url}
+            onChange={(url) => setForm({ ...form, foto_url: url })}
+            folder="equipos"
+          />
+          <div>
+            <label className="label">Descripción (opcional)</label>
+            <textarea
+              className="input"
+              rows={3}
+              value={form.descripcion}
+              onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+            />
+          </div>
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.activo} onChange={(e) => setForm({ ...form, activo: e.target.checked })} />
             Equipo activo
@@ -176,6 +209,8 @@ export default function AdminTeamsPage() {
           {error && <p className="alert-error">{error}</p>}
         </div>
       </Modal>
+
+      {staffTeam && <TeamStaffModal team={staffTeam} onClose={() => setStaffTeam(null)} />}
     </div>
   )
 }

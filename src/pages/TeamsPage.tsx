@@ -38,7 +38,7 @@ export default function TeamsPage() {
           {teams.map((t) => (
             <Link
               key={t.id}
-              to={`/equipos/${t.id}`}
+              to={`/gestion/equipos/${t.id}`}
               className="card flex flex-col gap-1 p-4 transition hover:border-muro hover:shadow-md"
             >
               <span className="text-lg font-semibold">{t.nombre}</span>

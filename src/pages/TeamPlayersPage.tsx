@@ -38,7 +38,7 @@ export default function TeamPlayersPage() {
 
   return (
     <div>
-      <Link to="/" className="mb-2 inline-block text-sm text-gold hover:underline">
+      <Link to="/gestion" className="mb-2 inline-block text-sm text-gold hover:underline">
         ← Equipos
       </Link>
       <h1 className="mb-1 text-2xl font-bold">{team?.nombre ?? 'Equipo'}</h1>
@@ -53,7 +53,7 @@ export default function TeamPlayersPage() {
           {players.map((p) => (
             <Link
               key={p.id}
-              to={`/jugadores/${p.id}`}
+              to={`/gestion/jugadores/${p.id}`}
               className="card flex items-center justify-between gap-3 p-4 transition hover:border-muro"
             >
               <span className="font-medium">{p.nombre_completo}</span>

@@ -17,6 +17,8 @@ export interface Equipo {
   temporada: string
   entrenador_id: string | null
   activo: boolean
+  foto_url: string | null
+  descripcion: string
   created_at: string
 }
 
@@ -26,7 +28,107 @@ export interface Jugador {
   equipo_id: string | null
   temporada: string
   activo: boolean
+  foto_url: string | null
+  dorsal: number | null
   created_at: string
+}
+
+export interface CuerpoTecnico {
+  id: string
+  equipo_id: string | null
+  nombre: string
+  cargo: string
+  foto_url: string | null
+  orden: number
+  created_at: string
+}
+
+export interface Adjunto {
+  nombre: string
+  url: string
+}
+
+export interface Noticia {
+  id: string
+  titulo: string
+  slug: string
+  resumen: string
+  contenido: string
+  imagen_url: string | null
+  galeria: string[]
+  adjuntos: Adjunto[]
+  destacada: boolean
+  publicada: boolean
+  fecha_publicacion: string
+  autor_id: string | null
+  created_at: string
+}
+
+export interface Pagina {
+  id: string
+  slug: string
+  titulo: string
+  contenido: string
+  imagen_url: string | null
+  galeria: string[]
+  publicada: boolean
+  orden: number
+  created_at: string
+}
+
+export interface Patrocinador {
+  id: string
+  nombre: string
+  logo_url: string | null
+  enlace: string | null
+  orden: number
+  visible: boolean
+  created_at: string
+}
+
+export interface Directivo {
+  id: string
+  cargo: string
+  nombre: string
+  foto_url: string | null
+  descripcion: string
+  orden: number
+  created_at: string
+}
+
+export type MenuTipo = 'ruta' | 'externa' | 'pagina'
+
+export interface MenuItem {
+  id: string
+  label: string
+  tipo: MenuTipo
+  destino: string
+  parent_id: string | null
+  orden: number
+  visible: boolean
+  created_at: string
+}
+
+export interface ContactoInfo {
+  direccion?: string
+  telefono?: string
+  email?: string
+  redes?: { facebook?: string; instagram?: string; x?: string; youtube?: string }
+  mapa_embed?: string
+}
+
+export interface EstadioInfo {
+  nombre?: string
+  direccion?: string
+  info?: string
+  fotos?: string[]
+}
+
+export interface SiteConfig {
+  id: number
+  inscripciones_url: string
+  contacto: ContactoInfo
+  estadio: EstadioInfo
 }
 
 export interface Licencia {

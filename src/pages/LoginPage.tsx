@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
-  if (!loading && session) return <Navigate to="/" replace />
+  if (!loading && session) return <Navigate to="/gestion" replace />
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()

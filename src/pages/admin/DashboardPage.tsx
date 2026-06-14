@@ -73,11 +73,11 @@ export default function DashboardPage() {
   if (loading) return <Spinner label="Cargando panel…" />
 
   const cards = [
-    { label: 'Equipos', value: stats?.equipos, to: '/admin/equipos' },
-    { label: 'Jugadores', value: stats?.jugadores, to: '/admin/jugadores' },
-    { label: 'Entrenadores', value: stats?.entrenadores, to: '/admin/entrenadores' },
-    { label: 'Licencias subidas', value: stats?.licencias, to: '/admin/licencias' },
-    { label: 'Jugadores sin licencia', value: stats?.sinLicencia, to: '/admin/licencias?filtro=sin', danger: true },
+    { label: 'Equipos', value: stats?.equipos, to: '/gestion/admin/equipos' },
+    { label: 'Jugadores', value: stats?.jugadores, to: '/gestion/admin/jugadores' },
+    { label: 'Entrenadores', value: stats?.entrenadores, to: '/gestion/admin/entrenadores' },
+    { label: 'Licencias subidas', value: stats?.licencias, to: '/gestion/admin/licencias' },
+    { label: 'Jugadores sin licencia', value: stats?.sinLicencia, to: '/gestion/admin/licencias?filtro=sin', danger: true },
   ]
 
   return (

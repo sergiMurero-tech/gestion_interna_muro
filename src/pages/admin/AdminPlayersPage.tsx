@@ -4,8 +4,16 @@ import { removeLicenseFile } from '../../lib/storage'
 import type { Equipo, Jugador } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
+import ImageUploader from '../../components/admin/ImageUploader'
 
-const EMPTY = { nombre_completo: '', equipo_id: '', temporada: '', activo: true }
+const EMPTY = {
+  nombre_completo: '',
+  equipo_id: '',
+  temporada: '',
+  activo: true,
+  foto_url: null as string | null,
+  dorsal: '' as string,
+}
 
 export default function AdminPlayersPage() {
   const [players, setPlayers] = useState<Jugador[]>([])
@@ -53,6 +61,8 @@ export default function AdminPlayersPage() {
       equipo_id: p.equipo_id ?? '',
       temporada: p.temporada,
       activo: p.activo,
+      foto_url: p.foto_url ?? null,
+      dorsal: p.dorsal != null ? String(p.dorsal) : '',
     })
     setError(null)
     setOpen(true)
@@ -67,6 +77,8 @@ export default function AdminPlayersPage() {
       equipo_id: form.equipo_id || null,
       temporada: form.temporada.trim() || team?.temporada || '',
       activo: form.activo,
+      foto_url: form.foto_url,
+      dorsal: form.dorsal.trim() === '' ? null : Number(form.dorsal),
     }
     const { error } = editing
       ? await supabase.from('jugadores').update(payload).eq('id', editing.id)
@@ -185,15 +197,32 @@ export default function AdminPlayersPage() {
               ))}
             </select>
           </div>
-          <div>
-            <label className="label">Temporada</label>
-            <input
-              className="input"
-              placeholder="(se hereda del equipo si se deja vacío)"
-              value={form.temporada}
-              onChange={(e) => setForm({ ...form, temporada: e.target.value })}
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="label">Temporada</label>
+              <input
+                className="input"
+                placeholder="(del equipo si vacío)"
+                value={form.temporada}
+                onChange={(e) => setForm({ ...form, temporada: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Dorsal (opcional)</label>
+              <input
+                type="number"
+                className="input"
+                value={form.dorsal}
+                onChange={(e) => setForm({ ...form, dorsal: e.target.value })}
+              />
+            </div>
           </div>
+          <ImageUploader
+            label="Foto del jugador (opcional)"
+            value={form.foto_url}
+            onChange={(url) => setForm({ ...form, foto_url: url })}
+            folder="jugadores"
+          />
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.activo} onChange={(e) => setForm({ ...form, activo: e.target.checked })} />
             Jugador activo

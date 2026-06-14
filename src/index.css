@@ -50,4 +50,16 @@ body {
   .alert-info {
     @apply rounded-lg bg-sky-500/15 px-3 py-2 text-sm text-sky-300;
   }
+  /* Render de contenido HTML enriquecido (noticias y páginas). */
+  .richtext {
+    @apply text-zinc-200 leading-relaxed;
+  }
+  .richtext p { @apply mb-4; }
+  .richtext h2 { @apply mb-3 mt-6 text-2xl font-bold text-white; }
+  .richtext h3 { @apply mb-2 mt-5 text-xl font-semibold text-white; }
+  .richtext ul { @apply mb-4 list-disc pl-6; }
+  .richtext ol { @apply mb-4 list-decimal pl-6; }
+  .richtext a { @apply text-gold underline; }
+  .richtext img { @apply my-4 rounded-lg; }
+  .richtext blockquote { @apply my-4 border-l-4 border-gold pl-4 italic text-zinc-300; }
 }

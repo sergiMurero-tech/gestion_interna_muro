@@ -103,7 +103,7 @@ export default function PlayerDetailPage() {
   return (
     <div className="mx-auto max-w-xl">
       <Link
-        to={team ? `/equipos/${team.id}` : '/'}
+        to={team ? `/gestion/equipos/${team.id}` : '/gestion'}
         className="mb-2 inline-block text-sm text-gold hover:underline"
       >
         ← {team?.nombre ?? 'Equipos'}
