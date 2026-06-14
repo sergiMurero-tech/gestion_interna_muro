@@ -21,7 +21,7 @@ export default function PublicLayout() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-40 border-b-4 border-gold bg-black">
+      <header className="sticky top-0 z-40 border-b-4 border-gold bg-black text-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
             <img src="/club-crest.png" alt="Escudo Muro CF" className="h-10 w-10 object-contain" />
