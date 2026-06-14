@@ -10,6 +10,11 @@ const REDES: { key: keyof NonNullable<ContactoInfo['redes']>; label: string }[] 
   { key: 'youtube', label: 'YouTube' },
 ]
 
+/** Solo las URL de "embed" de los mapas se pueden mostrar dentro de un iframe. */
+function isEmbeddable(url: string): boolean {
+  return /\/maps\/embed|\/embed\?|google\.com\/maps\/embed|output=embed/.test(url)
+}
+
 export default function ContactoPage() {
   const [contacto, setContacto] = useState<ContactoInfo | null>(null)
   const [loading, setLoading] = useState(true)
@@ -90,17 +95,18 @@ export default function ContactoPage() {
         {mapa && (
           <div className="overflow-hidden rounded-lg">
             {mapa.startsWith('<') ? (
+              // Código <iframe> de "Insertar mapa".
               <div
                 className="aspect-video w-full [&>iframe]:h-full [&>iframe]:w-full"
                 dangerouslySetInnerHTML={{ __html: mapa }}
               />
+            ) : isEmbeddable(mapa) ? (
+              <iframe src={mapa} title="Mapa" className="h-80 w-full rounded-lg" loading="lazy" />
             ) : (
-              <iframe
-                src={mapa}
-                title="Mapa"
-                className="h-80 w-full rounded-lg"
-                loading="lazy"
-              />
+              // Una URL normal de Google Maps no se puede incrustar: enlazamos fuera.
+              <a href={mapa} target="_blank" rel="noreferrer" className="btn-secondary w-full">
+                Ver ubicación en el mapa
+              </a>
             )}
           </div>
         )}

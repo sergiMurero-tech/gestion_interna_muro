@@ -33,7 +33,7 @@ export default function EstadioPage() {
         </p>
       )}
 
-      {e.info && <p className="mb-8 whitespace-pre-line text-zinc-600 dark:text-zinc-300">{e.info}</p>}
+      {e.info && <div className="richtext mb-8" dangerouslySetInnerHTML={{ __html: e.info }} />}
 
       {e.fotos && e.fotos.length > 0 && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">

@@ -7,6 +7,7 @@ import Spinner from '../../../components/Spinner'
 import Modal from '../../../components/Modal'
 import ImageUploader from '../../../components/admin/ImageUploader'
 import GalleryUploader from '../../../components/admin/GalleryUploader'
+import RichTextEditor from '../../../components/admin/RichTextEditor'
 
 function slugify(s: string) {
   return s
@@ -262,16 +263,11 @@ export default function WebNoticiasPage() {
               onChange={(e) => setForm({ ...form, resumen: e.target.value })}
             />
           </div>
-          <div>
-            <label className="label">Contenido</label>
-            <textarea
-              className="input"
-              rows={10}
-              value={form.contenido}
-              onChange={(e) => setForm({ ...form, contenido: e.target.value })}
-            />
-            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Puedes usar HTML básico.</p>
-          </div>
+          <RichTextEditor
+            label="Contenido"
+            value={form.contenido}
+            onChange={(html) => setForm({ ...form, contenido: html })}
+          />
           <ImageUploader
             value={form.imagen_url}
             onChange={(url) => setForm({ ...form, imagen_url: url })}

@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase'
 import type { ContactoInfo, EstadioInfo } from '../../../types/db'
 import Spinner from '../../../components/Spinner'
 import GalleryUploader from '../../../components/admin/GalleryUploader'
+import RichTextEditor from '../../../components/admin/RichTextEditor'
 
 export default function WebConfigPage() {
   const [loading, setLoading] = useState(true)
@@ -125,10 +126,14 @@ export default function WebConfigPage() {
             <textarea
               className="input"
               rows={4}
-              placeholder="pega aquí el iframe o URL de Google Maps"
+              placeholder='Pega el código <iframe ...> de Google Maps (Compartir → Insertar un mapa)'
               value={contacto.mapa_embed ?? ''}
               onChange={(e) => setContacto({ ...contacto, mapa_embed: e.target.value })}
             />
+            <p className="mt-1 text-xs text-zinc-500">
+              En Google Maps: <b>Compartir → Insertar un mapa → Copiar HTML</b>, y pégalo aquí. Si pegas una URL normal
+              de Maps, en la web se mostrará un botón “Ver ubicación” (Google no permite incrustar ese tipo de enlace).
+            </p>
           </div>
         </section>
 
@@ -150,15 +155,11 @@ export default function WebConfigPage() {
               onChange={(e) => setEstadio({ ...estadio, direccion: e.target.value })}
             />
           </div>
-          <div>
-            <label className="label">Información</label>
-            <textarea
-              className="input"
-              rows={4}
-              value={estadio.info ?? ''}
-              onChange={(e) => setEstadio({ ...estadio, info: e.target.value })}
-            />
-          </div>
+          <RichTextEditor
+            label="Información"
+            value={estadio.info ?? ''}
+            onChange={(html) => setEstadio({ ...estadio, info: html })}
+          />
           <GalleryUploader
             value={estadio.fotos ?? []}
             onChange={(urls) => setEstadio({ ...estadio, fotos: urls })}
