@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { ContactoInfo } from '../../types/db'
 import Spinner from '../../components/Spinner'
+import SocialLinks from '../../components/public/SocialLinks'
 
 const REDES: { key: keyof NonNullable<ContactoInfo['redes']>; label: string }[] = [
   { key: 'facebook', label: 'Facebook' },
@@ -69,21 +70,7 @@ export default function ContactoPage() {
           {REDES.some((r) => redes[r.key]) && (
             <div>
               <span className="block text-sm font-semibold text-gold">Redes sociales</span>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {REDES.map((r) =>
-                  redes[r.key] ? (
-                    <a
-                      key={r.key}
-                      href={redes[r.key]}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-secondary"
-                    >
-                      {r.label}
-                    </a>
-                  ) : null,
-                )}
-              </div>
+              <SocialLinks redes={redes} className="mt-2 text-zinc-700 dark:text-zinc-200" />
             </div>
           )}
 

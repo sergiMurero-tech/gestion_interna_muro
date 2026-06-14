@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { buildMenuTree, getConfig, getMenuItems, isExternal, menuHref, type MenuNode } from '../../lib/cms'
 import type { SiteConfig } from '../../types/db'
 import ThemeToggle from '../ThemeToggle'
+import SocialLinks from './SocialLinks'
 
 export default function PublicLayout() {
   const [nodes, setNodes] = useState<MenuNode[]>([])
@@ -163,12 +164,7 @@ function PublicFooter({ config }: { config: SiteConfig | null }) {
             {c?.email && <div>{c.email}</div>}
           </div>
         </div>
-        <div className="flex flex-col gap-1">
-          {redes.facebook && <a href={redes.facebook} target="_blank" rel="noreferrer" className="hover:text-gold">Facebook</a>}
-          {redes.instagram && <a href={redes.instagram} target="_blank" rel="noreferrer" className="hover:text-gold">Instagram</a>}
-          {redes.x && <a href={redes.x} target="_blank" rel="noreferrer" className="hover:text-gold">X / Twitter</a>}
-          {redes.youtube && <a href={redes.youtube} target="_blank" rel="noreferrer" className="hover:text-gold">YouTube</a>}
-        </div>
+        <SocialLinks redes={redes} />
       </div>
       <div className="mx-auto mt-6 max-w-6xl text-xs text-zinc-600">
         © {new Date().getFullYear()} Muro Club de Fútbol · <Link to="/acceso" className="hover:text-gold">Acceso área privada</Link>
