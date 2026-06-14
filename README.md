@@ -1,49 +1,67 @@
 # Gestión Interna Muro CF
 
-App Android (Kotlin + Jetpack Compose) para la gestión interna del Muro CF:
+Aplicación web (PWA, responsive) para la gestión interna del Muro Club de Fútbol.
 
-- **Jugadores**: alta/edición de jugadores con sueldo y configuración de primas (gol, portería a 0, minutos y prima personalizada).
-- **Calcular nómina del mes**: introduces goles, porterías, minutos y descuentos del mes y obtienes el total a pagar.
-- **Descuentos**: descuento por viaje (50 € por viaje) y descuento proporcional al sueldo según días de ausencia / días de entrenamiento.
-- **Histórico mensual**: cada cálculo se guarda con mes y año.
-- **Certificado de licencia (PDF)**: genera un PDF idéntico al modelo del Muro CF (cabecera con datos del club, nombre del jugador, DNI, importes de licencia y mutualidad, total y firma manuscrita del secretario).
+- **Administradores** (desde ordenador): gestionan equipos, jugadores, licencias federativas y entrenadores.
+- **Entrenadores** (desde el móvil): consultan sus equipos y, cuando un jugador se lesiona, obtienen en segundos el **parte de lesiones** + la **licencia federativa** para descargar o compartir.
 
-## Cómo obtener el APK (sin instalar nada)
+Stack: React + TypeScript + Vite + Tailwind · Supabase (Auth, PostgreSQL, Storage) · pdf-lib · Vercel.
 
-Cada `git push` a esta rama dispara el workflow de GitHub Actions que compila el APK debug:
+---
 
-1. Abre la pestaña **Actions** del repositorio.
-2. Entra en el último workflow `Build APK` que esté en verde.
-3. Baja al apartado **Artifacts** y descarga `gestion-muro-debug-apk`.
-4. Descomprime el ZIP y copia el `.apk` al móvil (cable USB, Drive, Telegram, etc.).
-5. En el móvil, abre el `.apk`. Android te pedirá permiso para instalar apps de orígenes desconocidos: acéptalo y se instalará la app.
+## 1. Configurar Supabase
 
-## Compilar localmente (opcional)
+1. En tu proyecto de Supabase, abre **SQL Editor** y ejecuta, **en orden**, los ficheros de `supabase/migrations/`:
+   - `0001_init.sql` — tablas y alta automática de perfiles.
+   - `0002_functions_rls.sql` — funciones de permisos y políticas RLS.
+   - `0003_storage.sql` — bucket privado `licencias` y sus permisos.
+   - `0004_seed_teams.sql` — *(opcional)* equipos de ejemplo del club.
+2. **Regístrate** desde la app (o crea el usuario en *Authentication → Users*).
+3. Ejecuta `0005_make_admin.sql` (ajusta el email) para convertir tu cuenta en administrador.
 
-Requiere Android Studio (Hedgehog o superior) o JDK 17 + Android SDK.
+> La seguridad de los datos la garantiza el **Row Level Security** definido en `0002`: cada usuario solo ve lo que le corresponde según su rol y los equipos asignados. La `anon key` es pública por diseño; no concede acceso por sí sola.
+
+## 2. Variables de entorno
+
+Copia `.env.example` a `.env.local` y rellena:
 
 ```
-./gradlew assembleDebug
+VITE_SUPABASE_URL=https://<tu-proyecto>.supabase.co
+VITE_SUPABASE_ANON_KEY=<anon public key>
 ```
 
-El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
+(Project Settings → API → *Project URL* y *Project API keys → anon public*.)
 
-## Estructura
+## 3. Desarrollo local
 
-- `app/src/main/java/com/murocf/gestion/data/` – Room (jugadores, cálculos mensuales) + datos fijos del club (`ClubInfo`).
-- `app/src/main/java/com/murocf/gestion/viewmodel/` – `AppViewModel` y la lógica de cálculo (`CalculationLogic`).
-- `app/src/main/java/com/murocf/gestion/ui/screens/` – Pantallas Compose.
-- `app/src/main/java/com/murocf/gestion/ui/components/SignaturePad.kt` – Componente de firma manuscrita.
-- `app/src/main/java/com/murocf/gestion/pdf/CertificateGenerator.kt` – Generador del PDF del certificado.
+```bash
+npm install
+npm run dev
+```
 
-## Notas de cálculo
+## 4. Despliegue en Vercel
 
-- Prima total = `goles * €/gol + porterías * €/portería + minutos * €/minuto + cantidad personalizada * € unidad`.
-- Descuento por viaje: 50 € por cada viaje declarado.
-- Descuento proporcional: `sueldo * (días ausencia / días entrenamiento)`.
-- Total a pagar = `sueldo + primas - descuentos`.
+1. Entra en [vercel.com](https://vercel.com) con tu cuenta de GitHub e **importa este repositorio** (una sola vez).
+2. En *Settings → Environment Variables* añade `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`.
+3. Cada `git push` desplegará automáticamente (Preview en ramas, Production en la rama principal). Vite y `vercel.json` ya están configurados.
 
-## Personalización del club
+---
 
-Los datos del Muro CF (CIF, teléfono, dirección, email, título del firmante) están en
-`app/src/main/java/com/murocf/gestion/data/ClubInfo.kt`. Si cambian, edítalos ahí y vuelve a compilar.
+## Flujo del entrenador (objetivo < 30 s)
+
+Equipo → Jugador → **Obtener documentación por lesión** → Descargar o compartir **Parte + Licencia**.
+
+- Si el jugador no tiene licencia subida, el proceso se bloquea con el aviso correspondiente.
+- En el parte oficial **solo se rellena la fecha** (por defecto hoy, editable). El resto lo completan familia y personal médico.
+- En móvil, “Compartir” usa la *Web Share API* para adjuntar ambos PDF a WhatsApp, correo, etc.
+
+## La plantilla del parte
+
+Es `public/templates/parte-lesiones.pdf` (la oficial de la Mutualidad, con escudo, sello, club y firma ya incluidos). Las coordenadas donde se escribe la fecha están en `src/lib/pdf.ts`. Si cambias de plantilla, ajusta ahí `POS` y `LINE_Y`.
+
+## Protección de datos (RGPD)
+
+- Acceso con usuario y contraseña; HTTPS en Vercel; almacenamiento cifrado en Supabase.
+- Permisos por rol vía RLS. **No se guardan datos médicos** (ni diagnósticos, ni lesiones).
+- El historial registra quién generó cada documento y cuándo, sin información clínica.
+- Para borrar temporadas antiguas, elimina equipos/jugadores/licencias desde el panel o por SQL.

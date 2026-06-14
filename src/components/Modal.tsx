@@ -1,0 +1,27 @@
+import type { ReactNode } from 'react'
+
+interface Props {
+  open: boolean
+  title: string
+  onClose: () => void
+  children: ReactNode
+  footer?: ReactNode
+}
+
+export default function Modal({ open, title, onClose, children, footer }: Props) {
+  if (!open) return null
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 sm:items-center sm:p-4">
+      <div className="card w-full max-w-lg overflow-hidden rounded-b-none sm:rounded-2xl">
+        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+          <h2 className="text-lg font-semibold">{title}</h2>
+          <button onClick={onClose} className="text-2xl leading-none text-slate-400 hover:text-slate-600">
+            &times;
+          </button>
+        </div>
+        <div className="max-h-[70vh] overflow-y-auto px-5 py-4">{children}</div>
+        {footer && <div className="flex justify-end gap-2 border-t border-slate-200 px-5 py-4">{footer}</div>}
+      </div>
+    </div>
+  )
+}
