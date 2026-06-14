@@ -1,5 +1,12 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import type { Rol } from '../types/db'
+
+const ROL_LABEL: Record<Rol, string> = {
+  admin: 'Admin',
+  coordinador: 'Coordinador',
+  entrenador: 'Entrenador',
+}
 
 export default function Layout() {
   const { profile, isAdmin, signOut } = useAuth()
@@ -29,7 +36,7 @@ export default function Layout() {
           </button>
           <div className="flex items-center gap-3">
             <span className="hidden text-sm opacity-90 sm:block">
-              {profile?.nombre || profile?.email} · {isAdmin ? 'Admin' : 'Entrenador'}
+              {profile?.nombre || profile?.email} · {ROL_LABEL[profile?.rol ?? 'entrenador']}
             </span>
             <button onClick={() => signOut()} className="rounded-md bg-white/15 px-3 py-1.5 text-sm font-medium hover:bg-white/25">
               Salir

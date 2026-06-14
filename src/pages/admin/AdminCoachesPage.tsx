@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../context/AuthContext'
 import { isValidDni, normalizeDni } from '../../lib/dni'
-import type { Equipo, EntrenadorEquipo, Profile } from '../../types/db'
+import type { Equipo, EntrenadorEquipo, Profile, Rol } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
 
@@ -41,7 +41,7 @@ export default function AdminCoachesPage() {
     load()
   }, [])
 
-  async function setRole(p: Profile, rol: 'admin' | 'entrenador') {
+  async function setRole(p: Profile, rol: Rol) {
     const { error } = await supabase.from('profiles').update({ rol }).eq('id', p.id)
     if (error) return alert(error.message)
     load()
@@ -149,11 +149,13 @@ export default function AdminCoachesPage() {
               <div className="truncate text-xs text-slate-500">
                 {p.rol === 'admin'
                   ? `${p.email} · Administrador`
-                  : `DNI ${p.dni ?? '—'} · Entrenador · ${teamCount(p.id)} equipos`}
+                  : p.rol === 'coordinador'
+                    ? `DNI ${p.dni ?? '—'} · Coordinador · ve todos los equipos`
+                    : `DNI ${p.dni ?? '—'} · Entrenador · ${teamCount(p.id)} equipos`}
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {p.rol !== 'admin' && (
+              {p.rol === 'entrenador' && (
                 <button className="btn-secondary" onClick={() => openAssign(p)}>
                   Asignar equipos
                 </button>
@@ -162,9 +164,10 @@ export default function AdminCoachesPage() {
                 className="input w-36"
                 value={p.rol}
                 disabled={p.id === me?.id}
-                onChange={(e) => setRole(p, e.target.value as 'admin' | 'entrenador')}
+                onChange={(e) => setRole(p, e.target.value as Rol)}
               >
                 <option value="entrenador">Entrenador</option>
+                <option value="coordinador">Coordinador</option>
                 <option value="admin">Administrador</option>
               </select>
               <button
