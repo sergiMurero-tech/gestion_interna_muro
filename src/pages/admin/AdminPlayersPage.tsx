@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../lib/supabase'
+import { removeLicenseFile } from '../../lib/storage'
 import type { Equipo, Jugador } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
@@ -80,6 +81,30 @@ export default function AdminPlayersPage() {
     await load()
   }
 
+  async function remove(p: Jugador) {
+    if (
+      !confirm(
+        `¿Eliminar a "${p.nombre_completo}"? Se borrarán también su licencia y desaparecerá de los listados. Esta acción no se puede deshacer.`,
+      )
+    )
+      return
+    // Borra primero el PDF de la licencia (si existe) para no dejar ficheros huérfanos.
+    const { data: lic } = await supabase
+      .from('licencias')
+      .select('url_archivo')
+      .eq('jugador_id', p.id)
+      .maybeSingle()
+    if (lic?.url_archivo) await removeLicenseFile(lic.url_archivo)
+
+    const { error } = await supabase.from('jugadores').delete().eq('id', p.id)
+    if (error) {
+      alert(error.message)
+      return
+    }
+    setLoading(true)
+    await load()
+  }
+
   if (loading) return <Spinner label="Cargando jugadores…" />
 
   return (
@@ -113,9 +138,14 @@ export default function AdminPlayersPage() {
                 {teamName(p.equipo_id)} · {p.temporada || '—'}
               </div>
             </div>
-            <button className="btn-secondary" onClick={() => openEdit(p)}>
-              Editar
-            </button>
+            <div className="flex gap-2">
+              <button className="btn-secondary" onClick={() => openEdit(p)}>
+                Editar
+              </button>
+              <button className="btn-danger" onClick={() => remove(p)}>
+                Eliminar
+              </button>
+            </div>
           </div>
         ))}
       </div>
