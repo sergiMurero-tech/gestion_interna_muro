@@ -55,11 +55,11 @@ export default function PublicHome() {
               <img src="/club-crest.png" alt="" className="h-24 w-24 opacity-30" />
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <span className="mb-2 block text-xs text-zinc-600 dark:text-zinc-300">{formatFecha(hero.fecha_publicacion)}</span>
-            <h2 className="text-3xl font-extrabold text-zinc-900 dark:text-white">{hero.titulo}</h2>
-            {hero.resumen && <p className="mt-2 max-w-2xl text-zinc-700 dark:text-zinc-200 line-clamp-2">{hero.resumen}</p>}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white drop-shadow-md">
+            <span className="mb-2 block text-xs text-zinc-200">{formatFecha(hero.fecha_publicacion)}</span>
+            <h2 className="text-3xl font-extrabold text-white">{hero.titulo}</h2>
+            {hero.resumen && <p className="mt-2 max-w-2xl text-zinc-100 line-clamp-2">{hero.resumen}</p>}
           </div>
         </Link>
       )}
