@@ -30,15 +30,15 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-40 border-b-4 border-gold bg-black text-white shadow-lg">
+      <header className="sticky top-0 z-40 border-b-4 border-gold bg-black/95 text-white shadow-lg backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <button onClick={() => navigate('/gestion')} className="flex items-center gap-2.5 font-bold">
+          <button onClick={() => navigate('/gestion')} className="group flex items-center gap-2.5">
             <img
               src="/club-crest.png"
               alt="Escudo Muro CF"
-              className="h-9 w-9 object-contain"
+              className="h-10 w-10 object-contain transition-transform duration-300 group-hover:rotate-[-6deg]"
             />
-            <span className="text-lg font-extrabold uppercase tracking-wide">Muro CF · Gestión</span>
+            <span className="h-display text-2xl tracking-wider">Muro <span className="text-gold">CF</span> · Gestión</span>
           </button>
           <div className="flex items-center gap-3">
             <span className="hidden text-sm text-zinc-300 sm:block">
@@ -62,8 +62,8 @@ export default function Layout() {
                   to={l.to}
                   end={l.end}
                   className={({ isActive }) =>
-                    `whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                      isActive ? 'bg-gold text-black' : 'text-zinc-300 hover:bg-white/10'
+                    `whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
+                      isActive ? 'bg-gold-grad text-black shadow-gold' : 'text-zinc-300 hover:bg-white/10 hover:text-white'
                     }`
                   }
                 >

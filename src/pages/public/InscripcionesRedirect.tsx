@@ -25,16 +25,21 @@ export default function InscripcionesRedirect() {
   if (loading) return <Spinner label="Cargando…" />
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-3xl px-4 py-16">
       {url ? (
-        <div className="card p-8 text-center text-zinc-600 dark:text-zinc-300">
-          <p className="mb-4">Redirigiendo a inscripciones…</p>
-          <a href={url} className="btn-primary inline-block">
+        <div className="card animate-pulse-gold flex flex-col items-center gap-4 p-10 text-center">
+          <div className="grid h-16 w-16 place-items-center rounded-full bg-gold/15 text-gold">
+            <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+          <p className="text-zinc-600 dark:text-zinc-300">Redirigiendo a inscripciones…</p>
+          <a href={url} className="btn-primary px-6 py-3 text-base">
             Continuar a inscripciones
           </a>
         </div>
       ) : (
-        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">
+        <div className="card p-10 text-center text-zinc-500 dark:text-zinc-400">
           Las inscripciones aún no están disponibles.
         </div>
       )}

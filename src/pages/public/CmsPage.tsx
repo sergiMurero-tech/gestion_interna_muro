@@ -31,36 +31,50 @@ export default function CmsPage({ slug }: { slug?: string }) {
 
   if (!pagina) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="card p-6 text-center text-zinc-600 dark:text-zinc-300">Página no encontrada.</div>
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="card p-8 text-center text-zinc-600 dark:text-zinc-300">Página no encontrada.</div>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">{pagina.titulo}</h1>
-
-      {pagina.imagen_url && (
-        <img
-          src={pagina.imagen_url}
-          alt={pagina.titulo}
-          className="mb-6 w-full rounded-xl object-cover"
-        />
-      )}
-
-      <div className="richtext" dangerouslySetInnerHTML={{ __html: pagina.contenido }} />
-
-      {pagina.galeria?.length > 0 && (
-        <div className="mt-8">
-          <h2 className="mb-4 text-xl font-bold text-zinc-900 dark:text-white">Galería</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {pagina.galeria.map((src, i) => (
-              <img key={i} src={src} alt="" className="h-40 w-full rounded-lg object-cover" />
-            ))}
-          </div>
+    <article>
+      <header className="relative isolate overflow-hidden bg-black text-white">
+        {pagina.imagen_url ? (
+          <>
+            <img src={pagina.imagen_url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-stripes-gold opacity-15" />
+        )}
+        <div className="relative mx-auto max-w-3xl px-4 py-16">
+          <span className="eyebrow">El club</span>
+          <h1 className="h-display text-shadow text-5xl text-white sm:text-6xl">{pagina.titulo}</h1>
         </div>
-      )}
-    </div>
+        <div className="diagonal-divider" />
+      </header>
+
+      <div className="mx-auto max-w-3xl px-4 py-12">
+        {pagina.imagen_url && (
+          <div className="mb-8 flex justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-900">
+            <img src={pagina.imagen_url} alt={pagina.titulo} className="max-h-[60vh] w-auto rounded-2xl object-contain" />
+          </div>
+        )}
+        <div className="richtext" dangerouslySetInnerHTML={{ __html: pagina.contenido }} />
+
+        {pagina.galeria?.length > 0 && (
+          <section className="mt-10">
+            <span className="eyebrow">Galería</span>
+            <h2 className="section-title mb-5 text-3xl">Imágenes</h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {pagina.galeria.map((src, i) => (
+                <img key={i} src={src} alt="" className="aspect-square w-full rounded-xl object-cover" />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </article>
   )
 }

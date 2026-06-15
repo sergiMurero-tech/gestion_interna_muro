@@ -39,64 +39,94 @@ export default function ContactoPage() {
   const mapa = c.mapa_embed?.trim()
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">Contacto</h1>
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <span className="eyebrow">Estamos en contacto</span>
+      <h1 className="section-title mb-10">
+        Con<span className="text-gold">tacto</span>
+      </h1>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="card space-y-4 p-6">
+      <div className="grid gap-8 lg:grid-cols-2">
+        <div className="space-y-3">
           {c.direccion && (
-            <p className="text-zinc-600 dark:text-zinc-300">
-              <span className="block text-sm font-semibold text-gold">Dirección</span>
+            <InfoRow
+              label="Dirección"
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              }
+            >
               {c.direccion}
-            </p>
+            </InfoRow>
           )}
           {c.telefono && (
-            <p className="text-zinc-600 dark:text-zinc-300">
-              <span className="block text-sm font-semibold text-gold">Teléfono</span>
-              <a href={`tel:${c.telefono}`} className="hover:underline">
+            <InfoRow
+              label="Teléfono"
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92V21a1 1 0 0 1-1.1 1 19.7 19.7 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.7 19.7 0 0 1 3 4.1 1 1 0 0 1 4 3h4.1a1 1 0 0 1 1 .8 11.9 11.9 0 0 0 .6 2.6 1 1 0 0 1-.2 1L8 8.9a16 16 0 0 0 6 6l1.5-1.5a1 1 0 0 1 1-.2 11.9 11.9 0 0 0 2.6.6 1 1 0 0 1 .9 1z" />
+                </svg>
+              }
+            >
+              <a href={`tel:${c.telefono}`} className="hover:text-gold">
                 {c.telefono}
               </a>
-            </p>
+            </InfoRow>
           )}
           {c.email && (
-            <p className="text-zinc-600 dark:text-zinc-300">
-              <span className="block text-sm font-semibold text-gold">Email</span>
-              <a href={`mailto:${c.email}`} className="hover:underline">
+            <InfoRow
+              label="Email"
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              }
+            >
+              <a href={`mailto:${c.email}`} className="hover:text-gold">
                 {c.email}
               </a>
-            </p>
+            </InfoRow>
           )}
-
           {REDES.some((r) => redes[r.key]) && (
-            <div>
-              <span className="block text-sm font-semibold text-gold">Redes sociales</span>
+            <div className="card p-5">
+              <span className="eyebrow">Redes sociales</span>
               <SocialLinks redes={redes} className="mt-2 text-zinc-700 dark:text-zinc-200" />
             </div>
           )}
-
           {!c.direccion && !c.telefono && !c.email && !REDES.some((r) => redes[r.key]) && (
-            <p className="text-zinc-500 dark:text-zinc-400">No hay información de contacto disponible.</p>
+            <p className="card p-6 text-center text-zinc-500 dark:text-zinc-400">No hay información de contacto disponible.</p>
           )}
         </div>
 
         {mapa && (
-          <div className="overflow-hidden rounded-lg">
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
             {mapa.startsWith('<') ? (
-              // Código <iframe> de "Insertar mapa".
-              <div
-                className="aspect-video w-full [&>iframe]:h-full [&>iframe]:w-full"
-                dangerouslySetInnerHTML={{ __html: mapa }}
-              />
+              <div className="aspect-video w-full [&>iframe]:h-full [&>iframe]:w-full" dangerouslySetInnerHTML={{ __html: mapa }} />
             ) : isEmbeddable(mapa) ? (
-              <iframe src={mapa} title="Mapa" className="h-80 w-full rounded-lg" loading="lazy" />
+              <iframe src={mapa} title="Mapa" className="h-80 w-full" loading="lazy" />
             ) : (
-              // Una URL normal de Google Maps no se puede incrustar: enlazamos fuera.
-              <a href={mapa} target="_blank" rel="noreferrer" className="btn-secondary w-full">
+              <a href={mapa} target="_blank" rel="noreferrer" className="btn-secondary m-4">
                 Ver ubicación en el mapa
               </a>
             )}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+function InfoRow({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="card flex items-start gap-4 p-5">
+      <span className="grid h-10 w-10 flex-none place-items-center rounded-xl bg-gold/10 text-gold">
+        <span className="block h-5 w-5">{icon}</span>
+      </span>
+      <div>
+        <div className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{label}</div>
+        <div className="text-zinc-900 dark:text-white">{children}</div>
       </div>
     </div>
   )

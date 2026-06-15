@@ -22,13 +22,17 @@ export default function PatrocinadoresPage() {
   if (loading) return <Spinner label="Cargando patrocinadores…" />
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">Patrocinadores</h1>
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <span className="eyebrow">Gracias por hacerlo posible</span>
+      <h1 className="section-title mb-10">
+        Patroci<span className="text-gold">nadores</span>
+      </h1>
+
       {patrocinadores.length === 0 ? (
-        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</div>
+        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {patrocinadores.map((p) => {
+          {patrocinadores.map((p, i) => {
             const inner = p.logo_url ? (
               <img src={p.logo_url} alt={p.nombre} className="h-24 w-full object-contain" />
             ) : (
@@ -36,19 +40,18 @@ export default function PatrocinadoresPage() {
                 {p.nombre}
               </span>
             )
+            const cls =
+              'group relative block animate-fade-up overflow-hidden rounded-2xl border border-zinc-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-gold hover:shadow-glow dark:border-zinc-800'
+            const style = { animationDelay: `${i * 50}ms` }
             return p.enlace ? (
-              <a
-                key={p.id}
-                href={p.enlace}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-lg bg-white p-4 transition hover:opacity-90"
-                title={p.nombre}
-              >
+              <a key={p.id} href={p.enlace} target="_blank" rel="noreferrer" title={p.nombre} className={cls} style={style}>
                 {inner}
+                <span className="mt-3 block text-center text-xs font-semibold uppercase tracking-wider text-zinc-500 group-hover:text-gold">
+                  Visitar →
+                </span>
               </a>
             ) : (
-              <div key={p.id} className="rounded-lg bg-white p-4" title={p.nombre}>
+              <div key={p.id} title={p.nombre} className={cls} style={style}>
                 {inner}
               </div>
             )

@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Anton&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 html.dark {
   color-scheme: dark;
@@ -18,42 +21,93 @@ body,
 body {
   @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::selection {
+  background: rgba(242, 169, 0, 0.35);
 }
 
 @layer components {
+  /* ---------- Botones ---------- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold tracking-wide transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
   }
-  /* Acción principal: oro sobre negro, como los CTA de la web del club. */
   .btn-primary {
-    @apply btn bg-gold text-zinc-950 hover:bg-gold-dark;
+    @apply btn relative overflow-hidden bg-gold-grad text-zinc-950 shadow-gold hover:shadow-glow;
+  }
+  .btn-primary::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent;
+    transition: transform 0.8s ease;
+  }
+  .btn-primary:hover::after {
+    @apply translate-x-full;
   }
   .btn-secondary {
-    @apply btn border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700;
+    @apply btn border border-zinc-300 bg-white text-zinc-700 hover:border-gold hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-gold dark:hover:text-white;
   }
   .btn-danger {
     @apply btn bg-red-600 text-white hover:bg-red-700;
   }
-  .card {
-    @apply rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900;
+  .btn-ghost {
+    @apply btn text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-200 dark:hover:bg-white/10;
   }
+
+  /* ---------- Superficies ---------- */
+  .card {
+    @apply relative rounded-2xl border border-zinc-200 bg-white shadow-sm transition dark:border-zinc-800 dark:bg-zinc-900;
+  }
+  .card-hover {
+    @apply card hover:-translate-y-0.5 hover:border-gold hover:shadow-glow;
+  }
+  .glass {
+    @apply backdrop-blur-md bg-white/70 dark:bg-zinc-950/60 border border-white/40 dark:border-white/10;
+  }
+
   .input {
-    @apply w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-gold focus:ring-2 focus:ring-gold/30 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-500;
+    @apply w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/30 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-500;
   }
   .label {
-    @apply mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300;
+    @apply mb-1 block text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400;
   }
-  .alert-error {
-    @apply rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300;
+
+  /* ---------- Alerts ---------- */
+  .alert-error { @apply rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300; }
+  .alert-ok    { @apply rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-700 dark:text-green-300; }
+  .alert-info  { @apply rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-700 dark:text-sky-300; }
+
+  /* ---------- Tipografía deportiva ---------- */
+  .h-display {
+    font-family: 'Anton', Impact, system-ui, sans-serif;
+    @apply uppercase tracking-wide leading-[0.95];
   }
-  .alert-ok {
-    @apply rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-700 dark:text-green-300;
+  .section-title {
+    @apply h-display text-4xl text-zinc-900 dark:text-white sm:text-5xl;
   }
-  .alert-info {
-    @apply rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-700 dark:text-sky-300;
+  .eyebrow {
+    @apply mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gold;
   }
-  /* Render de contenido HTML enriquecido (noticias y páginas). */
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-8 bg-gold;
+  }
+
+  /* Subrayado dorado animado para enlaces de menú. */
+  .nav-link {
+    @apply relative inline-flex items-center px-2 py-2 text-sm font-semibold uppercase tracking-wider transition;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-1 left-2 right-2 h-0.5 origin-left scale-x-0 bg-gold transition-transform duration-300;
+  }
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    @apply scale-x-100;
+  }
+
+  /* Render de contenido HTML enriquecido. */
   .richtext {
     @apply leading-relaxed text-zinc-700 dark:text-zinc-200;
   }
@@ -62,12 +116,38 @@ body {
   .richtext h3 { @apply mb-2 mt-5 text-xl font-semibold text-zinc-900 dark:text-white; }
   .richtext ul { @apply mb-4 list-disc pl-6; }
   .richtext ol { @apply mb-4 list-decimal pl-6; }
-  .richtext a { @apply text-gold underline; }
+  .richtext a { @apply text-gold underline underline-offset-4 hover:text-gold-light; }
   .richtext img { @apply my-4 rounded-lg; }
   .richtext blockquote { @apply my-4 border-l-4 border-gold pl-4 italic text-zinc-600 dark:text-zinc-300; }
 }
 
-/* Carrusel de patrocinadores: bucle continuo (la lista se duplica en el JSX). */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+  }
+  .text-balance { text-wrap: balance; }
+  /* Borde con degradado dorado para tarjetas premium. */
+  .gradient-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(242, 169, 0, 0.6), rgba(242, 169, 0, 0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* ---------- Animaciones globales ---------- */
+
+/* Carrusel de patrocinadores. */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -75,4 +155,20 @@ body {
 .marquee-track {
   width: max-content;
   animation: marquee 40s linear infinite;
+}
+
+/* Diagonal “stripe” como acento de marca (separador entre secciones). */
+.diagonal-divider {
+  height: 6px;
+  background: linear-gradient(135deg, transparent 0%, transparent 30%, #F2A900 30%, #F2A900 70%, transparent 70%);
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

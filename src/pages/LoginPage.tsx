@@ -26,12 +26,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gradient-to-b from-black to-zinc-900 p-4">
-      <div className="card w-full max-w-sm overflow-hidden p-6">
+    <div className="relative isolate flex min-h-full items-center justify-center overflow-hidden bg-black p-4">
+      <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-gold/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-red-600/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 bg-stripes-gold opacity-10" aria-hidden />
+      <div className="relative w-full max-w-sm animate-fade-up overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/80 backdrop-blur p-6 shadow-2xl">
         <div className="-mx-6 -mt-6 mb-6 border-b-4 border-gold bg-black px-6 pb-5 pt-6 text-center">
           <img src="/club-crest.png" alt="Escudo Muro CF" className="mx-auto mb-3 h-20 w-20 object-contain" />
-          <h1 className="text-xl font-bold text-white">Gestión Interna Muro CF</h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <h1 className="h-display text-2xl text-white">Muro CF · Gestión</h1>
+          <p className="mt-1 text-xs uppercase tracking-widest text-gold">
             {mode === 'dni' ? 'Accede con tu DNI' : 'Acceso administrador'}
           </p>
         </div>
@@ -80,7 +83,7 @@ export default function LoginPage() {
 
           {error && <p className="alert-error">{error}</p>}
 
-          <button type="submit" className="btn-primary w-full" disabled={busy}>
+          <button type="submit" className="btn-primary w-full py-3 text-base" disabled={busy}>
             {busy ? 'Entrando…' : 'Entrar'}
           </button>
         </form>
