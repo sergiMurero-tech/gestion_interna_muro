@@ -6,6 +6,7 @@ import Modal from '../../../components/Modal'
 
 interface FormState {
   label: string
+  label_va: string
   tipo: MenuTipo
   destino: string
   parent_id: string | null
@@ -13,7 +14,7 @@ interface FormState {
   visible: boolean
 }
 
-const empty: FormState = { label: '', tipo: 'ruta', destino: '', parent_id: null, orden: 0, visible: true }
+const empty: FormState = { label: '', label_va: '', tipo: 'ruta', destino: '', parent_id: null, orden: 0, visible: true }
 
 const tipoHelp: Record<MenuTipo, string> = {
   ruta: 'ruta interna p.ej. /club/historia',
@@ -51,6 +52,7 @@ export default function WebMenuPage() {
     setEditId(m.id)
     setForm({
       label: m.label,
+      label_va: m.label_va ?? '',
       tipo: m.tipo,
       destino: m.destino ?? '',
       parent_id: m.parent_id,
@@ -70,6 +72,7 @@ export default function WebMenuPage() {
     setSaving(true)
     const payload = {
       label: form.label.trim(),
+      label_va: form.label_va.trim() || null,
       tipo: form.tipo,
       destino: form.destino.trim(),
       parent_id: form.parent_id,
@@ -176,13 +179,23 @@ export default function WebMenuPage() {
         }
       >
         <div className="space-y-3">
-          <div>
-            <label className="label">Etiqueta</label>
-            <input
-              className="input"
-              value={form.label}
-              onChange={(e) => setForm({ ...form, label: e.target.value })}
-            />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="label">Etiqueta · ES</label>
+              <input
+                className="input"
+                value={form.label}
+                onChange={(e) => setForm({ ...form, label: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Etiqueta · VA</label>
+              <input
+                className="input"
+                value={form.label_va}
+                onChange={(e) => setForm({ ...form, label_va: e.target.value })}
+              />
+            </div>
           </div>
           <div>
             <label className="label">Tipo</label>

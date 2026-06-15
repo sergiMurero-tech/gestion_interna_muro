@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 export default function InscripcionesRedirect() {
+  const { t } = useLang()
   const [url, setUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -22,7 +24,7 @@ export default function InscripcionesRedirect() {
       })
   }, [])
 
-  if (loading) return <Spinner label="Cargando…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16">
@@ -33,14 +35,14 @@ export default function InscripcionesRedirect() {
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </div>
-          <p className="text-zinc-600 dark:text-zinc-300">Redirigiendo a inscripciones…</p>
+          <p className="text-zinc-600 dark:text-zinc-300">{t('insc.redirigiendo')}</p>
           <a href={url} className="btn-primary px-6 py-3 text-base">
-            Continuar a inscripciones
+            {t('insc.continuar')}
           </a>
         </div>
       ) : (
         <div className="card p-10 text-center text-zinc-500 dark:text-zinc-400">
-          Las inscripciones aún no están disponibles.
+          {t('insc.no_disponible')}
         </div>
       )}
     </div>

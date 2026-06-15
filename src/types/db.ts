@@ -51,9 +51,12 @@ export interface Adjunto {
 export interface Noticia {
   id: string
   titulo: string
+  titulo_va: string | null
   slug: string
   resumen: string
+  resumen_va: string | null
   contenido: string
+  contenido_va: string | null
   imagen_url: string | null
   galeria: string[]
   adjuntos: Adjunto[]
@@ -68,7 +71,9 @@ export interface Pagina {
   id: string
   slug: string
   titulo: string
+  titulo_va: string | null
   contenido: string
+  contenido_va: string | null
   imagen_url: string | null
   galeria: string[]
   publicada: boolean
@@ -101,6 +106,7 @@ export type MenuTipo = 'ruta' | 'externa' | 'pagina'
 export interface MenuItem {
   id: string
   label: string
+  label_va: string | null
   tipo: MenuTipo
   destino: string
   parent_id: string | null

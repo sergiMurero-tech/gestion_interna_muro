@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import type { Equipo } from '../../types/db'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 export default function AreaDeportivaPage() {
+  const { t } = useLang()
   const [equipos, setEquipos] = useState<Equipo[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -20,17 +22,17 @@ export default function AreaDeportivaPage() {
       })
   }, [])
 
-  if (loading) return <Spinner label="Cargando equipos…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-      <span className="eyebrow">El club en juego</span>
+      <span className="eyebrow">{t('area.eyebrow')}</span>
       <h1 className="section-title mb-10">
-        Área <span className="text-gold">Deportiva</span>
+        {t('area.title.before')} <span className="text-gold">{t('area.title.after')}</span>
       </h1>
 
       {equipos.length === 0 ? (
-        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">No hay equipos disponibles.</div>
+        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">{t('area.empty')}</div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {equipos.map((e, i) => (
@@ -59,8 +61,8 @@ export default function AreaDeportivaPage() {
                 </div>
               </div>
               <div className="flex items-center justify-between p-4">
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">Temporada {e.temporada || '—'}</span>
-                <span className="text-sm font-semibold text-gold opacity-0 transition group-hover:opacity-100">Ver equipo →</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">{t('area.temporada')} {e.temporada || '—'}</span>
+                <span className="text-sm font-semibold text-gold opacity-0 transition group-hover:opacity-100">{t('area.ver_equipo')}</span>
               </div>
             </Link>
           ))}

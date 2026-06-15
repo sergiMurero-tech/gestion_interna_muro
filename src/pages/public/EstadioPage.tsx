@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { EstadioInfo } from '../../types/db'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 export default function EstadioPage() {
+  const { t } = useLang()
   const [estadio, setEstadio] = useState<EstadioInfo | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -19,7 +21,7 @@ export default function EstadioPage() {
       })
   }, [])
 
-  if (loading) return <Spinner label="Cargando…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   const e = estadio ?? {}
   const cover = e.fotos?.[0]
@@ -30,7 +32,7 @@ export default function EstadioPage() {
     return (
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">
-          No hay información del estadio disponible.
+          {t('estadio.empty')}
         </div>
       </div>
     )
@@ -46,8 +48,8 @@ export default function EstadioPage() {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
         <div className="relative mx-auto max-w-6xl px-4 py-20">
-          <span className="eyebrow">Nuestra casa</span>
-          <h1 className="h-display text-shadow text-5xl text-white sm:text-7xl">{e.nombre || 'Estadio'}</h1>
+          <span className="eyebrow">{t('estadio.eyebrow')}</span>
+          <h1 className="h-display text-shadow text-5xl text-white sm:text-7xl">{e.nombre || t('estadio.default_title')}</h1>
           {e.direccion && <p className="mt-3 text-lg text-zinc-200">{e.direccion}</p>}
         </div>
         <div className="diagonal-divider" />
@@ -59,8 +61,8 @@ export default function EstadioPage() {
 
       {restoFotos.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 pb-16">
-          <span className="eyebrow">Galería</span>
-          <h2 className="section-title mb-6 text-3xl">Imágenes</h2>
+          <span className="eyebrow">{t('estadio.galeria_eyebrow')}</span>
+          <h2 className="section-title mb-6 text-3xl">{t('estadio.galeria_title')}</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {restoFotos.map((src, i) => (
               <img key={i} src={src} alt="" className="aspect-[4/3] w-full rounded-xl object-cover transition hover:opacity-90" />

@@ -35,9 +35,12 @@ function localToIso(local: string): string {
 
 interface FormState {
   titulo: string
+  titulo_va: string
   slug: string
   resumen: string
+  resumen_va: string
   contenido: string
+  contenido_va: string
   imagen_url: string | null
   galeria: string[]
   adjuntos: Adjunto[]
@@ -48,9 +51,12 @@ interface FormState {
 
 const empty: FormState = {
   titulo: '',
+  titulo_va: '',
   slug: '',
   resumen: '',
+  resumen_va: '',
   contenido: '',
+  contenido_va: '',
   imagen_url: null,
   galeria: [],
   adjuntos: [],
@@ -94,9 +100,12 @@ export default function WebNoticiasPage() {
     setEditId(n.id)
     setForm({
       titulo: n.titulo,
+      titulo_va: n.titulo_va ?? '',
       slug: n.slug,
       resumen: n.resumen ?? '',
+      resumen_va: n.resumen_va ?? '',
       contenido: n.contenido ?? '',
+      contenido_va: n.contenido_va ?? '',
       imagen_url: n.imagen_url,
       galeria: n.galeria ?? [],
       adjuntos: n.adjuntos ?? [],
@@ -117,9 +126,12 @@ export default function WebNoticiasPage() {
     setSaving(true)
     const payload: Record<string, unknown> = {
       titulo: form.titulo.trim(),
+      titulo_va: form.titulo_va.trim() || null,
       slug: form.slug.trim() || slugify(form.titulo),
       resumen: form.resumen,
+      resumen_va: form.resumen_va.trim() || null,
       contenido: form.contenido,
+      contenido_va: form.contenido_va.trim() || null,
       imagen_url: form.imagen_url,
       galeria: form.galeria,
       adjuntos: form.adjuntos,
@@ -237,13 +249,27 @@ export default function WebNoticiasPage() {
         }
       >
         <div className="space-y-3">
-          <div>
-            <label className="label">Título</label>
-            <input
-              className="input"
-              value={form.titulo}
-              onChange={(e) => setForm({ ...form, titulo: e.target.value })}
-            />
+          <p className="alert-info">
+            Rellena cada campo en <b>castellano</b> y <b>valenciano</b>. Si dejas el valenciano vacío, en la web se
+            mostrará la versión en castellano.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="label">Título · ES</label>
+              <input
+                className="input"
+                value={form.titulo}
+                onChange={(e) => setForm({ ...form, titulo: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Títol · VA</label>
+              <input
+                className="input"
+                value={form.titulo_va}
+                onChange={(e) => setForm({ ...form, titulo_va: e.target.value })}
+              />
+            </div>
           </div>
           <div>
             <label className="label">Slug</label>
@@ -254,19 +280,35 @@ export default function WebNoticiasPage() {
               onChange={(e) => setForm({ ...form, slug: e.target.value })}
             />
           </div>
-          <div>
-            <label className="label">Resumen</label>
-            <textarea
-              className="input"
-              rows={3}
-              value={form.resumen}
-              onChange={(e) => setForm({ ...form, resumen: e.target.value })}
-            />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="label">Resumen · ES</label>
+              <textarea
+                className="input"
+                rows={3}
+                value={form.resumen}
+                onChange={(e) => setForm({ ...form, resumen: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Resum · VA</label>
+              <textarea
+                className="input"
+                rows={3}
+                value={form.resumen_va}
+                onChange={(e) => setForm({ ...form, resumen_va: e.target.value })}
+              />
+            </div>
           </div>
           <RichTextEditor
-            label="Contenido"
+            label="Contenido · ES"
             value={form.contenido}
             onChange={(html) => setForm({ ...form, contenido: html })}
+          />
+          <RichTextEditor
+            label="Contingut · VA"
+            value={form.contenido_va}
+            onChange={(html) => setForm({ ...form, contenido_va: html })}
           />
           <ImageUploader
             value={form.imagen_url}

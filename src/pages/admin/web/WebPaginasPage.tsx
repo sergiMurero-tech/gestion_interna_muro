@@ -18,8 +18,10 @@ function slugify(s: string) {
 
 interface FormState {
   titulo: string
+  titulo_va: string
   slug: string
   contenido: string
+  contenido_va: string
   imagen_url: string | null
   galeria: string[]
   publicada: boolean
@@ -28,8 +30,10 @@ interface FormState {
 
 const empty: FormState = {
   titulo: '',
+  titulo_va: '',
   slug: '',
   contenido: '',
+  contenido_va: '',
   imagen_url: null,
   galeria: [],
   publicada: false,
@@ -70,8 +74,10 @@ export default function WebPaginasPage() {
     setEditId(p.id)
     setForm({
       titulo: p.titulo,
+      titulo_va: p.titulo_va ?? '',
       slug: p.slug,
       contenido: p.contenido ?? '',
+      contenido_va: p.contenido_va ?? '',
       imagen_url: p.imagen_url,
       galeria: p.galeria ?? [],
       publicada: p.publicada,
@@ -90,8 +96,10 @@ export default function WebPaginasPage() {
     setSaving(true)
     const payload = {
       titulo: form.titulo.trim(),
+      titulo_va: form.titulo_va.trim() || null,
       slug: form.slug.trim() || slugify(form.titulo),
       contenido: form.contenido,
+      contenido_va: form.contenido_va.trim() || null,
       imagen_url: form.imagen_url,
       galeria: form.galeria,
       publicada: form.publicada,
@@ -178,13 +186,27 @@ export default function WebPaginasPage() {
         }
       >
         <div className="space-y-3">
-          <div>
-            <label className="label">Título</label>
-            <input
-              className="input"
-              value={form.titulo}
-              onChange={(e) => setForm({ ...form, titulo: e.target.value })}
-            />
+          <p className="alert-info">
+            Rellena cada campo en <b>castellano</b> y <b>valenciano</b>. Si dejas el valenciano vacío, en la web se
+            mostrará la versión en castellano.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="label">Título · ES</label>
+              <input
+                className="input"
+                value={form.titulo}
+                onChange={(e) => setForm({ ...form, titulo: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Títol · VA</label>
+              <input
+                className="input"
+                value={form.titulo_va}
+                onChange={(e) => setForm({ ...form, titulo_va: e.target.value })}
+              />
+            </div>
           </div>
           <div>
             <label className="label">Slug</label>
@@ -199,9 +221,14 @@ export default function WebPaginasPage() {
             )}
           </div>
           <RichTextEditor
-            label="Contenido"
+            label="Contenido · ES"
             value={form.contenido}
             onChange={(html) => setForm({ ...form, contenido: html })}
+          />
+          <RichTextEditor
+            label="Contingut · VA"
+            value={form.contenido_va}
+            onChange={(html) => setForm({ ...form, contenido_va: html })}
           />
           <ImageUploader
             value={form.imagen_url}

@@ -3,8 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import type { Equipo, Jugador, CuerpoTecnico } from '../../types/db'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 export default function PublicTeamPage() {
+  const { t } = useLang()
   const { teamId } = useParams<{ teamId: string }>()
   const [equipo, setEquipo] = useState<Equipo | null>(null)
   const [jugadores, setJugadores] = useState<Jugador[]>([])
@@ -29,15 +31,15 @@ export default function PublicTeamPage() {
     })
   }, [teamId])
 
-  if (loading) return <Spinner label="Cargando equipo…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   if (!equipo) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="card p-8 text-center text-zinc-600 dark:text-zinc-300">
-          <p className="mb-4">Equipo no encontrado.</p>
+          <p className="mb-4">{t('team.not_found')}</p>
           <Link to="/area-deportiva" className="btn-secondary inline-block">
-            Volver al área deportiva
+            {t('action.volver')}
           </Link>
         </div>
       </div>
@@ -56,11 +58,11 @@ export default function PublicTeamPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
         <div className="relative mx-auto max-w-6xl px-4 py-16">
           <Link to="/area-deportiva" className="text-sm text-gold hover:underline">
-            ← Volver al área deportiva
+            {t('team.back')}
           </Link>
           <span className="mt-4 block text-xs uppercase tracking-widest text-gold">{equipo.categoria}</span>
           <h1 className="h-display text-5xl text-shadow text-white sm:text-7xl">{equipo.nombre}</h1>
-          {equipo.temporada && <p className="mt-2 text-zinc-300">Temporada {equipo.temporada}</p>}
+          {equipo.temporada && <p className="mt-2 text-zinc-300">{t('area.temporada')} {equipo.temporada}</p>}
           {equipo.descripcion && <p className="mt-4 max-w-2xl text-lg text-zinc-200 text-balance">{equipo.descripcion}</p>}
         </div>
         <div className="diagonal-divider" />
@@ -68,10 +70,10 @@ export default function PublicTeamPage() {
 
       <div className="mx-auto max-w-6xl px-4 py-12">
         <section className="mb-12">
-          <span className="eyebrow">La plantilla</span>
-          <h2 className="section-title mb-6 text-3xl">Jugadores</h2>
+          <span className="eyebrow">{t('team.jugadores_eyebrow')}</span>
+          <h2 className="section-title mb-6 text-3xl">{t('team.jugadores_title')}</h2>
           {jugadores.length === 0 ? (
-            <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Aún no hay jugadores publicados.</div>
+            <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">{t('team.jugadores_empty')}</div>
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {jugadores.map((j, i) => (
@@ -105,21 +107,21 @@ export default function PublicTeamPage() {
         </section>
 
         <section>
-          <span className="eyebrow">Banquillo</span>
-          <h2 className="section-title mb-6 text-3xl">Cuerpo técnico</h2>
+          <span className="eyebrow">{t('team.cuerpo_eyebrow')}</span>
+          <h2 className="section-title mb-6 text-3xl">{t('team.cuerpo_title')}</h2>
           {tecnicos.length === 0 ? (
-            <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Sin información de cuerpo técnico.</div>
+            <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">{t('team.cuerpo_empty')}</div>
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {tecnicos.map((t, i) => (
+              {tecnicos.map((m, i) => (
                 <div
-                  key={t.id}
+                  key={m.id}
                   style={{ animationDelay: `${i * 40}ms` }}
                   className="card-hover group animate-fade-up overflow-hidden p-0"
                 >
                   <div className="relative aspect-square overflow-hidden">
-                    {t.foto_url ? (
-                      <img src={t.foto_url} alt={t.nombre} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    {m.foto_url ? (
+                      <img src={m.foto_url} alt={m.nombre} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
                         <img src="/club-crest.png" alt="" className="h-16 w-16 opacity-30" />
@@ -127,8 +129,8 @@ export default function PublicTeamPage() {
                     )}
                   </div>
                   <div className="p-3">
-                    <p className="font-semibold text-zinc-900 dark:text-white">{t.nombre}</p>
-                    <p className="text-xs uppercase tracking-wider text-gold">{t.cargo}</p>
+                    <p className="font-semibold text-zinc-900 dark:text-white">{m.nombre}</p>
+                    <p className="text-xs uppercase tracking-wider text-gold">{m.cargo}</p>
                   </div>
                 </div>
               ))}

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { Patrocinador } from '../../types/db'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 export default function PatrocinadoresPage() {
+  const { t } = useLang()
   const [patrocinadores, setPatrocinadores] = useState<Patrocinador[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -19,17 +21,17 @@ export default function PatrocinadoresPage() {
       })
   }, [])
 
-  if (loading) return <Spinner label="Cargando patrocinadores…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-      <span className="eyebrow">Gracias por hacerlo posible</span>
+      <span className="eyebrow">{t('patroc.eyebrow')}</span>
       <h1 className="section-title mb-10">
-        Patroci<span className="text-gold">nadores</span>
+        {t('patroc.title.before')}<span className="text-gold">{t('patroc.title.after')}</span>
       </h1>
 
       {patrocinadores.length === 0 ? (
-        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</div>
+        <div className="card p-8 text-center text-zinc-500 dark:text-zinc-400">{t('patroc.empty')}</div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {patrocinadores.map((p, i) => {
@@ -47,7 +49,7 @@ export default function PatrocinadoresPage() {
               <a key={p.id} href={p.enlace} target="_blank" rel="noreferrer" title={p.nombre} className={cls} style={style}>
                 {inner}
                 <span className="mt-3 block text-center text-xs font-semibold uppercase tracking-wider text-zinc-500 group-hover:text-gold">
-                  Visitar →
+                  {t('patroc.visit')}
                 </span>
               </a>
             ) : (

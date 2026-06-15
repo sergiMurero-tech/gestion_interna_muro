@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { buildMenuTree, getConfig, getMenuItems, isExternal, menuHref, type MenuNode } from '../../lib/cms'
-import type { SiteConfig } from '../../types/db'
+import type { MenuItem, SiteConfig } from '../../types/db'
+import { pickLang, useLang } from '../../lib/i18n'
 import ThemeToggle from '../ThemeToggle'
+import LanguageToggle from '../LanguageToggle'
 import SocialLinks from './SocialLinks'
 import SponsorsMarquee from './SponsorsMarquee'
+
+function labelFor(item: MenuItem, lang: 'va' | 'es') {
+  return pickLang(item, 'label', lang) || item.label
+}
 
 export default function PublicLayout() {
   const [nodes, setNodes] = useState<MenuNode[]>([])
@@ -12,6 +18,7 @@ export default function PublicLayout() {
   const [openMobile, setOpenMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const { lang, t } = useLang()
 
   useEffect(() => {
     getMenuItems().then((items) => setNodes(buildMenuTree(items)))
@@ -56,18 +63,19 @@ export default function PublicLayout() {
 
           <nav className="hidden items-center gap-2 lg:flex">
             {nodes.map((n) => (
-              <DesktopMenuItem key={n.item.id} node={n} />
+              <DesktopMenuItem key={n.item.id} node={n} lang={lang} />
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
+            <LanguageToggle />
             <ThemeToggle />
             <Link
               to="/acceso"
               className="hidden items-center gap-2 rounded-lg bg-gold-grad px-4 py-2 text-sm font-bold uppercase tracking-wider text-zinc-950 shadow-gold transition hover:shadow-glow sm:inline-flex"
             >
               <LockIcon className="h-4 w-4" />
-              Acceso
+              {t('nav.acceso')}
             </Link>
             <button
               className="grid h-10 w-10 place-items-center rounded-md bg-white/10 transition hover:bg-white/20 lg:hidden"
@@ -82,11 +90,11 @@ export default function PublicLayout() {
         {openMobile && (
           <nav className="border-t border-white/10 bg-black px-4 py-3 lg:hidden">
             {nodes.map((n) => (
-              <MobileMenuItem key={n.item.id} node={n} />
+              <MobileMenuItem key={n.item.id} node={n} lang={lang} />
             ))}
             <Link to="/acceso" className="btn-primary mt-3 w-full">
               <LockIcon className="h-4 w-4" />
-              Acceso
+              {t('nav.acceso')}
             </Link>
           </nav>
         )}
@@ -101,14 +109,15 @@ export default function PublicLayout() {
   )
 }
 
-function DesktopMenuItem({ node }: { node: MenuNode }) {
+function DesktopMenuItem({ node, lang }: { node: MenuNode; lang: 'va' | 'es' }) {
   const { item, children } = node
   const href = menuHref(item)
+  const label = labelFor(item, lang)
 
   if (children.length === 0) {
     return isExternal(item) ? (
       <a href={href} target="_blank" rel="noreferrer" className="nav-link text-zinc-200 hover:text-white">
-        {item.label}
+        {label}
       </a>
     ) : (
       <NavLink
@@ -118,7 +127,7 @@ function DesktopMenuItem({ node }: { node: MenuNode }) {
           `nav-link text-zinc-200 hover:text-white ${isActive ? 'is-active text-white' : ''}`
         }
       >
-        {item.label}
+        {label}
       </NavLink>
     )
   }
@@ -126,7 +135,7 @@ function DesktopMenuItem({ node }: { node: MenuNode }) {
   return (
     <div className="group relative">
       <button className="nav-link text-zinc-200 hover:text-white">
-        {item.label}
+        {label}
         <Chevron className="ml-1 h-3 w-3 text-gold transition-transform group-hover:rotate-180" />
       </button>
       <div className="invisible absolute left-1/2 top-full z-50 min-w-56 -translate-x-1/2 translate-y-1 rounded-xl border border-white/10 bg-black/95 p-1 opacity-0 shadow-2xl backdrop-blur transition group-hover:visible group-hover:opacity-100">
@@ -139,7 +148,7 @@ function DesktopMenuItem({ node }: { node: MenuNode }) {
               rel="noreferrer"
               className="block rounded-lg px-4 py-2 text-sm text-zinc-200 transition hover:bg-gold hover:text-black"
             >
-              {c.label}
+              {labelFor(c, lang)}
             </a>
           ) : (
             <Link
@@ -147,7 +156,7 @@ function DesktopMenuItem({ node }: { node: MenuNode }) {
               to={menuHref(c)}
               className="block rounded-lg px-4 py-2 text-sm text-zinc-200 transition hover:bg-gold hover:text-black"
             >
-              {c.label}
+              {labelFor(c, lang)}
             </Link>
           ),
         )}
@@ -156,17 +165,17 @@ function DesktopMenuItem({ node }: { node: MenuNode }) {
   )
 }
 
-function MobileMenuItem({ node }: { node: MenuNode }) {
+function MobileMenuItem({ node, lang }: { node: MenuNode; lang: 'va' | 'es' }) {
   const { item, children } = node
   return (
     <div className="py-1">
       {isExternal(item) ? (
         <a href={menuHref(item)} target="_blank" rel="noreferrer" className="block py-1.5 font-bold uppercase tracking-wider text-white">
-          {item.label}
+          {labelFor(item, lang)}
         </a>
       ) : (
         <Link to={menuHref(item)} className="block py-1.5 font-bold uppercase tracking-wider text-white">
-          {item.label}
+          {labelFor(item, lang)}
         </Link>
       )}
       {children.length > 0 && (
@@ -174,11 +183,11 @@ function MobileMenuItem({ node }: { node: MenuNode }) {
           {children.map((c) =>
             c.tipo === 'externa' ? (
               <a key={c.id} href={menuHref(c)} target="_blank" rel="noreferrer" className="block py-1 text-sm text-zinc-300">
-                {c.label}
+                {labelFor(c, lang)}
               </a>
             ) : (
               <Link key={c.id} to={menuHref(c)} className="block py-1 text-sm text-zinc-300">
-                {c.label}
+                {labelFor(c, lang)}
               </Link>
             ),
           )}
@@ -189,6 +198,7 @@ function MobileMenuItem({ node }: { node: MenuNode }) {
 }
 
 function PublicFooter({ config }: { config: SiteConfig | null }) {
+  const { t } = useLang()
   const c = config?.contacto
   const redes = c?.redes ?? {}
   return (
@@ -213,7 +223,7 @@ function PublicFooter({ config }: { config: SiteConfig | null }) {
         <div className="mx-auto mt-8 max-w-6xl border-t border-white/10 pt-4 text-xs text-zinc-600">
           © {new Date().getFullYear()} Muro Club de Fútbol · ¡Sentiment blanc i negre! ·{' '}
           <Link to="/acceso" className="hover:text-gold">
-            Acceso área privada
+            {t('footer.acceso_privada')}
           </Link>
         </div>
       </div>

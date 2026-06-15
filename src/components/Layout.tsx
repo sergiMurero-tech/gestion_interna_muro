@@ -2,6 +2,8 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import type { Rol } from '../types/db'
 import ThemeToggle from './ThemeToggle'
+import LanguageToggle from './LanguageToggle'
+import { useLang } from '../lib/i18n'
 
 const ROL_LABEL: Record<Rol, string> = {
   admin: 'Admin',
@@ -12,6 +14,7 @@ const ROL_LABEL: Record<Rol, string> = {
 export default function Layout() {
   const { profile, isAdmin, signOut } = useAuth()
   const navigate = useNavigate()
+  const { t } = useLang()
 
   const links = [
     { to: '/gestion', label: 'Equipos', end: true },
@@ -45,11 +48,12 @@ export default function Layout() {
               {profile?.nombre || profile?.email} · <span className="text-gold">{ROL_LABEL[profile?.rol ?? 'entrenador']}</span>
             </span>
             <a href="/" className="hidden rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20 sm:block">
-              Ver web
+              {t('nav.ver_web')}
             </a>
+            <LanguageToggle />
             <ThemeToggle />
             <button onClick={() => signOut()} className="rounded-md bg-white/10 px-3 py-1.5 text-sm font-medium hover:bg-white/20">
-              Salir
+              {t('nav.salir')}
             </button>
           </div>
         </div>
