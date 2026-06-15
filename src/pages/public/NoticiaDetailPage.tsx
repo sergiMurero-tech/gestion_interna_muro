@@ -54,11 +54,13 @@ export default function NoticiaDetailPage() {
       <h1 className="mb-6 text-3xl font-extrabold text-zinc-900 dark:text-white">{noticia.titulo}</h1>
 
       {noticia.imagen_url && (
-        <img
-          src={noticia.imagen_url}
-          alt={noticia.titulo}
-          className="mb-6 w-full rounded-xl object-cover"
-        />
+        <div className="mb-6 flex justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900">
+          <img
+            src={noticia.imagen_url}
+            alt={noticia.titulo}
+            className="max-h-[70vh] w-auto rounded-xl object-contain"
+          />
+        </div>
       )}
 
       <div className="richtext" dangerouslySetInnerHTML={{ __html: noticia.contenido }} />
