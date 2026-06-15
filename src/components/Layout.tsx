@@ -5,28 +5,28 @@ import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
 import { useLang } from '../lib/i18n'
 
-const ROL_LABEL: Record<Rol, string> = {
-  admin: 'Admin',
-  coordinador: 'Coordinador',
-  entrenador: 'Entrenador',
-}
-
 export default function Layout() {
   const { profile, isAdmin, signOut } = useAuth()
   const navigate = useNavigate()
   const { t } = useLang()
 
+  const ROL_LABEL: Record<Rol, string> = {
+    admin: t('rol.admin'),
+    coordinador: t('rol.coordinador'),
+    entrenador: t('rol.entrenador'),
+  }
+
   const links = [
-    { to: '/gestion', label: 'Equipos', end: true },
+    { to: '/gestion', label: t('gestion.nav.equipos'), end: true },
     ...(isAdmin
       ? [
-          { to: '/gestion/admin', label: 'Panel', end: true },
-          { to: '/gestion/admin/equipos', label: 'Equipos', end: false },
-          { to: '/gestion/admin/jugadores', label: 'Jugadores', end: false },
-          { to: '/gestion/admin/licencias', label: 'Licencias', end: false },
-          { to: '/gestion/admin/entrenadores', label: 'Entrenadores', end: false },
-          { to: '/gestion/admin/historial', label: 'Historial', end: false },
-          { to: '/gestion/web', label: 'Gestión Web', end: false },
+          { to: '/gestion/admin', label: t('gestion.nav.panel'), end: true },
+          { to: '/gestion/admin/equipos', label: t('gestion.nav.equipos'), end: false },
+          { to: '/gestion/admin/jugadores', label: t('gestion.nav.jugadores'), end: false },
+          { to: '/gestion/admin/licencias', label: t('gestion.nav.licencias'), end: false },
+          { to: '/gestion/admin/entrenadores', label: t('gestion.nav.entrenadores'), end: false },
+          { to: '/gestion/admin/historial', label: t('gestion.nav.historial'), end: false },
+          { to: '/gestion/web', label: t('gestion.nav.web'), end: false },
         ]
       : []),
   ]
@@ -41,7 +41,7 @@ export default function Layout() {
               alt="Escudo Muro CF"
               className="h-10 w-10 object-contain transition-transform duration-300 group-hover:rotate-[-6deg]"
             />
-            <span className="h-display text-2xl tracking-wider">Muro <span className="text-gold">CF</span> · Gestión</span>
+            <span className="h-display text-2xl tracking-wider">{t('gestion.title')}</span>
           </button>
           <div className="flex items-center gap-3">
             <span className="hidden text-sm text-zinc-300 sm:block">

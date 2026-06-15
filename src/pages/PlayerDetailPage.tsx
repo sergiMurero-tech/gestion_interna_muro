@@ -8,6 +8,7 @@ import LicenseBadge from '../components/LicenseBadge'
 import { generateParteLesiones, bytesToBlob, downloadBlob, slugify } from '../lib/pdf'
 import { downloadLicenseBlob } from '../lib/storage'
 import { shareFiles, whatsappUrl, mailtoUrl, type NamedFile } from '../lib/share'
+import { useLang } from '../lib/i18n'
 
 function todayInputValue() {
   const d = new Date()
@@ -16,6 +17,7 @@ function todayInputValue() {
 }
 
 export default function PlayerDetailPage() {
+  const { t } = useLang()
   const { playerId } = useParams<{ playerId: string }>()
   const { profile } = useAuth()
   const [player, setPlayer] = useState<Jugador | null>(null)
@@ -37,8 +39,8 @@ export default function PlayerDetailPage() {
       const { data: p } = await supabase.from('jugadores').select('*').eq('id', playerId).maybeSingle()
       setPlayer(p ?? null)
       if (p?.equipo_id) {
-        const { data: t } = await supabase.from('equipos').select('*').eq('id', p.equipo_id).maybeSingle()
-        setTeam(t ?? null)
+        const { data: eq } = await supabase.from('equipos').select('*').eq('id', p.equipo_id).maybeSingle()
+        setTeam(eq ?? null)
       }
       const { data: lic } = await supabase.from('licencias').select('*').eq('jugador_id', playerId).maybeSingle()
       setLicense(lic ?? null)
@@ -95,8 +97,8 @@ export default function PlayerDetailPage() {
     }
   }
 
-  if (loading) return <Spinner label="Cargando jugador…" />
-  if (!player) return <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Jugador no encontrado.</div>
+  if (loading) return <Spinner label={t('gestion.player.loading')} />
+  if (!player) return <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">{t('gestion.player.not_found')}</div>
 
   const hasLicense = !!license
 
@@ -106,22 +108,22 @@ export default function PlayerDetailPage() {
         to={team ? `/gestion/equipos/${team.id}` : '/gestion'}
         className="mb-2 inline-block text-sm text-gold hover:underline"
       >
-        ← {team?.nombre ?? 'Equipos'}
+        ← {team?.nombre ?? t('gestion.nav.equipos')}
       </Link>
 
       <div className="card p-5">
         <h1 className="text-2xl font-bold">{player.nombre_completo}</h1>
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div>
-            <dt className="text-zinc-500 dark:text-zinc-400">Equipo</dt>
+            <dt className="text-zinc-500 dark:text-zinc-400">{t('gestion.player.equipo')}</dt>
             <dd className="font-medium">{team?.nombre ?? '—'}</dd>
           </div>
           <div>
-            <dt className="text-zinc-500 dark:text-zinc-400">Temporada</dt>
+            <dt className="text-zinc-500 dark:text-zinc-400">{t('gestion.player.temporada')}</dt>
             <dd className="font-medium">{player.temporada || team?.temporada || '—'}</dd>
           </div>
           <div className="col-span-2">
-            <dt className="mb-1 text-zinc-500 dark:text-zinc-400">Estado de licencia</dt>
+            <dt className="mb-1 text-zinc-500 dark:text-zinc-400">{t('gestion.player.estado_lic')}</dt>
             <dd>
               <LicenseBadge has={hasLicense} />
             </dd>
@@ -130,7 +132,7 @@ export default function PlayerDetailPage() {
 
         {!hasLicense && (
           <div className="mt-5 rounded-lg bg-red-500/15 p-4 text-sm text-red-300">
-            Este jugador no tiene licencia federativa subida. Contacte con el administrador.
+            {t('gestion.player.no_lic_warn')}
           </div>
         )}
 
@@ -140,14 +142,14 @@ export default function PlayerDetailPage() {
             disabled={!hasLicense}
             onClick={() => setShowFlow(true)}
           >
-            Obtener documentación por lesión
+            {t('gestion.player.cta')}
           </button>
         ) : (
           <div className="mt-6 space-y-4 border-t border-zinc-200 dark:border-zinc-800 pt-5">
             {!docs && (
               <>
                 <div>
-                  <label className="label">Fecha del parte (por defecto, hoy)</label>
+                  <label className="label">{t('gestion.player.fecha_label')}</label>
                   <input
                     type="date"
                     className="input"
@@ -155,11 +157,11 @@ export default function PlayerDetailPage() {
                     onChange={(e) => setFecha(e.target.value)}
                   />
                   <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                    Solo se rellena la fecha del parte. La fecha de lesión y el resto los completa el médico.
+                    {t('gestion.player.fecha_help')}
                   </p>
                 </div>
                 <button className="btn-primary w-full" onClick={handleGenerate} disabled={working}>
-                  {working ? 'Generando…' : 'Generar parte + licencia'}
+                  {working ? t('gestion.player.generando') : t('gestion.player.generar')}
                 </button>
               </>
             )}
@@ -167,18 +169,18 @@ export default function PlayerDetailPage() {
             {docs && (
               <div className="space-y-3">
                 <p className="alert-ok">
-                  Listo. Descarga o comparte los documentos:
+                  {t('gestion.player.listo')}
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   <button className="btn-secondary" onClick={() => downloadBlob(docs[0].blob, docs[0].filename)}>
-                    Descargar parte
+                    {t('gestion.player.desc_parte')}
                   </button>
                   <button className="btn-secondary" onClick={() => downloadBlob(docs[1].blob, docs[1].filename)}>
-                    Descargar licencia
+                    {t('gestion.player.desc_lic')}
                   </button>
                 </div>
                 <button className="btn-primary w-full" onClick={handleShare}>
-                  Compartir parte + licencia
+                  {t('gestion.player.compartir')}
                 </button>
                 <div className="grid grid-cols-2 gap-2">
                   <a
@@ -198,12 +200,11 @@ export default function PlayerDetailPage() {
                     )}
                     onClick={() => docs.forEach((d) => downloadBlob(d.blob, d.filename))}
                   >
-                    Correo
+                    {t('gestion.player.correo')}
                   </a>
                 </div>
                 <p className="text-xs text-zinc-500">
-                  En WhatsApp/Correo se descargan los PDF para que los adjuntes. En móvil, usa “Compartir” para
-                  enviarlos directamente.
+                  {t('gestion.player.share_help')}
                 </p>
                 <button
                   className="w-full text-center text-sm text-zinc-500 dark:text-zinc-400 hover:underline"
@@ -213,7 +214,7 @@ export default function PlayerDetailPage() {
                     setMsg(null)
                   }}
                 >
-                  Cerrar
+                  {t('gestion.player.cerrar')}
                 </button>
               </div>
             )}

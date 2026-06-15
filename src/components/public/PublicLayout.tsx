@@ -2,14 +2,37 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { buildMenuTree, getConfig, getMenuItems, isExternal, menuHref, type MenuNode } from '../../lib/cms'
 import type { MenuItem, SiteConfig } from '../../types/db'
-import { pickLang, useLang } from '../../lib/i18n'
+import { useLang } from '../../lib/i18n'
 import ThemeToggle from '../ThemeToggle'
 import LanguageToggle from '../LanguageToggle'
 import SocialLinks from './SocialLinks'
 import SponsorsMarquee from './SponsorsMarquee'
 
 function labelFor(item: MenuItem, lang: 'va' | 'es') {
-  return pickLang(item, 'label', lang) || item.label
+  if (lang === 'va') {
+    // 1) Lo que ha escrito el admin manda.
+    if (item.label_va && item.label_va.trim()) return item.label_va
+    // 2) Traducción por defecto para los apartados estándar (si nadie la ha rellenado).
+    const fallback = DEFAULT_MENU_VA[item.label]
+    if (fallback) return fallback
+  }
+  return item.label
+}
+
+/** Traducción al valenciano de las etiquetas del menú por defecto. */
+const DEFAULT_MENU_VA: Record<string, string> = {
+  Club: 'Club',
+  'Área Deportiva': 'Àrea Esportiva',
+  Noticias: 'Notícies',
+  Inscripciones: 'Inscripcions',
+  Historia: 'Història',
+  Directiva: 'Directiva',
+  Estadio: 'Estadi',
+  Patrocinadores: 'Patrocinadors',
+  Contacto: 'Contacte',
+  Campus: 'Campus',
+  Tienda: 'Botiga',
+  'Escuela de Tecnificación': 'Escola de Tecnificació',
 }
 
 export default function PublicLayout() {

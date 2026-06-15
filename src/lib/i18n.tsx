@@ -139,7 +139,65 @@ const DICT: Record<string, { va: string; es: string }> = {
   // Footer
   'footer.acceso_privada': { va: 'Accés àrea privada', es: 'Acceso área privada' },
 
-  // Login
+  // ===== Gestión interna =====
+  'gestion.title': { va: 'Muro CF · Gestió', es: 'Muro CF · Gestión' },
+  'gestion.nav.equipos': { va: 'Equips', es: 'Equipos' },
+  'gestion.nav.panel': { va: 'Panell', es: 'Panel' },
+  'gestion.nav.jugadores': { va: 'Jugadors', es: 'Jugadores' },
+  'gestion.nav.licencias': { va: 'Llicències', es: 'Licencias' },
+  'gestion.nav.entrenadores': { va: 'Entrenadors', es: 'Entrenadores' },
+  'gestion.nav.historial': { va: 'Historial', es: 'Historial' },
+  'gestion.nav.web': { va: 'Gestió Web', es: 'Gestión Web' },
+
+  // Roles
+  'rol.admin': { va: 'Admin', es: 'Admin' },
+  'rol.coordinador': { va: 'Coordinador', es: 'Coordinador' },
+  'rol.entrenador': { va: 'Entrenador', es: 'Entrenador' },
+
+  // Páginas internas
+  'gestion.equipos.title': { va: 'Equips', es: 'Equipos' },
+  'gestion.equipos.empty_admin': {
+    va: 'No hi ha equips. Crea’n un des del panell d’administració.',
+    es: 'No hay equipos. Crea uno desde el panel de administración.',
+  },
+  'gestion.equipos.empty_coach': {
+    va: 'Encara no tens equips assignats. Contacta amb l’administrador.',
+    es: 'Aún no tienes equipos asignados. Contacta con el administrador.',
+  },
+
+  'gestion.players.loading': { va: 'Carregant jugadors…', es: 'Cargando jugadores…' },
+  'gestion.players.back': { va: '← Equips', es: '← Equipos' },
+  'gestion.players.empty': { va: 'Aquest equip no té jugadors.', es: 'Este equipo no tiene jugadores.' },
+
+  'gestion.player.loading': { va: 'Carregant jugador…', es: 'Cargando jugador…' },
+  'gestion.player.not_found': { va: 'Jugador no trobat.', es: 'Jugador no encontrado.' },
+  'gestion.player.equipo': { va: 'Equip', es: 'Equipo' },
+  'gestion.player.temporada': { va: 'Temporada', es: 'Temporada' },
+  'gestion.player.estado_lic': { va: 'Estat de la llicència', es: 'Estado de licencia' },
+  'gestion.player.no_lic_warn': {
+    va: 'Aquest jugador no té llicència federativa pujada. Contacta amb l’administrador.',
+    es: 'Este jugador no tiene licencia federativa subida. Contacte con el administrador.',
+  },
+  'gestion.player.cta': { va: 'Obtenir documentació per lesió', es: 'Obtener documentación por lesión' },
+  'gestion.player.fecha_label': { va: 'Data del comunicat (per defecte, hui)', es: 'Fecha del parte (por defecto, hoy)' },
+  'gestion.player.fecha_help': {
+    va: 'Només s’omple la data del comunicat. La data de lesió i la resta les completa el metge.',
+    es: 'Solo se rellena la fecha del parte. La fecha de lesión y el resto los completa el médico.',
+  },
+  'gestion.player.generando': { va: 'Generant…', es: 'Generando…' },
+  'gestion.player.generar': { va: 'Generar comunicat + llicència', es: 'Generar parte + licencia' },
+  'gestion.player.listo': { va: 'Llest. Descarrega o comparteix els documents:', es: 'Listo. Descarga o comparte los documentos:' },
+  'gestion.player.desc_parte': { va: 'Descarregar comunicat', es: 'Descargar parte' },
+  'gestion.player.desc_lic': { va: 'Descarregar llicència', es: 'Descargar licencia' },
+  'gestion.player.compartir': { va: 'Compartir comunicat + llicència', es: 'Compartir parte + licencia' },
+  'gestion.player.correo': { va: 'Correu', es: 'Correo' },
+  'gestion.player.share_help': {
+    va: 'A WhatsApp/Correu es descarreguen els PDF perquè els adjuntes. Al mòbil, usa “Compartir” per enviar-los directament.',
+    es: 'En WhatsApp/Correo se descargan los PDF para que los adjuntes. En móvil, usa “Compartir” para enviarlos directamente.',
+  },
+  'gestion.player.cerrar': { va: 'Tancar', es: 'Cerrar' },
+
+  // Login (existente, antes 'login.titulo')
   'login.titulo': { va: 'Muro CF · Gestió', es: 'Muro CF · Gestión' },
   'login.dni': { va: 'Accedeix amb el teu DNI', es: 'Accede con tu DNI' },
   'login.admin': { va: 'Accés administrador', es: 'Acceso administrador' },

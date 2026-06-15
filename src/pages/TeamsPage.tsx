@@ -4,9 +4,11 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import type { Equipo } from '../types/db'
 import Spinner from '../components/Spinner'
+import { useLang } from '../lib/i18n'
 
 export default function TeamsPage() {
   const { isAdmin } = useAuth()
+  const { t } = useLang()
   const [teams, setTeams] = useState<Equipo[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -22,16 +24,14 @@ export default function TeamsPage() {
       })
   }, [])
 
-  if (loading) return <Spinner label="Cargando equipos…" />
+  if (loading) return <Spinner label={t('state.loading')} />
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">Equipos</h1>
+      <h1 className="mb-4 text-2xl font-bold">{t('gestion.equipos.title')}</h1>
       {teams.length === 0 ? (
         <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">
-          {isAdmin
-            ? 'No hay equipos. Crea uno desde el panel de administración.'
-            : 'Aún no tienes equipos asignados. Contacta con el administrador.'}
+          {isAdmin ? t('gestion.equipos.empty_admin') : t('gestion.equipos.empty_coach')}
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

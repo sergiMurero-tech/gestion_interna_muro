@@ -4,8 +4,10 @@ import { supabase } from '../lib/supabase'
 import type { Equipo, Jugador } from '../types/db'
 import Spinner from '../components/Spinner'
 import LicenseBadge from '../components/LicenseBadge'
+import { useLang } from '../lib/i18n'
 
 export default function TeamPlayersPage() {
+  const { t } = useLang()
   const { teamId } = useParams<{ teamId: string }>()
   const [team, setTeam] = useState<Equipo | null>(null)
   const [players, setPlayers] = useState<Jugador[]>([])
@@ -16,11 +18,11 @@ export default function TeamPlayersPage() {
     if (!teamId) return
     setLoading(true)
     ;(async () => {
-      const [{ data: t }, { data: js }] = await Promise.all([
+      const [{ data: eq }, { data: js }] = await Promise.all([
         supabase.from('equipos').select('*').eq('id', teamId).maybeSingle(),
         supabase.from('jugadores').select('*').eq('equipo_id', teamId).eq('activo', true).order('nombre_completo'),
       ])
-      setTeam(t ?? null)
+      setTeam(eq ?? null)
       const list = js ?? []
       setPlayers(list)
       if (list.length) {
@@ -34,20 +36,20 @@ export default function TeamPlayersPage() {
     })()
   }, [teamId])
 
-  if (loading) return <Spinner label="Cargando jugadores…" />
+  if (loading) return <Spinner label={t('gestion.players.loading')} />
 
   return (
     <div>
       <Link to="/gestion" className="mb-2 inline-block text-sm text-gold hover:underline">
-        ← Equipos
+        {t('gestion.players.back')}
       </Link>
-      <h1 className="mb-1 text-2xl font-bold">{team?.nombre ?? 'Equipo'}</h1>
+      <h1 className="mb-1 text-2xl font-bold">{team?.nombre ?? t('gestion.player.equipo')}</h1>
       <p className="mb-4 text-sm text-zinc-500 dark:text-zinc-400">
         {team?.categoria} · {team?.temporada}
       </p>
 
       {players.length === 0 ? (
-        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">Este equipo no tiene jugadores.</div>
+        <div className="card p-6 text-center text-zinc-500 dark:text-zinc-400">{t('gestion.players.empty')}</div>
       ) : (
         <div className="space-y-2">
           {players.map((p) => (
