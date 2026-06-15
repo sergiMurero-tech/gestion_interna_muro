@@ -66,3 +66,13 @@ body {
   .richtext img { @apply my-4 rounded-lg; }
   .richtext blockquote { @apply my-4 border-l-4 border-gold pl-4 italic text-zinc-600 dark:text-zinc-300; }
 }
+
+/* Carrusel de patrocinadores: bucle continuo (la lista se duplica en el JSX). */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}

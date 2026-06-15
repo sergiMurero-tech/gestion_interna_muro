@@ -4,6 +4,7 @@ import { buildMenuTree, getConfig, getMenuItems, isExternal, menuHref, type Menu
 import type { SiteConfig } from '../../types/db'
 import ThemeToggle from '../ThemeToggle'
 import SocialLinks from './SocialLinks'
+import SponsorsMarquee from './SponsorsMarquee'
 
 export default function PublicLayout() {
   const [nodes, setNodes] = useState<MenuNode[]>([])
@@ -154,7 +155,7 @@ function PublicFooter({ config }: { config: SiteConfig | null }) {
   const redes = c?.redes ?? {}
   return (
     <footer className="border-t-4 border-gold bg-black px-4 py-8 text-sm text-zinc-400">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:justify-between">
+      <div className="mx-auto grid max-w-6xl items-center gap-6 sm:grid-cols-[auto_1fr_auto]">
         <div className="flex items-center gap-3">
           <img src="/club-crest.png" alt="" className="h-10 w-10 object-contain" />
           <div>
@@ -163,6 +164,9 @@ function PublicFooter({ config }: { config: SiteConfig | null }) {
             {c?.telefono && <div>Tel. {c.telefono}</div>}
             {c?.email && <div>{c.email}</div>}
           </div>
+        </div>
+        <div className="min-w-0">
+          <SponsorsMarquee />
         </div>
         <SocialLinks redes={redes} />
       </div>
