@@ -139,6 +139,202 @@ const DICT: Record<string, { va: string; es: string }> = {
   // Footer
   'footer.acceso_privada': { va: 'Accés àrea privada', es: 'Acceso área privada' },
 
+  // ===== Acciones comunes (admin) =====
+  'action.guardar': { va: 'Guardar', es: 'Guardar' },
+  'action.guardando': { va: 'Guardant…', es: 'Guardando…' },
+  'action.cancelar': { va: 'Cancel·lar', es: 'Cancelar' },
+  'action.editar': { va: 'Editar', es: 'Editar' },
+  'action.eliminar': { va: 'Eliminar', es: 'Eliminar' },
+  'action.nuevo': { va: '+ Nou', es: '+ Nuevo' },
+  'action.nueva': { va: '+ Nova', es: '+ Nueva' },
+  'action.añadir': { va: 'Afegir', es: 'Añadir' },
+  'action.crear': { va: 'Crear', es: 'Crear' },
+  'action.subir': { va: 'Pujar', es: 'Subir' },
+  'action.sustituir': { va: 'Substituir', es: 'Sustituir' },
+  'action.descargar': { va: 'Descarregar', es: 'Descargar' },
+  'action.activar': { va: 'Activar', es: 'Activar' },
+  'action.desactivar': { va: 'Desactivar', es: 'Desactivar' },
+
+  'field.titulo': { va: 'Títol', es: 'Título' },
+  'field.contenido': { va: 'Contingut', es: 'Contenido' },
+  'field.resumen': { va: 'Resum', es: 'Resumen' },
+  'field.slug': { va: 'Slug', es: 'Slug' },
+  'field.galeria': { va: 'Galeria', es: 'Galería' },
+  'field.imagen': { va: 'Imatge', es: 'Imagen' },
+  'field.imagen_principal': { va: 'Imatge principal', es: 'Imagen principal' },
+  'field.foto_opcional': { va: 'Foto (opcional)', es: 'Foto (opcional)' },
+  'field.nombre': { va: 'Nom', es: 'Nombre' },
+  'field.nombre_completo': { va: 'Nom complet', es: 'Nombre completo' },
+  'field.cargo': { va: 'Càrrec', es: 'Cargo' },
+  'field.descripcion': { va: 'Descripció', es: 'Descripción' },
+  'field.categoria': { va: 'Categoria', es: 'Categoría' },
+  'field.temporada': { va: 'Temporada', es: 'Temporada' },
+  'field.dorsal': { va: 'Dorsal (opcional)', es: 'Dorsal (opcional)' },
+  'field.orden': { va: 'Ordre', es: 'Orden' },
+  'field.enlace': { va: 'Enllaç', es: 'Enlace' },
+  'field.publicada': { va: 'Publicada', es: 'Publicada' },
+  'field.destacada': { va: 'Destacada', es: 'Destacada' },
+  'field.visible': { va: 'Visible', es: 'Visible' },
+  'field.activo_equipo': { va: 'Equip actiu', es: 'Equipo activo' },
+  'field.activo_jugador': { va: 'Jugador actiu', es: 'Jugador activo' },
+  'field.entrenador_principal': { va: 'Entrenador principal', es: 'Entrenador principal' },
+  'field.fecha_publicacion': { va: 'Data de publicació', es: 'Fecha de publicación' },
+  'field.tipo': { va: 'Tipus', es: 'Tipo' },
+  'field.destino': { va: 'Destí', es: 'Destino' },
+  'field.padre': { va: 'Pare', es: 'Padre' },
+  'field.equipo': { va: 'Equip', es: 'Equipo' },
+
+  // Gestión Web — índice
+  'admin.web.title': { va: 'Gestió Web', es: 'Gestión Web' },
+  'admin.web.subtitle': {
+    va: 'Administra el contingut de la web pública del club.',
+    es: 'Administra el contenido de la web pública del club.',
+  },
+  'admin.web.noticias': { va: 'Notícies', es: 'Noticias' },
+  'admin.web.noticias_desc': {
+    va: 'Crear, editar, publicar i destacar notícies.',
+    es: 'Crear, editar, publicar y destacar noticias.',
+  },
+  'admin.web.paginas': { va: 'Pàgines', es: 'Páginas' },
+  'admin.web.paginas_desc': {
+    va: 'Història i pàgines informatives editables.',
+    es: 'Historia y páginas informativas editables.',
+  },
+  'admin.web.directiva': { va: 'Directiva', es: 'Directiva' },
+  'admin.web.directiva_desc': {
+    va: 'Càrrecs i membres de la directiva.',
+    es: 'Cargos y miembros de la directiva.',
+  },
+  'admin.web.patrocinadores': { va: 'Patrocinadors', es: 'Patrocinadores' },
+  'admin.web.patrocinadores_desc': { va: 'Logotips, enllaços i ordre.', es: 'Logos, enlaces y orden.' },
+  'admin.web.menu': { va: 'Menú', es: 'Menú' },
+  'admin.web.menu_desc': {
+    va: 'Apartats i subapartats del menú públic.',
+    es: 'Apartados y subapartados del menú público.',
+  },
+  'admin.web.config': { va: 'Configuració', es: 'Configuración' },
+  'admin.web.config_desc': {
+    va: 'Inscripcions, contacte i estadi.',
+    es: 'Inscripciones, contacto y estadio.',
+  },
+
+  // Admin — Noticias
+  'admin.noticias.title': { va: 'Notícies', es: 'Noticias' },
+  'admin.noticias.empty': { va: 'No hi ha notícies.', es: 'No hay noticias.' },
+  'admin.noticias.new': { va: 'Nova notícia', es: 'Nueva noticia' },
+  'admin.noticias.edit': { va: 'Editar notícia', es: 'Editar noticia' },
+  'admin.noticias.help_bilingual': {
+    va: 'Ompli cada camp en <b>castellà</b> i <b>valencià</b>. Si deixes el valencià buit, a la web es mostrarà la versió en castellà.',
+    es: 'Rellena cada campo en <b>castellano</b> y <b>valenciano</b>. Si dejas el valenciano vacío, en la web se mostrará la versión en castellano.',
+  },
+  'admin.noticias.adjuntos': { va: 'Adjunts', es: 'Adjuntos' },
+  'admin.noticias.adjuntos_add': { va: 'Afegir adjunt…', es: 'Añadir adjunto…' },
+  'admin.noticias.featured': { va: 'Destacada', es: 'Destacada' },
+  'admin.noticias.confirm_delete': {
+    va: '¿Eliminar la notícia?',
+    es: '¿Eliminar la noticia?',
+  },
+
+  // Admin — Páginas
+  'admin.paginas.title': { va: 'Pàgines', es: 'Páginas' },
+  'admin.paginas.empty': { va: 'No hi ha pàgines.', es: 'No hay páginas.' },
+  'admin.paginas.new': { va: 'Nova pàgina', es: 'Nueva página' },
+  'admin.paginas.edit': { va: 'Editar pàgina', es: 'Editar página' },
+
+  // Admin — Directiva
+  'admin.directiva.title': { va: 'Directiva', es: 'Directiva' },
+  'admin.directiva.empty': { va: 'No hi ha membres.', es: 'No hay miembros.' },
+  'admin.directiva.new': { va: 'Nou membre', es: 'Nuevo miembro' },
+  'admin.directiva.edit': { va: 'Editar membre', es: 'Editar miembro' },
+
+  // Admin — Patrocinadores
+  'admin.patroc.title': { va: 'Patrocinadors', es: 'Patrocinadores' },
+  'admin.patroc.empty': { va: 'No hi ha patrocinadors.', es: 'No hay patrocinadores.' },
+  'admin.patroc.new': { va: 'Nou patrocinador', es: 'Nuevo patrocinador' },
+  'admin.patroc.edit': { va: 'Editar patrocinador', es: 'Editar patrocinador' },
+
+  // Admin — Menú
+  'admin.menu.title': { va: 'Menú', es: 'Menú' },
+  'admin.menu.empty': { va: 'No hi ha elements de menú.', es: 'No hay elementos de menú.' },
+  'admin.menu.new': { va: 'Nou element', es: 'Nuevo elemento' },
+  'admin.menu.edit': { va: 'Editar element', es: 'Editar elemento' },
+  'admin.menu.tipo_ruta': { va: 'Ruta interna', es: 'Ruta interna' },
+  'admin.menu.tipo_externa': { va: 'Enllaç extern', es: 'Enlace externo' },
+  'admin.menu.tipo_pagina': { va: 'Pàgina CMS', es: 'Página CMS' },
+  'admin.menu.parent_none': { va: '— Sense pare (nivell principal) —', es: '— Sin padre (nivel principal) —' },
+
+  // Admin — Configuración
+  'admin.config.title': { va: 'Configuració web', es: 'Configuración web' },
+  'admin.config.saved': { va: 'Guardat', es: 'Guardado' },
+  'admin.config.inscripciones': { va: 'Inscripcions', es: 'Inscripciones' },
+  'admin.config.inscripciones_url': { va: 'URL d’inscripcions', es: 'URL de inscripciones' },
+  'admin.config.contacto': { va: 'Contacte', es: 'Contacto' },
+  'admin.config.mapa': { va: 'Mapa', es: 'Mapa' },
+  'admin.config.estadio': { va: 'Estadi', es: 'Estadio' },
+  'admin.config.fotos_estadio': { va: 'Fotos de l’estadi', es: 'Fotos del estadio' },
+
+  // Admin — Equipos
+  'admin.equipos.title': { va: 'Equips', es: 'Equipos' },
+  'admin.equipos.empty': { va: 'No hi ha equips.', es: 'No hay equipos.' },
+  'admin.equipos.new': { va: 'Nou equip', es: 'Nuevo equipo' },
+  'admin.equipos.edit': { va: 'Editar equip', es: 'Editar equipo' },
+  'admin.equipos.cuerpo_tecnico': { va: 'Cos tècnic', es: 'Cuerpo técnico' },
+  'admin.equipos.foto_team': { va: 'Foto de l’equip (opcional)', es: 'Foto del equipo (opcional)' },
+  'admin.equipos.desc_team': { va: 'Descripció (opcional)', es: 'Descripción (opcional)' },
+  'admin.equipos.entrenador_no_asignado': { va: '— Sense assignar —', es: '— Sin asignar —' },
+
+  // Admin — Jugadores
+  'admin.jugadores.title': { va: 'Jugadors', es: 'Jugadores' },
+  'admin.jugadores.empty': { va: 'No hi ha jugadors.', es: 'No hay jugadores.' },
+  'admin.jugadores.new': { va: 'Nou jugador', es: 'Nuevo jugador' },
+  'admin.jugadores.edit': { va: 'Editar jugador', es: 'Editar jugador' },
+  'admin.jugadores.filter_all': { va: 'Tots els equips', es: 'Todos los equipos' },
+  'admin.jugadores.foto_player': { va: 'Foto del jugador (opcional)', es: 'Foto del jugador (opcional)' },
+  'admin.jugadores.no_equipo': { va: '— Sense equip —', es: '— Sin equipo —' },
+  'admin.jugadores.temporada_hint': { va: '(de l’equip si està buit)', es: '(del equipo si vacío)' },
+
+  // Admin — Licencias
+  'admin.licencias.title': { va: 'Llicències', es: 'Licencias' },
+  'admin.licencias.empty_filters': { va: 'No hi ha jugadors amb aquests filtres.', es: 'No hay jugadores con estos filtros.' },
+  'admin.licencias.filter_all_teams': { va: 'Tots els equips', es: 'Todos los equipos' },
+  'admin.licencias.filter_all_cats': { va: 'Totes les categories', es: 'Todas las categorías' },
+  'admin.licencias.filter_all_seasons': { va: 'Totes les temporades', es: 'Todas las temporadas' },
+  'admin.licencias.only_missing': { va: 'Només sense llicència', es: 'Solo sin licencia' },
+
+  // Admin — Entrenadores
+  'admin.entrenadores.title': { va: 'Entrenadors i usuaris', es: 'Entrenadores y usuarios' },
+  'admin.entrenadores.new': { va: '+ Nou entrenador', es: '+ Nuevo entrenador' },
+  'admin.entrenadores.help': {
+    va: 'Dóna d’alta cada entrenador amb el seu DNI i nom. Entrarà a l’app escrivint només el seu DNI. Després podràs assignar-li equips i, si pertoca, fer-lo administrador.',
+    es: 'Da de alta a cada entrenador con su DNI y nombre. Entrará en la app escribiendo solo su DNI. Después podrás asignarle equipos y, si procede, hacerlo administrador.',
+  },
+  'admin.entrenadores.new_title': { va: 'Nou entrenador', es: 'Nuevo entrenador' },
+  'admin.entrenadores.assign_btn': { va: 'Assignar equips', es: 'Asignar equipos' },
+  'admin.entrenadores.assign_title': { va: 'Equips de', es: 'Equipos de' },
+
+  // Admin — Historial
+  'admin.historial.title': { va: 'Historial de documents', es: 'Historial de documentos' },
+  'admin.historial.empty': { va: 'No hi ha documents generats.', es: 'No hay documentos generados.' },
+  'admin.historial.col_fecha': { va: 'Data', es: 'Fecha' },
+  'admin.historial.col_tipo': { va: 'Tipus', es: 'Tipo' },
+  'admin.historial.col_jugador': { va: 'Jugador', es: 'Jugador' },
+  'admin.historial.col_equipo': { va: 'Equip', es: 'Equipo' },
+  'admin.historial.col_usuario': { va: 'Generat per', es: 'Generado por' },
+  'admin.historial.tipo_parte': { va: 'Comunicat de lesió', es: 'Parte de lesión' },
+
+  // Admin — Panel principal
+  'admin.dashboard.title': { va: 'Panell d’administració', es: 'Panel de administración' },
+  'admin.dashboard.card.equipos': { va: 'Equips', es: 'Equipos' },
+  'admin.dashboard.card.jugadores': { va: 'Jugadors', es: 'Jugadores' },
+  'admin.dashboard.card.entrenadores': { va: 'Entrenadors', es: 'Entrenadores' },
+  'admin.dashboard.card.licencias': { va: 'Llicències pujades', es: 'Licencias subidas' },
+  'admin.dashboard.card.sin_lic': { va: 'Jugadors sense llicència', es: 'Jugadores sin licencia' },
+  'admin.dashboard.recent_title': { va: 'Últims documents generats', es: 'Últimos documentos generados' },
+  'admin.dashboard.recent_empty': {
+    va: 'Encara no s’ha generat cap documentació.',
+    es: 'Todavía no se ha generado documentación.',
+  },
+
   // ===== Gestión interna =====
   'gestion.title': { va: 'Muro CF · Gestió', es: 'Muro CF · Gestión' },
   'gestion.nav.equipos': { va: 'Equips', es: 'Equipos' },

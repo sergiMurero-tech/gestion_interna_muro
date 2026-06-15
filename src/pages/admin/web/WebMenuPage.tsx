@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase'
 import type { MenuItem, MenuTipo } from '../../../types/db'
 import Spinner from '../../../components/Spinner'
 import Modal from '../../../components/Modal'
+import { useLang } from '../../../lib/i18n'
 
 interface FormState {
   label: string
@@ -23,6 +24,7 @@ const tipoHelp: Record<MenuTipo, string> = {
 }
 
 export default function WebMenuPage() {
+  const { t } = useLang()
   const [items, setItems] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -134,10 +136,10 @@ export default function WebMenuPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <button className="btn-secondary" onClick={() => openEdit(m)}>
-            Editar
+            {t('action.editar')}
           </button>
           <button className="btn-danger" onClick={() => remove(m)}>
-            Eliminar
+            {t('action.eliminar')}
           </button>
         </div>
       </div>
@@ -147,14 +149,14 @@ export default function WebMenuPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Menú</h1>
+        <h1 className="text-2xl font-bold">{t('admin.menu.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nuevo
+          {t('action.nuevo')}
         </button>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay elementos de menú.</p>}
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.menu.empty')}</p>}
         {parents.map((p) => (
           <div key={p.id} className="divide-y divide-zinc-200 dark:divide-zinc-800">
             {renderRow(p, false)}
@@ -165,15 +167,15 @@ export default function WebMenuPage() {
 
       <Modal
         open={open}
-        title={editId ? 'Editar elemento' : 'Nuevo elemento'}
+        title={editId ? t('admin.menu.edit') : t('admin.menu.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }
@@ -204,9 +206,9 @@ export default function WebMenuPage() {
               value={form.tipo}
               onChange={(e) => setForm({ ...form, tipo: e.target.value as MenuTipo })}
             >
-              <option value="ruta">Ruta interna</option>
-              <option value="externa">Enlace externo</option>
-              <option value="pagina">Página CMS</option>
+              <option value="ruta">{t('admin.menu.tipo_ruta')}</option>
+              <option value="externa">{t('admin.menu.tipo_externa')}</option>
+              <option value="pagina">{t('admin.menu.tipo_pagina')}</option>
             </select>
           </div>
           <div>
@@ -225,7 +227,7 @@ export default function WebMenuPage() {
               value={form.parent_id ?? ''}
               onChange={(e) => setForm({ ...form, parent_id: e.target.value || null })}
             >
-              <option value="">— Sin padre (nivel principal) —</option>
+              <option value="">{t('admin.menu.parent_none')}</option>
               {parentOptions.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.label}

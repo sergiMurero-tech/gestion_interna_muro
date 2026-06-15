@@ -5,6 +5,7 @@ import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
 import ImageUploader from '../../components/admin/ImageUploader'
 import TeamStaffModal from './TeamStaffModal'
+import { useLang } from '../../lib/i18n'
 
 const EMPTY = {
   nombre: '',
@@ -17,6 +18,7 @@ const EMPTY = {
 }
 
 export default function AdminTeamsPage() {
+  const { t } = useLang()
   const [teams, setTeams] = useState<Equipo[]>([])
   const [coaches, setCoaches] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
@@ -106,33 +108,33 @@ export default function AdminTeamsPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Equipos</h1>
+        <h1 className="text-2xl font-bold">{t('admin.equipos.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nuevo equipo
+          {t('admin.equipos.new')}
         </button>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {teams.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay equipos.</p>}
-        {teams.map((t) => (
-          <div key={t.id} className="flex items-center justify-between gap-3 p-4">
+        {teams.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.equipos.empty')}</p>}
+        {teams.map((eq) => (
+          <div key={eq.id} className="flex items-center justify-between gap-3 p-4">
             <div>
               <div className="font-medium">
-                {t.nombre} {!t.activo && <span className="text-xs text-zinc-500">(inactivo)</span>}
+                {eq.nombre} {!eq.activo && <span className="text-xs text-zinc-500">(inactivo)</span>}
               </div>
               <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                {t.categoria} · {t.temporada} · Entrenador: {coachName(t.entrenador_id)}
+                {eq.categoria} · {eq.temporada} · Entrenador: {coachName(eq.entrenador_id)}
               </div>
             </div>
             <div className="flex flex-wrap justify-end gap-2">
-              <button className="btn-secondary" onClick={() => setStaffTeam(t)}>
-                Cuerpo técnico
+              <button className="btn-secondary" onClick={() => setStaffTeam(eq)}>
+                {t('admin.equipos.cuerpo_tecnico')}
               </button>
-              <button className="btn-secondary" onClick={() => openEdit(t)}>
-                Editar
+              <button className="btn-secondary" onClick={() => openEdit(eq)}>
+                {t('action.editar')}
               </button>
-              <button className="btn-danger" onClick={() => remove(t)}>
-                Eliminar
+              <button className="btn-danger" onClick={() => remove(eq)}>
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -141,30 +143,30 @@ export default function AdminTeamsPage() {
 
       <Modal
         open={open}
-        title={editing ? 'Editar equipo' : 'Nuevo equipo'}
+        title={editing ? t('admin.equipos.edit') : t('admin.equipos.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving || !form.nombre.trim()}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }
       >
         <div className="space-y-3">
           <div>
-            <label className="label">Nombre</label>
+            <label className="label">{t('field.nombre')}</label>
             <input className="input" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
           </div>
           <div>
-            <label className="label">Categoría</label>
+            <label className="label">{t('field.categoria')}</label>
             <input className="input" value={form.categoria} onChange={(e) => setForm({ ...form, categoria: e.target.value })} />
           </div>
           <div>
-            <label className="label">Temporada</label>
+            <label className="label">{t('field.temporada')}</label>
             <input
               className="input"
               placeholder="2025/2026"
@@ -173,13 +175,13 @@ export default function AdminTeamsPage() {
             />
           </div>
           <div>
-            <label className="label">Entrenador principal</label>
+            <label className="label">{t('field.entrenador_principal')}</label>
             <select
               className="input"
               value={form.entrenador_id}
               onChange={(e) => setForm({ ...form, entrenador_id: e.target.value })}
             >
-              <option value="">— Sin asignar —</option>
+              <option value="">{t('admin.equipos.entrenador_no_asignado')}</option>
               {coaches.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.nombre || c.email}
@@ -188,13 +190,13 @@ export default function AdminTeamsPage() {
             </select>
           </div>
           <ImageUploader
-            label="Foto del equipo (opcional)"
+            label={t('admin.equipos.foto_team')}
             value={form.foto_url}
             onChange={(url) => setForm({ ...form, foto_url: url })}
             folder="equipos"
           />
           <div>
-            <label className="label">Descripción (opcional)</label>
+            <label className="label">{t('admin.equipos.desc_team')}</label>
             <textarea
               className="input"
               rows={3}

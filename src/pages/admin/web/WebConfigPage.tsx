@@ -4,8 +4,10 @@ import type { ContactoInfo, EstadioInfo } from '../../../types/db'
 import Spinner from '../../../components/Spinner'
 import GalleryUploader from '../../../components/admin/GalleryUploader'
 import RichTextEditor from '../../../components/admin/RichTextEditor'
+import { useLang } from '../../../lib/i18n'
 
 export default function WebConfigPage() {
+  const { t } = useLang()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -56,20 +58,20 @@ export default function WebConfigPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Configuración web</h1>
+        <h1 className="text-2xl font-bold">{t('admin.config.title')}</h1>
         <button className="btn-primary" onClick={save} disabled={saving}>
-          {saving ? 'Guardando…' : 'Guardar'}
+          {saving ? t('action.guardando') : t('action.guardar')}
         </button>
       </div>
 
-      {ok && <p className="alert-ok mb-4">Guardado</p>}
+      {ok && <p className="alert-ok mb-4">{t('admin.config.saved')}</p>}
       {error && <p className="alert-error mb-4">{error}</p>}
 
       <div className="space-y-6">
         <section className="card space-y-3 p-5">
-          <h2 className="text-lg font-semibold">Inscripciones</h2>
+          <h2 className="text-lg font-semibold">{t('admin.config.inscripciones')}</h2>
           <div>
-            <label className="label">URL de inscripciones</label>
+            <label className="label">{t('admin.config.inscripciones_url')}</label>
             <input
               className="input"
               placeholder="https://…"
@@ -80,7 +82,7 @@ export default function WebConfigPage() {
         </section>
 
         <section className="card space-y-3 p-5">
-          <h2 className="text-lg font-semibold">Contacto</h2>
+          <h2 className="text-lg font-semibold">{t('admin.config.contacto')}</h2>
           <div>
             <label className="label">Dirección</label>
             <input
@@ -122,7 +124,7 @@ export default function WebConfigPage() {
             <input className="input" value={contacto.redes?.youtube ?? ''} onChange={(e) => setRed('youtube', e.target.value)} />
           </div>
           <div>
-            <label className="label">Mapa</label>
+            <label className="label">{t('admin.config.mapa')}</label>
             <textarea
               className="input"
               rows={4}
@@ -138,7 +140,7 @@ export default function WebConfigPage() {
         </section>
 
         <section className="card space-y-3 p-5">
-          <h2 className="text-lg font-semibold">Estadio</h2>
+          <h2 className="text-lg font-semibold">{t('admin.config.estadio')}</h2>
           <div>
             <label className="label">Nombre</label>
             <input
@@ -164,7 +166,7 @@ export default function WebConfigPage() {
             value={estadio.fotos ?? []}
             onChange={(urls) => setEstadio({ ...estadio, fotos: urls })}
             folder="estadio"
-            label="Fotos del estadio"
+            label={t('admin.config.fotos_estadio')}
           />
         </section>
       </div>

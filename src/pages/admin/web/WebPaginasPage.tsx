@@ -6,6 +6,7 @@ import Modal from '../../../components/Modal'
 import ImageUploader from '../../../components/admin/ImageUploader'
 import GalleryUploader from '../../../components/admin/GalleryUploader'
 import RichTextEditor from '../../../components/admin/RichTextEditor'
+import { useLang } from '../../../lib/i18n'
 
 function slugify(s: string) {
   return s
@@ -41,6 +42,7 @@ const empty: FormState = {
 }
 
 export default function WebPaginasPage() {
+  const { t } = useLang()
   const [items, setItems] = useState<Pagina[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -135,14 +137,14 @@ export default function WebPaginasPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Páginas</h1>
+        <h1 className="text-2xl font-bold">{t('admin.paginas.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nueva
+          {t('action.nueva')}
         </button>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay páginas.</p>}
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.paginas.empty')}</p>}
         {items.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
@@ -160,10 +162,10 @@ export default function WebPaginasPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <button className="btn-secondary" onClick={() => openEdit(p)}>
-                Editar
+                {t('action.editar')}
               </button>
               <button className="btn-danger" onClick={() => remove(p)}>
-                Eliminar
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -172,15 +174,15 @@ export default function WebPaginasPage() {
 
       <Modal
         open={open}
-        title={editId ? 'Editar página' : 'Nueva página'}
+        title={editId ? t('admin.paginas.edit') : t('admin.paginas.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }

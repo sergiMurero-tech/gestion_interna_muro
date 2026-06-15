@@ -7,8 +7,10 @@ import Spinner from '../../components/Spinner'
 import LicenseBadge from '../../components/LicenseBadge'
 import { uploadLicense, downloadLicenseBlob, removeLicenseFile } from '../../lib/storage'
 import { downloadBlob } from '../../lib/pdf'
+import { useLang } from '../../lib/i18n'
 
 export default function AdminLicensesPage() {
+  const { t } = useLang()
   const { profile } = useAuth()
   const [params] = useSearchParams()
   const [players, setPlayers] = useState<Jugador[]>([])
@@ -114,11 +116,11 @@ export default function AdminLicensesPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">Licencias</h1>
+      <h1 className="mb-4 text-2xl font-bold">{t('admin.licencias.title')}</h1>
 
       <div className="mb-4 flex flex-wrap gap-2">
         <select className="input w-40" value={filterTeam} onChange={(e) => setFilterTeam(e.target.value)}>
-          <option value="">Todos los equipos</option>
+          <option value="">{t('admin.licencias.filter_all_teams')}</option>
           {teams.map((t) => (
             <option key={t.id} value={t.id}>
               {t.nombre}
@@ -126,7 +128,7 @@ export default function AdminLicensesPage() {
           ))}
         </select>
         <select className="input w-40" value={filterCat} onChange={(e) => setFilterCat(e.target.value)}>
-          <option value="">Todas las categorías</option>
+          <option value="">{t('admin.licencias.filter_all_cats')}</option>
           {categories.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -134,7 +136,7 @@ export default function AdminLicensesPage() {
           ))}
         </select>
         <select className="input w-40" value={filterSeason} onChange={(e) => setFilterSeason(e.target.value)}>
-          <option value="">Todas las temporadas</option>
+          <option value="">{t('admin.licencias.filter_all_seasons')}</option>
           {seasons.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -143,12 +145,12 @@ export default function AdminLicensesPage() {
         </select>
         <label className="flex items-center gap-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-3 text-sm">
           <input type="checkbox" checked={onlyMissing} onChange={(e) => setOnlyMissing(e.target.checked)} />
-          Solo sin licencia
+          {t('admin.licencias.only_missing')}
         </label>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {visible.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay jugadores con estos filtros.</p>}
+        {visible.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.licencias.empty_filters')}</p>}
         {visible.map((p) => {
           const lic = licenses.get(p.id)
           const busy = busyId === p.id
@@ -181,15 +183,15 @@ export default function AdminLicensesPage() {
                   disabled={busy}
                   onClick={() => fileInputs.current.get(p.id)?.click()}
                 >
-                  {busy ? '…' : lic ? 'Sustituir' : 'Subir'}
+                  {busy ? '…' : lic ? t('action.sustituir') : t('action.subir')}
                 </button>
                 {lic && (
                   <>
                     <button className="btn-secondary" disabled={busy} onClick={() => onDownload(lic)}>
-                      Descargar
+                      {t('action.descargar')}
                     </button>
                     <button className="btn-danger" disabled={busy} onClick={() => onDelete(p, lic)}>
-                      Eliminar
+                      {t('action.eliminar')}
                     </button>
                   </>
                 )}

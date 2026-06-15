@@ -4,6 +4,7 @@ import type { Directivo } from '../../../types/db'
 import Spinner from '../../../components/Spinner'
 import Modal from '../../../components/Modal'
 import ImageUploader from '../../../components/admin/ImageUploader'
+import { useLang } from '../../../lib/i18n'
 
 interface FormState {
   nombre: string
@@ -16,6 +17,7 @@ interface FormState {
 const empty: FormState = { nombre: '', cargo: '', foto_url: null, descripcion: '', orden: 0 }
 
 export default function WebDirectivaPage() {
+  const { t } = useLang()
   const [items, setItems] = useState<Directivo[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -96,9 +98,9 @@ export default function WebDirectivaPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Directiva</h1>
+        <h1 className="text-2xl font-bold">{t('admin.directiva.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nuevo
+          {t('action.nuevo')}
         </button>
       </div>
 
@@ -123,10 +125,10 @@ export default function WebDirectivaPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <button className="btn-secondary" onClick={() => openEdit(d)}>
-                Editar
+                {t('action.editar')}
               </button>
               <button className="btn-danger" onClick={() => remove(d)}>
-                Eliminar
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -135,15 +137,15 @@ export default function WebDirectivaPage() {
 
       <Modal
         open={open}
-        title={editId ? 'Editar miembro' : 'Nuevo miembro'}
+        title={editId ? t('admin.directiva.edit') : t('admin.directiva.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }

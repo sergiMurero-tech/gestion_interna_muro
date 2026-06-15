@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase'
 import type { CuerpoTecnico, Equipo } from '../../types/db'
 import Modal from '../../components/Modal'
 import ImageUploader from '../../components/admin/ImageUploader'
+import { useLang } from '../../lib/i18n'
 
 interface Props {
   team: Equipo
@@ -12,6 +13,7 @@ interface Props {
 const EMPTY = { nombre: '', cargo: '', foto_url: null as string | null, orden: 0 }
 
 export default function TeamStaffModal({ team, onClose }: Props) {
+  const { t } = useLang()
   const [staff, setStaff] = useState<CuerpoTecnico[]>([])
   const [form, setForm] = useState(EMPTY)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -133,7 +135,7 @@ export default function TeamStaffModal({ team, onClose }: Props) {
             </button>
             {editingId && (
               <button className="btn-secondary" onClick={reset}>
-                Cancelar edición
+                {t('action.cancelar')}
               </button>
             )}
           </div>

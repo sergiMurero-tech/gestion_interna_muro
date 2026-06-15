@@ -4,6 +4,7 @@ import type { Patrocinador } from '../../../types/db'
 import Spinner from '../../../components/Spinner'
 import Modal from '../../../components/Modal'
 import ImageUploader from '../../../components/admin/ImageUploader'
+import { useLang } from '../../../lib/i18n'
 
 interface FormState {
   nombre: string
@@ -16,6 +17,7 @@ interface FormState {
 const empty: FormState = { nombre: '', logo_url: null, enlace: '', orden: 0, visible: true }
 
 export default function WebPatrocinadoresPage() {
+  const { t } = useLang()
   const [items, setItems] = useState<Patrocinador[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -96,14 +98,14 @@ export default function WebPatrocinadoresPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Patrocinadores</h1>
+        <h1 className="text-2xl font-bold">{t('admin.patroc.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nuevo
+          {t('action.nuevo')}
         </button>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay patrocinadores.</p>}
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.patroc.empty')}</p>}
         {items.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="flex min-w-0 items-center gap-3">
@@ -129,10 +131,10 @@ export default function WebPatrocinadoresPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <button className="btn-secondary" onClick={() => openEdit(p)}>
-                Editar
+                {t('action.editar')}
               </button>
               <button className="btn-danger" onClick={() => remove(p)}>
-                Eliminar
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -141,15 +143,15 @@ export default function WebPatrocinadoresPage() {
 
       <Modal
         open={open}
-        title={editId ? 'Editar patrocinador' : 'Nuevo patrocinador'}
+        title={editId ? t('admin.patroc.edit') : t('admin.patroc.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }

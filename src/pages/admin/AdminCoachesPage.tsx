@@ -5,8 +5,10 @@ import { isValidDni, normalizeDni } from '../../lib/dni'
 import type { Equipo, EntrenadorEquipo, Profile, Rol } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
+import { useLang } from '../../lib/i18n'
 
 export default function AdminCoachesPage() {
+  const { t } = useLang()
   const { profile: me, createCoach } = useAuth()
   const [people, setPeople] = useState<Profile[]>([])
   const [teams, setTeams] = useState<Equipo[]>([])
@@ -127,14 +129,13 @@ export default function AdminCoachesPage() {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Entrenadores y usuarios</h1>
+        <h1 className="text-2xl font-bold">{t('admin.entrenadores.title')}</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nuevo entrenador
+          {t('admin.entrenadores.new')}
         </button>
       </div>
       <p className="mb-4 alert-info">
-        Da de alta a cada entrenador con su DNI y nombre. Entrará en la app escribiendo solo su DNI. Después podrás
-        asignarle equipos y, si procede, hacerlo administrador.
+        {t('admin.entrenadores.help')}
       </p>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
@@ -157,7 +158,7 @@ export default function AdminCoachesPage() {
             <div className="flex flex-wrap gap-2">
               {p.rol === 'entrenador' && (
                 <button className="btn-secondary" onClick={() => openAssign(p)}>
-                  Asignar equipos
+                  {t('admin.entrenadores.assign_btn')}
                 </button>
               )}
               <select
@@ -175,7 +176,7 @@ export default function AdminCoachesPage() {
                 disabled={p.id === me?.id}
                 onClick={() => setActive(p, !p.activo)}
               >
-                {p.activo ? 'Desactivar' : 'Activar'}
+                {p.activo ? t('action.desactivar') : t('action.activar')}
               </button>
             </div>
           </div>
@@ -189,10 +190,10 @@ export default function AdminCoachesPage() {
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={saveAssign} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }
@@ -221,15 +222,15 @@ export default function AdminCoachesPage() {
 
       <Modal
         open={newOpen}
-        title="Nuevo entrenador"
+        title={t('admin.entrenadores.new_title')}
         onClose={() => setNewOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setNewOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={createNewCoach} disabled={creating}>
-              {creating ? 'Creando…' : 'Dar de alta'}
+              {creating ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }

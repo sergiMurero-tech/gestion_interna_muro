@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 interface Row {
   id: string
@@ -12,6 +13,7 @@ interface Row {
 }
 
 export default function HistoryPage() {
+  const { t } = useLang()
   const [rows, setRows] = useState<Row[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -44,19 +46,19 @@ export default function HistoryPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">Historial de documentos</h1>
+      <h1 className="mb-4 text-2xl font-bold">{t('admin.historial.title')}</h1>
       <div className="card overflow-x-auto">
         {rows.length === 0 ? (
-          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay documentos generados.</p>
+          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.historial.empty')}</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-zinc-100 dark:bg-zinc-800/60 text-left text-xs uppercase text-zinc-500 dark:text-zinc-400">
               <tr>
-                <th className="px-4 py-2">Fecha</th>
-                <th className="px-4 py-2">Tipo</th>
-                <th className="px-4 py-2">Jugador</th>
-                <th className="px-4 py-2">Equipo</th>
-                <th className="px-4 py-2">Generado por</th>
+                <th className="px-4 py-2">{t('admin.historial.col_fecha')}</th>
+                <th className="px-4 py-2">{t('admin.historial.col_tipo')}</th>
+                <th className="px-4 py-2">{t('admin.historial.col_jugador')}</th>
+                <th className="px-4 py-2">{t('admin.historial.col_equipo')}</th>
+                <th className="px-4 py-2">{t('admin.historial.col_usuario')}</th>
               </tr>
             </thead>
             <tbody>
@@ -65,7 +67,7 @@ export default function HistoryPage() {
                   <td className="whitespace-nowrap px-4 py-2">
                     {new Date(r.fecha_generacion).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
                   </td>
-                  <td className="px-4 py-2">{r.tipo_documento === 'parte_lesion' ? 'Parte de lesión' : r.tipo_documento}</td>
+                  <td className="px-4 py-2">{r.tipo_documento === 'parte_lesion' ? t('admin.historial.tipo_parte') : r.tipo_documento}</td>
                   <td className="px-4 py-2">{r.jugador}</td>
                   <td className="px-4 py-2">{r.equipo}</td>
                   <td className="px-4 py-2">{r.usuario}</td>

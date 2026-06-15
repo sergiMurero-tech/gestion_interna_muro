@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import Spinner from '../../components/Spinner'
+import { useLang } from '../../lib/i18n'
 
 interface Stats {
   equipos: number
@@ -20,6 +21,7 @@ interface RecentDoc {
 }
 
 export default function DashboardPage() {
+  const { t } = useLang()
   const [stats, setStats] = useState<Stats | null>(null)
   const [recent, setRecent] = useState<RecentDoc[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,16 +75,16 @@ export default function DashboardPage() {
   if (loading) return <Spinner label="Cargando panel…" />
 
   const cards = [
-    { label: 'Equipos', value: stats?.equipos, to: '/gestion/admin/equipos' },
-    { label: 'Jugadores', value: stats?.jugadores, to: '/gestion/admin/jugadores' },
-    { label: 'Entrenadores', value: stats?.entrenadores, to: '/gestion/admin/entrenadores' },
-    { label: 'Licencias subidas', value: stats?.licencias, to: '/gestion/admin/licencias' },
-    { label: 'Jugadores sin licencia', value: stats?.sinLicencia, to: '/gestion/admin/licencias?filtro=sin', danger: true },
+    { label: t('admin.dashboard.card.equipos'), value: stats?.equipos, to: '/gestion/admin/equipos' },
+    { label: t('admin.dashboard.card.jugadores'), value: stats?.jugadores, to: '/gestion/admin/jugadores' },
+    { label: t('admin.dashboard.card.entrenadores'), value: stats?.entrenadores, to: '/gestion/admin/entrenadores' },
+    { label: t('admin.dashboard.card.licencias'), value: stats?.licencias, to: '/gestion/admin/licencias' },
+    { label: t('admin.dashboard.card.sin_lic'), value: stats?.sinLicencia, to: '/gestion/admin/licencias?filtro=sin', danger: true },
   ]
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">Panel de administración</h1>
+      <h1 className="mb-4 text-2xl font-bold">{t('admin.dashboard.title')}</h1>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {cards.map((c) => (
           <Link
@@ -98,10 +100,10 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <h2 className="mb-3 mt-8 text-lg font-semibold">Últimos documentos generados</h2>
+      <h2 className="mb-3 mt-8 text-lg font-semibold">{t('admin.dashboard.recent_title')}</h2>
       <div className="card overflow-hidden">
         {recent.length === 0 ? (
-          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">Todavía no se ha generado documentación.</p>
+          <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.dashboard.recent_empty')}</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-zinc-100 dark:bg-zinc-800/60 text-left text-xs uppercase text-zinc-500 dark:text-zinc-400">

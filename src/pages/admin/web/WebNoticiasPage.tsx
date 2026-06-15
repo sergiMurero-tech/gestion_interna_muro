@@ -8,6 +8,7 @@ import Modal from '../../../components/Modal'
 import ImageUploader from '../../../components/admin/ImageUploader'
 import GalleryUploader from '../../../components/admin/GalleryUploader'
 import RichTextEditor from '../../../components/admin/RichTextEditor'
+import { useLang } from '../../../lib/i18n'
 
 function slugify(s: string) {
   return s
@@ -66,6 +67,7 @@ const empty: FormState = {
 }
 
 export default function WebNoticiasPage() {
+  const { t } = useLang()
   const { profile } = useAuth()
   const [items, setItems] = useState<Noticia[]>([])
   const [loading, setLoading] = useState(true)
@@ -191,12 +193,12 @@ export default function WebNoticiasPage() {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Noticias</h1>
         <button className="btn-primary" onClick={openNew}>
-          + Nueva
+          {t('action.nueva')}
         </button>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay noticias.</p>}
+        {items.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.noticias.empty')}</p>}
         {items.map((n) => (
           <div key={n.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="min-w-0">
@@ -223,10 +225,10 @@ export default function WebNoticiasPage() {
                 {n.destacada ? 'Quitar destacada' : 'Destacar'}
               </button>
               <button className="btn-secondary" onClick={() => openEdit(n)}>
-                Editar
+                {t('action.editar')}
               </button>
               <button className="btn-danger" onClick={() => remove(n)}>
-                Eliminar
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -235,23 +237,22 @@ export default function WebNoticiasPage() {
 
       <Modal
         open={open}
-        title={editId ? 'Editar noticia' : 'Nueva noticia'}
+        title={editId ? t('admin.noticias.edit') : t('admin.noticias.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }
       >
         <div className="space-y-3">
           <p className="alert-info">
-            Rellena cada campo en <b>castellano</b> y <b>valenciano</b>. Si dejas el valenciano vacío, en la web se
-            mostrará la versión en castellano.
+            <span dangerouslySetInnerHTML={{__html: t('admin.noticias.help_bilingual')}} />
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>

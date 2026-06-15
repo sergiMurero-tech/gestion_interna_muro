@@ -5,6 +5,7 @@ import type { Equipo, Jugador } from '../../types/db'
 import Spinner from '../../components/Spinner'
 import Modal from '../../components/Modal'
 import ImageUploader from '../../components/admin/ImageUploader'
+import { useLang } from '../../lib/i18n'
 
 const EMPTY = {
   nombre_completo: '',
@@ -16,6 +17,7 @@ const EMPTY = {
 }
 
 export default function AdminPlayersPage() {
+  const { t } = useLang()
   const [players, setPlayers] = useState<Jugador[]>([])
   const [teams, setTeams] = useState<Equipo[]>([])
   const [loading, setLoading] = useState(true)
@@ -122,10 +124,10 @@ export default function AdminPlayersPage() {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Jugadores</h1>
+        <h1 className="text-2xl font-bold">{t('admin.jugadores.title')}</h1>
         <div className="flex gap-2">
           <select className="input w-44" value={filterTeam} onChange={(e) => setFilterTeam(e.target.value)}>
-            <option value="">Todos los equipos</option>
+            <option value="">{t('admin.jugadores.filter_all')}</option>
             {teams.map((t) => (
               <option key={t.id} value={t.id}>
                 {t.nombre}
@@ -133,13 +135,13 @@ export default function AdminPlayersPage() {
             ))}
           </select>
           <button className="btn-primary" onClick={openNew}>
-            + Nuevo
+            {t('action.nuevo')}
           </button>
         </div>
       </div>
 
       <div className="card divide-y divide-zinc-200 dark:divide-zinc-800">
-        {visible.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">No hay jugadores.</p>}
+        {visible.length === 0 && <p className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.jugadores.empty')}</p>}
         {visible.map((p) => (
           <div key={p.id} className="flex items-center justify-between gap-3 p-4">
             <div>
@@ -152,10 +154,10 @@ export default function AdminPlayersPage() {
             </div>
             <div className="flex gap-2">
               <button className="btn-secondary" onClick={() => openEdit(p)}>
-                Editar
+                {t('action.editar')}
               </button>
               <button className="btn-danger" onClick={() => remove(p)}>
-                Eliminar
+                {t('action.eliminar')}
               </button>
             </div>
           </div>
@@ -164,22 +166,22 @@ export default function AdminPlayersPage() {
 
       <Modal
         open={open}
-        title={editing ? 'Editar jugador' : 'Nuevo jugador'}
+        title={editing ? t('admin.jugadores.edit') : t('admin.jugadores.new')}
         onClose={() => setOpen(false)}
         footer={
           <>
             <button className="btn-secondary" onClick={() => setOpen(false)}>
-              Cancelar
+              {t('action.cancelar')}
             </button>
             <button className="btn-primary" onClick={save} disabled={saving || !form.nombre_completo.trim()}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? t('action.guardando') : t('action.guardar')}
             </button>
           </>
         }
       >
         <div className="space-y-3">
           <div>
-            <label className="label">Nombre completo</label>
+            <label className="label">{t('field.nombre_completo')}</label>
             <input
               className="input"
               value={form.nombre_completo}
@@ -187,9 +189,9 @@ export default function AdminPlayersPage() {
             />
           </div>
           <div>
-            <label className="label">Equipo</label>
+            <label className="label">{t('field.equipo')}</label>
             <select className="input" value={form.equipo_id} onChange={(e) => setForm({ ...form, equipo_id: e.target.value })}>
-              <option value="">— Sin equipo —</option>
+              <option value="">{t('admin.jugadores.no_equipo')}</option>
               {teams.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.nombre}
@@ -199,16 +201,16 @@ export default function AdminPlayersPage() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="label">Temporada</label>
+              <label className="label">{t('field.temporada')}</label>
               <input
                 className="input"
-                placeholder="(del equipo si vacío)"
+                placeholder={t('admin.jugadores.temporada_hint')}
                 value={form.temporada}
                 onChange={(e) => setForm({ ...form, temporada: e.target.value })}
               />
             </div>
             <div>
-              <label className="label">Dorsal (opcional)</label>
+              <label className="label">{t('field.dorsal')}</label>
               <input
                 type="number"
                 className="input"
@@ -218,7 +220,7 @@ export default function AdminPlayersPage() {
             </div>
           </div>
           <ImageUploader
-            label="Foto del jugador (opcional)"
+            label={t('admin.jugadores.foto_player')}
             value={form.foto_url}
             onChange={(url) => setForm({ ...form, foto_url: url })}
             folder="jugadores"
